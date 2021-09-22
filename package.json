@@ -1,8 +1,14 @@
 {
-  "name": "gherkin-lint",
-  "version": "4.2.2",
-  "description": "A Gherkin linter/validator written in javascript",
+  "name": "gherkin-lint-ng",
+  "version": "0.0.1",
+  "description": "A Gherkin linter/validator written in javascript. Based on vsiakka work.",
   "author": "Vasiliki Siakka",
+  "maintainers": [
+    {
+      "name": "Luis Zurro",
+      "url": "https://github.com/Nyaran"
+    }
+  ],
   "contributors": [
     {
       "name": "Tim Brust",
@@ -96,11 +102,15 @@
   "main": "dist/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vsiakka/gherkin-lint"
+    "url": "https://github.com/Nyaran/gherkin-lint-ng"
   },
   "keywords": [
     "gherkin",
-    "linter"
+    "pickle",
+    "cucumber",
+    "cucumberjs",
+    "linter",
+    "lint"
   ],
   "dependencies": {
     "commander": "5.0.0",
