@@ -14,7 +14,9 @@ function test(name, location, configuration, type) {
   if (name && (name.length > configuration[type])) {
     errors.push({message: type + ' name is too long. Length of ' + name.length + ' is longer than the maximum allowed: ' + configuration[type],
       rule   : rule,
-      line   : location.line});
+      line   : location.line,
+      column : location.column,
+    });
   }
 }
 

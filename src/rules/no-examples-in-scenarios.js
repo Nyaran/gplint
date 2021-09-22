@@ -15,6 +15,7 @@ function run({feature}) {
           message: 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead',
           rule   : rule,
           line   : child.scenario.location.line,
+          column : child.scenario.location.column,
         });
       }
     }

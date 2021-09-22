@@ -12,7 +12,8 @@ function run({feature, file}) {
     errors.push({
       message: 'Feature name is already used in: ' + dupes,
       rule   : rule,
-      line   : feature.location.line
+      line   : feature.location.line,
+      column : feature.location.column,
     });
   } else {
     features[feature.name] = {files: [file.relativePath]};

@@ -24,7 +24,9 @@ function createError(background) {
   return {
     message: 'Backgrounds are not allowed when there is just one scenario.',
     rule   : rule,
-    line   : background.location.line};
+    line   : background.location.line,
+    column : background.location.column,
+  };
 }
 
 module.exports = {

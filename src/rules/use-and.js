@@ -34,7 +34,8 @@ function createError(step) {
   return {
     message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
     rule   : rule,
-    line   : step.location.line
+    line   : step.location.line,
+    column : step.location.column,
   };
 }
 

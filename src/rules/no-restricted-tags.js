@@ -47,7 +47,8 @@ function checkTags(node, language, forbiddenTags, forbiddenPatterns, errors) {
       errors.push({
         message: `Forbidden tag ${tag.name} on ${nodeType}`,
         rule   : rule,
-        line   : tag.location.line
+        line   : tag.location.line,
+        column : tag.location.column,
       });
     }
   });

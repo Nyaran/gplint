@@ -16,7 +16,8 @@ function run({feature}) {
         errors.push({
           message: 'Scenario Outline does not have any Examples',
           rule   : rule,
-          line   : scenario.location.line
+          line   : scenario.location.line,
+          column : scenario.location.column,
         });
       }
     }

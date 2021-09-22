@@ -111,7 +111,8 @@ function check(node, property, pattern, language, errors) {
       errors.push({
         message: `${type} ${property}: "${strings[i].trim()}" matches restricted pattern "${pattern}"`,
         rule: rule,
-        line: node.location.line
+        line: node.location.line,
+        column: node.location.column,
       });
     }
   }

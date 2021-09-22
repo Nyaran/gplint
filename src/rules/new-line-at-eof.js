@@ -26,7 +26,8 @@ function run({file}, configuration) {
     errors.push({
       message: errormsg,
       rule   : rule,
-      line   : file.lines.length
+      line   : file.lines.length,
+      column : 0
     });
   }
 

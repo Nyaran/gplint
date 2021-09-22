@@ -6,7 +6,9 @@ function run({file}) {
     if (file.lines[i].trim() === '' && file.lines[i + 1].trim() == '') {
       errors.push({message: 'Multiple empty lines are not allowed',
         rule   : rule,
-        line   : i + 2});
+        line   : i + 2,
+        column : 0,
+      });
     }
   }
   return errors;

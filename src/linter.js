@@ -109,7 +109,8 @@ function getFormatedTaggedBackgroundError(errors) {
     errorMsgs.push({
       message: 'Tags on Backgrounds are dissallowed',
       rule: 'no-tags-on-backgrounds',
-      line: errors[0].data.match(/\((\d+):.*/)[1]
+      line: errors[0].data.match(/\((\d+):.*/)[1],
+      column: 0
     });
 
     index = 2;
@@ -147,9 +148,12 @@ function getFormattedFatalError(error) {
     errorMsg = error.data;
     rule = 'unexpected-error';
   }
-  return {message: errorMsg,
+  return {
+    message: errorMsg,
     rule   : rule,
-    line   : errorLine};
+    line   : errorLine,
+    column: 0
+  };
 }
 
 module.exports = {

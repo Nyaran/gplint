@@ -25,26 +25,29 @@ function run({feature, pickles, file}, configuration) {
 
   items.forEach(scenario => {
     const scenarioName = scenario.name;
-    const scenarioLine = compile ? guessPickleLine(feature, scenario) : scenario.location.line;
+    const scenarioLocation = compile ? guessPickleLocation(feature, scenario) : scenario.location;
     if (Object.prototype.hasOwnProperty.call(scenarios, scenarioName)) {
       const dupes = getFileLinePairsAsStr(scenarios[scenarioName].locations);
 
       scenarios[scenarioName].locations.push({
         file: file.relativePath,
-        line: scenarioLine
+        line: scenarioLocation.line,
+        column: scenarioLocation.column,
       });
 
       errors.push({
         message: 'Scenario name is already used in: ' + dupes,
-        rule   : rule,
-        line   : scenarioLine
+        rule: rule,
+        line: scenarioLocation.line,
+        column: scenarioLocation.column,
       });
     } else {
       scenarios[scenarioName] = {
         locations: [
           {
             file: file.relativePath,
-            line: scenarioLine
+            line: scenarioLocation.line,
+            column: scenarioLocation.column,
           }
         ]
       };
@@ -62,13 +65,13 @@ function getFileLinePairsAsStr(objects) {
   return strings.join(', ');
 }
 
-function guessPickleLine(feature, pickle) {
+function guessPickleLocation(feature, pickle) {
   let item = feature.children.filter(child => child.scenario).find(child => child.scenario.id === pickle.astNodeIds[0]).scenario;
 
   if (pickle.astNodeIds.length === 2) // Scenario Outline
     item = item.examples.flatMap(e => e.tableBody).find(t => t.id === pickle.astNodeIds[1]);
 
-  return item.location.line;
+  return item.location;
 }
 
 module.exports = {

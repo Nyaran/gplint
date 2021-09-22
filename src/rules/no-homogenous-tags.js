@@ -30,7 +30,8 @@ function run({feature}) {
             'they should be defined on the Scenario Outline instead: ' +
             homogenousExampleTags.join(', '),
           rule: rule,
-          line: scenario.location.line
+          line: scenario.location.line,
+          column: scenario.location.column,
         });
       }
     }
@@ -43,7 +44,8 @@ function run({feature}) {
         'they should be defined on the Feature instead: ' +
         homogenousTags.join(', '),
       rule   : rule,
-      line   : feature.location.line
+      line   : feature.location.line,
+      column : feature.location.column,
     });
   }
 
