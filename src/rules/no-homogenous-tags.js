@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const rule = 'no-homogenous-tags';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }

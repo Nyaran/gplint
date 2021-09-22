@@ -6,13 +6,14 @@ const logger = require('./logger.js');
 
 function readAndParseFile(filePath) {
   let feature ='';
+  let pickles = [];
   let parsingErrors = [];
   let fileContent = [];
 
   return new Promise((resolve, reject) => {
     const options = {
       includeGherkinDocument: true,
-      includePickles: false,
+      includePickles: true,
       includeSource: true,
     };
 
@@ -25,6 +26,9 @@ function readAndParseFile(filePath) {
       } else {
         if (envelope.gherkinDocument) {
           feature = envelope.gherkinDocument.feature;
+        }
+        if (envelope.pickle) {
+          pickles.push(envelope.pickle);
         }
         if (envelope.source) {
           fileContent = envelope.source.data.split(/\r\n|\r|\n/);
@@ -49,7 +53,7 @@ function readAndParseFile(filePath) {
           relativePath: filePath,
           lines: fileContent,
         };
-        resolve({feature, file});
+        resolve({feature, pickles, file});
       }
     });
   });
@@ -65,8 +69,8 @@ function lint(files, configuration, additionalRulesDirs) {
     return readAndParseFile(f)
       .then(
         // Handle Promise.resolve
-        ({feature, file}) => {
-          perFileErrors = rules.runAllEnabledRules(feature, file, configuration, additionalRulesDirs);
+        ({feature, pickles, file}) => {
+          perFileErrors = rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
         },
         // Handle Promise.reject
         (parsingErrors) => {

@@ -8,7 +8,7 @@ const availableConfigs = {
 };
 
 
-function run(feature, unused, configuration) {
+function run({feature}, configuration) {
   if (!feature) {
     return [];
   }

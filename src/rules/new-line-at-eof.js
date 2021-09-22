@@ -7,7 +7,7 @@ const availableConfigs = [
   'no'
 ];
 
-function run(unused, file, configuration) {
+function run({file}, configuration) {
   let errors = [];
   if (_.indexOf(availableConfigs, configuration) === -1) {
     logger.boldError(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');

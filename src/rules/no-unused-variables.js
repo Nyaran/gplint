@@ -1,6 +1,6 @@
 const rule = 'no-unused-variables';
 
-function run(feature) {
+function run({feature}) {
   if(!feature) {
     return [];
   }

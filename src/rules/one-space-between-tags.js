@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const rule = 'one-space-between-tags';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return;
   }

@@ -1,7 +1,7 @@
 const rule = 'no-dupe-feature-names';
 const features = [];
 
-function run(feature, file) {
+function run({feature, file}) {
   if (!feature) {
     return [];
   }

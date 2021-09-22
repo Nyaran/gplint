@@ -27,7 +27,7 @@ function testSteps(node, mergedConfiguration) {
   });
 }
 
-function run(feature, unused, configuration) {
+function run({feature}, configuration) {
   if (!feature) {
     return [];
   }

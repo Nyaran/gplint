@@ -2,7 +2,7 @@ const _ = require('lodash');
 const gherkinUtils = require('./utils/gherkin.js');
 const rule = 'no-scenario-outlines-without-examples';
 
-function run(feature) {
+function run({feature}) {
   if (!feature) {
     return [];
   }
