@@ -96,7 +96,7 @@ function check(node, property, pattern, language, errors) {
     // To make sure we don't accidentally pick up a doubly escaped new line "\\n" which would appear
     // if a user wrote the string "\n" in a description, let's replace all escaped new lines
     // with a sentinel, split lines and then restore the doubly escaped new line
-    const escapedNewLineSentinel = '<!gherkin-lint new line sentinel!>';
+    const escapedNewLineSentinel = '<!gplint new line sentinel!>';
     const escapedNewLine = '\\n';
     strings = node[property]
       .replace(escapedNewLine, escapedNewLineSentinel)

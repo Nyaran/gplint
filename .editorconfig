@@ -9,5 +9,5 @@ indent_style = space
 [*.md]
 trim_trailing_whitespace = false
 
-[{*.js,.gherkin-lintrc}]
+[{*.js,.gplintrc}]
 indent_size = 2
