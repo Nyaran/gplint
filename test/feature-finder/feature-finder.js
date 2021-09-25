@@ -79,9 +79,9 @@ describe('Feature finder', function() {
     assert.deepEqual(actual, []);
   });
 
-  it('ignores files in the .gherkin-lintignore when specified as glob patterns', function() {
+  it('ignores files in the .glintignore when specified as glob patterns', function() {
     mockFs({
-      '.gherkin-lintignore': 
+      '.glintignore':
       'folder/with/found/features/a.feature\n\n..folder/with/found/features/**'
     });
     var actual = featureFinder.getFeatureFiles(['folder/with/found/features/**']);

@@ -1,5 +1,5 @@
 {
-  "name": "gherkin-lint-ng",
+  "name": "glint",
   "version": "0.0.1",
   "description": "A Gherkin linter/validator written in javascript. Based on vsiakka work.",
   "author": "Vasiliki Siakka",
@@ -102,7 +102,7 @@
   "main": "dist/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nyaran/gherkin-lint-ng"
+    "url": "https://github.com/Nyaran/glint"
   },
   "keywords": [
     "gherkin",
@@ -138,12 +138,12 @@
     "node": ">=10.0.0"
   },
   "bin": {
-    "gherkin-lint": "dist/main.js"
+    "glint": "dist/main.js"
   },
   "scripts": {
     "build": "babel src -d dist",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "demo": "node ./dist/main.js -c ./test-data-wip/.gherkin-lintrc test-data-wip/**",
+    "demo": "node ./dist/main.js -c ./test-data-wip/.glintrc test-data-wip/**",
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
     "prepare": "npm run build",

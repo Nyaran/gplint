@@ -6,10 +6,10 @@ function printResults(results) {
     error: result.errors.map(error => ({
       _attributes: {
         message: error.message,
-        type: 'gherkin-lint-error'
+        type: 'glint-error'
       },
-      _cdata: `${result.filePath}:${error.line} (${error.rule}) ${error.message}`        
-    }))    
+      _cdata: `${result.filePath}:${error.line} (${error.rule}) ${error.message}`
+    }))
   }));
   const testSuiteReport = {
     _declaration:{
@@ -20,7 +20,7 @@ function printResults(results) {
     },
     testsuite : {
       _attributes: {
-        name: 'gherkin-lint',
+        name: 'glint',
       },
       testcase : testCases
     }

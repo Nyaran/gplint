@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const logger = require('./logger.js');
 
-const defaultIgnoreFileName = '.gherkin-lintignore';
+const defaultIgnoreFileName = '.glintignore';
 const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
 function getFeatureFiles(args, ignoreArg) {

@@ -1,21 +1,21 @@
 # Gherkin lint
-[![Travis](https://travis-ci.com/vsiakka/gherkin-lint.svg?branch=master)](https://travis-ci.com/github/vsiakka/gherkin-lint/branches)
-[![Coverage Status](https://coveralls.io/repos/github/vsiakka/gherkin-lint/badge.svg?branch=master)](https://coveralls.io/github/vsiakka/gherkin-lint?branch=master)
-[![David](https://img.shields.io/david/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint)
-[![David](https://img.shields.io/david/dev/vsiakka/gherkin-lint.svg?maxAge=2592000)](https://david-dm.org/vsiakka/gherkin-lint#info=devDependencies&view=table)
-[![npm](https://img.shields.io/npm/v/gherkin-lint.svg?maxAge=2592000)](https://www.npmjs.com/package/gherkin-lint)
+[![Test](https://github.com/Nyaran/glint/actions/workflows/test.yml/badge.svg)](https://github.com/Nyaran/glint/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/Nyaran/glint/branch/master/graph/badge.svg?token=JAAQ2DCW9D)](https://codecov.io/gh/Nyaran/glint)
+[![npm](https://img.shields.io/npm/dw/glint)](https://www.npmjs.com/package/glint)
 
-Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gherkin-lintrc` file.
+Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.glintrc` file.
+
+Forked from [glint](https://github.com/vsiakka/gherkin-lint)
 
 ## Installation
 ```
-npm install gherkin-lint
+npm install glint
 ```
 
 ## Demo
 To see the output for all the errors that the linter can detect run:
 ```
-git clone https://github.com/vsiakka/gherkin-lint.git
+git clone https://github.com/Nyaran/glint.git
 npm run demo
 ```
 Or check this:
@@ -291,18 +291,18 @@ To search for duplicated including compiled outlines against all the features:
 ```
 
 ## Configuration File
-The default name for the configuration file is `.gherkin-lintrc` and it's expected to be in your working directory.
+The default name for the configuration file is `.glintrc` and it's expected to be in your working directory.
 
 The file contents must be valid JSON, though it does allow comments.
 
-If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gherkin-lint -c path/to/configuration/file.extention`
+If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gglintrc -c path/to/configuration/file.extention`
 
-You can find an example configuration file, that turns on all of the rules in the root of this repo (.gherkin-lintrc).
+You can find an example configuration file, that turns on all of the rules in the root of this repo (.glintrc).
 
 ## Ignoring Feature Files
 There are 2 ways you can specify files that the linter should ignore:
-1. Add a `.gherkin-lintignore` file in your working directory and specify one glob pattern per file line
-1. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gherkin-lintignore` file.
+1. Add a `.glintignore` file in your working directory and specify one glob pattern per file line
+1. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.glintignore` file.
 
 
 ## Custom rules
