@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { GherkinStreams } = require('@cucumber/gherkin-streams')
+const { GherkinStreams } = require('@cucumber/gherkin-streams');
 const fs = require('fs');
 const rules = require('./rules.js');
 const logger = require('./logger.js');

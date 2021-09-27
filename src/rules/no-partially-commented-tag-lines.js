@@ -1,6 +1,6 @@
 const rule = 'no-partially-commented-tag-lines';
 
-function run({feature, pickles, file}) {
+function run({feature}) {
   if (!feature) {
     return [];
   }

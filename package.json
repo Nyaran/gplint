@@ -142,7 +142,7 @@
     "gplint": "dist/main.js"
   },
   "scripts": {
-    "build": "babel src -d dist --watch",
+    "build": "babel src -d dist",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "demo": "node ./dist/main.js -c ./test-data-wip/.gplintrc test-data-wip/**",
     "lint": "eslint ./src ./test",
