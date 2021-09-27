@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+const _ = require('lodash');
 const rule = 'no-dupe-scenario-names';
 const availableConfigs = [
   'anywhere',

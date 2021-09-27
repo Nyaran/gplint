@@ -1,5 +1,6 @@
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 require('mocha-sinon');
+const mockFs = require('mock-fs');
 
 var configParser;
 
@@ -14,6 +15,7 @@ describe('Configuration parser', function() {
     configParser = undefined;
     console.error.restore(); // eslint-disable-line no-console
     process.exit.restore();
+    mockFs.restore();
   });
 
   describe('early exits with a non 0 exit code when', function() {
@@ -29,11 +31,10 @@ describe('Configuration parser', function() {
     });
 
     it('no config file has been specified and default config file doesn\'t exist', function() {
-      var configFilePath = './non/existing/path';
-      configParser.defaultConfigFileName = configFilePath;
+      mockFs({});
       configParser.getConfiguration();
 
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      const consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
       });
 
