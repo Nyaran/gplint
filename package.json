@@ -1,104 +1,8 @@
 {
   "name": "gplint",
   "version": "1.0.0",
-  "description": "A Gherkin linter/validator written in javascript. Based on vsiakka work.",
-  "author": "Vasiliki Siakka",
-  "maintainers": [
-    {
-      "name": "Luis Zurro",
-      "url": "https://github.com/Nyaran"
-    }
-  ],
-  "contributors": [
-    {
-      "name": "Tim Brust",
-      "url": "https://github.com/timbru31"
-    },
-    {
-      "name": "Oskar Pfeifer-Bley",
-      "url": "https://github.com/UFOMelkor"
-    },
-    {
-      "name": "Xavier Garcia Buils",
-      "url": "https://github.com/xgbuils"
-    },
-    {
-      "name": "Rene Saarsoo",
-      "url": "https://github.com/nene"
-    },
-    {
-      "name": "Giuseppe DiBella",
-      "url": "https://github.com/gd46"
-    },
-    {
-      "name": "Joscha Feth",
-      "url": "https://github.com/joscha"
-    },
-    {
-      "name": "Simon St John-Green",
-      "url": "https://github.com/SimonStJG"
-    },
-    {
-      "name": "Jonathan Hedstrom",
-      "url": "https://github.com/jhedstrom"
-    },
-    {
-      "name": "josemenveg",
-      "url": "https://github.com/josemenveg"
-    },
-    {
-      "name": "Guy Kisel",
-      "url": "https://github.com/guykisel"
-    },
-    {
-      "name": "Rory Price-Coggins",
-      "url": "https://github.com/roryp2"
-    },
-    {
-      "name": "JuanMa Ruiz",
-      "url": "https://github.com/JuanMaRuiz"
-    },
-    {
-      "name": "Matt Jarrett",
-      "url": "https://github.com/cujarrett"
-    },
-    {
-      "name": "Standa Opichal",
-      "url": "https://github.com/opichals"
-    },
-    {
-      "name": "Bloodsoul",
-      "url": "https://github.com/Bloodsoul"
-    },
-    {
-      "name": "David Goss",
-      "url": "https://github.com/davidjgoss"
-    },
-    {
-      "name": "Alexander Bayandin",
-      "url": "https://github.com/bayandin"
-    },
-    {
-      "name": "Mike O'Connor",
-      "url": "https://github.com/mikeoconnor0308"
-    },
-    {
-      "name": "Dave M",
-      "url": "https://github.com/dsm2005"
-    },
-    {
-      "name": "Justin Zelinsky",
-      "url": "https://github.com/justinzelinsky"
-    },
-    {
-      "name": "Mathieu Couette",
-      "url": "https://github.com/MathieuCouette"
-    },
-    {
-      "name": "David Rodríguez",
-      "url": "https://github.com/deivid-rodriguez"
-    }
-  ],
+  "description": "A Gherkin linter/validator written in javascript. Based on gherkin-lint by vsiakka.",
+  "author": "Luis Zurro",
   "main": "dist/main.js",
   "repository": {
     "type": "git",
@@ -114,7 +18,7 @@
   ],
   "dependencies": {
     "@cucumber/gherkin": "22.0.0",
-    "@cucumber/gherkin-streams": "^4.0.0",
+    "@cucumber/gherkin-streams": "4.0.0",
     "commander": "5.0.0",
     "core-js": "3.6.4",
     "glob": "7.1.6",

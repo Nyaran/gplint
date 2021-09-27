@@ -2,4 +2,10 @@ src
 test
 test-data-wip
 coverage
+.github
+.idea
 .nyc_output
+.editorconfig
+.eslintignore
+.eslintrc.json
+.travis.yml
