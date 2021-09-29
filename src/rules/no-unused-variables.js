@@ -6,7 +6,7 @@ function run({feature}) {
   }
 
   let errors = [];
-  const stepVariableRegex = /<([^>]*)>/gu;
+  const stepVariableRegex = /<((?! )[^>]+(?<! ))>/gu;
 
   feature.children.forEach(child => {
     if (!child.scenario) {
