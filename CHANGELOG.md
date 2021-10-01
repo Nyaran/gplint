@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 * Check on [changelog folder](changelog/).
 
+## [1.1.0] - 2021-10-01
+### Changed
+* Improve `no-unused-variables` to handle spaces on usage.
+* Improve `file-name` on `camelCase` to allow acronyms.
+
 ## [1.0.0] - 2021-09-27
 ### Changed
 * Rename project to [gplint](https://github.com/Nyaran/gplint).
