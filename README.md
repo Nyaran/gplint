@@ -105,6 +105,17 @@ The list of supported styles is:
 - `kebab-case` - all lowercase, hyphen-delimited e.g. "my-fancy-feature.feature"
 - `snake_case` - all lowercase, underscore-delimited e.g. "my_fancy_feature.feature"
 
+#### Acronyms on camelCase
+If you are using acronyms with the style `camelCase` and you want to preserve them capitalized, you can set the
+`allowAcronyms` property to true:
+
+```json
+{
+  "file-name": ["on", {"style": "camelCase", "allowAcronyms": true}]
+}
+```
+- `camelCase` - first letter of each word capitalized, except first e.g. "myFancyFeatureACRON.feature"
+
 ### no-restricted-patterns
 
 `no-restricted-patterns` is a list of exact or partial patterns whose matches are disallowed in feature name and description, and in background, scenario and scenario outline name, description and steps.

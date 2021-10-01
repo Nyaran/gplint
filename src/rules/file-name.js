@@ -3,12 +3,22 @@ const _ = require('lodash');
 
 const rule = 'file-name';
 const availableConfigs = {
-  'style': 'PascalCase'
+  'style': 'PascalCase',
+  'allowAcronyms': false
 };
 const checkers = {
   'PascalCase': filename => _.startCase(filename).replace(/ /g, ''),
   'Title Case': filename => _.startCase(filename),
-  'camelCase': filename => _.camelCase(filename),
+  'camelCase': (filename, allowAcronyms) => {
+    if (allowAcronyms) {
+      const words = _.words(filename);
+      const firstWord = words.shift();
+      return (/^[A-Z]+$/.test(firstWord) ? firstWord : _.lowerFirst(firstWord))
+        + words.map(word => _.upperFirst(word)).join('');
+    } else {
+      return _.camelCase(filename);
+    }
+  },
   'kebab-case': filename => _.kebabCase(filename),
   'snake_case': filename => _.snakeCase(filename)
 };
@@ -17,12 +27,12 @@ function run({file}, configuration) {
   if (!file) {
     return [];
   }
-  const {style} = _.merge(availableConfigs, configuration);
+  const {style, allowAcronyms} = _.merge(availableConfigs, configuration);
   const filename = path.basename(file.relativePath, '.feature');
   if (!checkers[style]) {
     throw new Error('style "' + style + '" not supported for file-name rule');
   }
-  const expected = checkers[style](filename);
+  const expected = checkers[style](filename, allowAcronyms);
   if (filename === expected) {
     return [];
   }

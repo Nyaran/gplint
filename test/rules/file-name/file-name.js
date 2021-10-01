@@ -58,6 +58,13 @@ describe('File Name Rule', function() {
       }, []);
     });
 
+    it('doesn\'t raise errors when there are no violations with acronyms enabled', function() {
+      return runTest('file-name/camelCaseACRON.feature', {
+        'style': 'camelCase',
+        'allowAcronyms': true
+      }, []);
+    });
+
     it('raises errors for a pascal cased file name', function() {
       return runTest('file-name/PascalCaseWithFiveWords.feature', {
         'style': 'camelCase'
