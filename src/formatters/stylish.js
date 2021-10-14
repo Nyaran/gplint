@@ -1,30 +1,17 @@
 /*eslint no-console: "off"*/
 require('core-js/stable/string');
-
-const style = {
-  gray: function(text) {
-    return '\x1b[38;5;243m' + text + '\x1b[0m';
-  },
-
-  underline: function(text) {
-    return '\x1b[0;4m' + text + '\x1b[24m';
-  }
-
-};
-
-function stylizeFilePath(filePath) {
-  return style.underline(filePath);
-}
+const chalk = require('chalk');
+const os = require('os');
 
 function stylizeError(error, maxLineLength, maxMessageLength, addColors) {
   const indent = '  '; // indent 2 spaces so it looks pretty
   const padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names, for readability
   const errorLocation = getLocationString(error);
   const errorLocationPadded = errorLocation.padEnd(maxLineLength);
-  const errorLocationStylized = addColors ? style.gray(errorLocationPadded) : errorLocationPadded;
+  const errorLocationStylized = addColors ? chalk.gray(errorLocationPadded) : errorLocationPadded;
   const level = 'error'; // forced as levels are not implemented.
 
-  const errorRuleStylized = addColors ? style.gray(error.rule) : error.rule;
+  const errorRuleStylized = addColors ? chalk.gray(error.rule) : error.rule;
   return indent + errorLocationStylized + padding + level + padding + error.message.padEnd(maxMessageLength) + padding + errorRuleStylized;
 }
 
@@ -60,7 +47,18 @@ function getMaxMessageLength(result, maxLineLength, consoleWidth) {
   return length;
 }
 
-function printResults(results) {
+/**
+ * Given a word and a count, append an s if count is not one.
+ * (Based on eslint version)
+ * @param {string} word A word in its singular form.
+ * @param {int} count A number controlling whether word should be pluralized.
+ * @returns {string} The original word with an s on the end if count is not one.
+ */
+function pluralize(word, count) {
+  return (count === 1 ? word : `${word}s`);
+}
+
+module.exports = function (results) {
   // If the console is tty, get its width and use it to ensure we don't try to write messages longer
   // than the console width when possible
   let consoleWidth = Infinity;
@@ -68,20 +66,31 @@ function printResults(results) {
     consoleWidth = process.stdout.columns;
   }
 
+  let output = '\n',
+    errorCount = 0;
+
   results.forEach(result => {
+    errorCount += result.errors.length;
     if (result.errors.length > 0) {
       const maxLineLength = getMaxLocationLength(result);
       const maxMessageLength = getMaxMessageLength(result, maxLineLength, consoleWidth);
-      console.error(stylizeFilePath(result.filePath));
+      output += chalk.underline(result.filePath);
+      output += os.EOL;
 
       result.errors.forEach(error => {
-        console.error(stylizeError(error, maxLineLength, maxMessageLength, true));
+        output += stylizeError(error, maxLineLength, maxMessageLength, true);
+        output += os.EOL;
       });
-      console.error('\n');
+      output += '\n';
     }
   });
-}
 
-module.exports = {
-  printResults: printResults
+  if (errorCount > 0) {
+    output += chalk.red.bold([
+      '\u2716 ', errorCount, pluralize(' problem', errorCount),
+      '\n'
+    ].join(''));
+  }
+
+  return errorCount > 0 ? output : '';
 };

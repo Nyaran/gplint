@@ -55,5 +55,5 @@ function printResults(results, format) {
     logger.boldError('Unsupported format. The supported formats are json, xunit and stylish.');
     process.exit(1);
   }
-  formatter.printResults(results);
+  console.log(formatter(results));
 }
