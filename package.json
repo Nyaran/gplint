@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "A Gherkin linter/validator written in javascript. Based on gherkin-lint by vsiakka.",
   "author": "Luis Zurro",
-  "main": "dist/main.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Nyaran/gplint"
@@ -19,6 +19,7 @@
   "dependencies": {
     "@cucumber/gherkin": "22.0.0",
     "@cucumber/gherkin-streams": "4.0.0",
+    "chalk": "4.1.2",
     "commander": "8.2.0",
     "core-js": "3.18.2",
     "glob": "7.2.0",

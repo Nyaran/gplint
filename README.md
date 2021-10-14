@@ -306,7 +306,7 @@ The default name for the configuration file is `.gplintrc` and it's expected to 
 
 The file contents must be valid JSON, though it does allow comments.
 
-If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `ggplintrc -c path/to/configuration/file.extention`
+If you are using a file with a different name or a file in a different folder, you will need to specify the `-c` or `--config` option and pass in the relative path to your configuration file. Eg: `gplint -c path/to/configuration/file.extension`
 
 You can find an example configuration file, that turns on all of the rules in the root of this repo (.gplintrc).
 
@@ -317,7 +317,7 @@ There are 2 ways you can specify files that the linter should ignore:
 
 
 ## Custom rules
-You can specify one more more custom rules directories by using the `-r` or `--rulesdir` command line option. Rules in the given directories will be available additionally to the default rules.
+You can specify one more custom rules directories by using the `-r` or `--rulesdir` command line option. Rules in the given directories will be available additionally to the default rules.
 
 Example:
 ```
