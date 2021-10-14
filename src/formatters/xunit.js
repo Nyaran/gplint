@@ -1,4 +1,6 @@
-function printResults(results) {
+const convert = require('xml-js');
+
+module.exports = function (results) {
   const testCases = results.map(result => ({
     _attributes: {
       name : result.filePath
@@ -11,6 +13,7 @@ function printResults(results) {
       _cdata: `${result.filePath}:${error.line} (${error.rule}) ${error.message}`
     }))
   }));
+  const errorCount = results.map(r => r.errors.length).reduce((a, b) => a + b, 0);
   const testSuiteReport = {
     _declaration:{
       _attributes: {
@@ -18,19 +21,17 @@ function printResults(results) {
         encoding: 'utf-8'
       }
     },
-    testsuite : {
-      _attributes: {
-        name: 'gplint',
-      },
-      testcase : testCases
+    testsuites: {
+      testsuite : {
+        _attributes: {
+          name: 'gplint',
+          time: 0,
+          tests: errorCount,
+          errors: errorCount,
+        },
+        testcase : testCases
+      }
     }
   };
-  let convert = require('xml-js');
-  const xunitXml = convert.js2xml(testSuiteReport, {compact: true, spaces: 4});
-  /*eslint no-console: "off"*/
-  console.error(xunitXml);
-}
-
-module.exports = {
-  printResults: printResults
+  return convert.js2xml(testSuiteReport, {compact: true, spaces: 4});
 };
