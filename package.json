@@ -55,5 +55,13 @@
     "prepare": "npm run build",
     "test": "npm run lint && npm run build && nyc -include=dist/** npm run mocha"
   },
+  "directories": {
+    "lib": "./src",
+    "test": "./test"
+  },
+  "files": [
+    "/dist",
+    "/CHANGELOG.md"
+  ],
   "license": "ISC"
 }
