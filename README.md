@@ -19,7 +19,7 @@ git clone https://github.com/Nyaran/gplint.git
 npm run demo
 ```
 Or check this:
-![console](https://i.imgur.com/Qfp1FQR.png)
+![console demo](https://raw.githubusercontent.com/Nyaran/gplint/develop/demo.png)
 
 
 ## Available rules
