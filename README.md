@@ -36,6 +36,7 @@ Or check this:
 | [`indentation`](#indentation)                       | Allows the user to specify indentation rules                                                                       |
 | `keywords-in-logical-order`                         | Requires that Given, When and Then appear in logical sequence                                                      |
 | [`max-scenarios-per-file`](#max-scenarios-per-file) | Allows the user to specify the max number of scenarios per feature file                                            |
+| [`max-tags-lines`](#max-tags-lines)                 | Allows the user to specify the max number of lines for tags in each level.                                         |
 | [`name-length`](#name-length)                       | Allows restricting length of Feature/Scenario/Step names                                                           |
 | [`new-line-at-eof`](#new-line-at-eof)               | Disallows/enforces new line at EOF                                                                                 |
 | `no-background-only-scenario`                       | Disallows background when there is just one scenario                                                               |
@@ -192,6 +193,23 @@ The configuration looks like this (showing the defaults):
 ```
 {
   "max-scenarios-per-file": ["on", {"maxScenarios": 10, "countOutlineExamples": true}]
+}
+```
+
+### max-tags-lines
+`max-tags-lines` lets the user specify the maximum allowed lines for tags per level type. Each level type can be configured separately.
+
+Example configuration wth default values:
+```json
+{
+  "max-tags-lines": [
+    "on",
+    {
+      "feature": 1,
+      "scenario": 5,
+      "example": 5
+    }
+  ]
 }
 ```
 
