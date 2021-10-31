@@ -8,7 +8,7 @@ Feature: Feature with some of the required tags missing
   Scenario: This is a Scenario with some of the required tags missing
       Then I should see an error
 
-  @scenarioOutline @required-tag-scenario-untag
+  @scenarioOutline @required-tag-scenario-untag @required-tag-scenario-subset-B
   Scenario Outline: This is a Scenario Outline with some of the required tags missing
       Then I should see an error
     @example
@@ -29,7 +29,7 @@ Feature: Feature with some of the required tags missing
   @rule
   Rule: A rule
 
-    @scenario @required-tag-scenario-untag
+    @scenario @required-tag-scenario-untag @required-tag-scenario-subset-A
     Scenario: This is a Scenario inside rule with some of the required tags missing
         Then I should see an error
 

@@ -38,20 +38,25 @@ function run({feature}, config) {
 
     const allRequiredTags = requiredTags.concat(extraRequiredTags);
 
-    const missTags = allRequiredTags.filter(requiredTag => !item.tags.some(tag => {
-      const regexpMatch = requiredTag.match(/^@?\/(?<exp>.*)\/$/);
-      if (useLegacyCheck) {
-        return RegExp(requiredTag).test(tag.name);
-      } else {
-        return regexpMatch ? RegExp(regexpMatch.groups.exp).test(tag.name) : requiredTag === tag.name;
-      }
-    }));
+    function getMissedTags(requiredTag) {
+      return !item.tags.some(tag => {
+        const regexpMatch = requiredTag.match(/^@?\/(?<exp>.*)\/$/);
+        if (useLegacyCheck) {
+          return RegExp(requiredTag).test(tag.name);
+        } else {
+          return regexpMatch ? RegExp(regexpMatch.groups.exp).test(tag.name) : requiredTag === tag.name;
+        }
+      });
+    }
+
+    const missTags = allRequiredTags.filter(requiredTag => _.castArray(requiredTag).every(rt => getMissedTags(rt)));
     if (missTags.length > 0) {
       errors.push(createError(item, missTags, feature.language));
     }
   }
 
   checkRequiredTags(feature, mergedConfig.feature);
+
   function iterScenarioContainer(item, globalTags, insideRule = false) {
     const globalContainerTags = reduceGlobals(globalTags, item);
 

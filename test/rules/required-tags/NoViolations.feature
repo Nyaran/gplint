@@ -1,6 +1,8 @@
 @feature
 @required-global-tag-feature
 @required-tag-feature
+# Subarray tags for feature
+@required-tag-feature-subset-A
 Feature: Feature with all of the required tags present
 
   Background:
@@ -29,6 +31,8 @@ Feature: Feature with all of the required tags present
     @required-global-tag-example
     # Tags from scenario extend from example as this scenario is an outline
     @required-tag-example-on-scenario
+    # Subarray tags for example
+    @required-tag-example-subset-A
     Examples:
       | foo |
       | bar |
@@ -72,6 +76,8 @@ Feature: Feature with all of the required tags present
       @required-global-tag-example
       # Tags from scenario extend from example as this scenario is an outline
       @required-tag-example-on-scenario
+      # Subarray tags for example
+      @required-tag-example-subset-A @required-tag-example-subset-B
       Examples:
         | foo |
         | bar |

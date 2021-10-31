@@ -301,16 +301,19 @@ To search for duplicated including compiled outlines against all the features:
 
 `required-tags` supports some configuration options:
 
-`ignoreUntagged` (boolean): whether to ignore scenarios that have no tag - defaults to `true`.
-`global` (array): the array of tag patterns that must match - defaults to `[]`
-`feature` (array): the array of tag patterns that must match - defaults to `[]`
-`rule` (array): the array of tag patterns that must match - defaults to `[]`
-`scenario` (array): the array of tag patterns that must match - defaults to `[]`
-`example` (array): the array of tag patterns that must match - defaults to `[]`
-`extendRule` (boolean): When Scenario is not contained inside Rule, extends required `rule` tags to `scenario` - defaults to `false`
-`extendExample` (boolean): When Scenario is not a Scenario Outline, extends required `example` tags to `scenario` - defaults to `false`
-`tags` (array): (Deprecated, use `scenario`) the array of tag patterns that must match - defaults to `[]`. This rule
+* `ignoreUntagged` (boolean): whether to ignore scenarios that have no tag - defaults to `true`.
+* `global` (array): the array of tag patterns that must match - defaults to `[]`
+* `feature` (array): the array of tag patterns that must match - defaults to `[]`
+* `rule` (array): the array of tag patterns that must match - defaults to `[]`
+* `scenario` (array): the array of tag patterns that must match - defaults to `[]`
+* `example` (array): the array of tag patterns that must match - defaults to `[]`
+* `extendRule` (boolean): When Scenario is not contained inside Rule, extends required `rule` tags to `scenario` - defaults to `false`
+* `extendExample` (boolean): When Scenario is not a Scenario Outline, extends required `example` tags to `scenario` - defaults to `false`
+* `tags` (array): (Deprecated, use `scenario`) the array of tag patterns that must match - defaults to `[]`. This rule
 perform the checks using always a RegExp.
+
+\* All levels allows to define a sub-array to mark only one of the members of array as required.
+
 
 ```json
 {
@@ -320,7 +323,7 @@ perform the checks using always a RegExp.
       "global": ["/^@ID\\.APP-[0-9]+$/"],
       "feature": ["/@feature\\..+/"],
       "rule": ["/^@user-case\\..+$/"],
-      "scenario": ["@ready"],
+      "scenario": [["@ready", "@manual", "@wip"]],
       "example": ["/^@type\\..+$/"],
       "extendRule": true,
       "extendExample": true,
@@ -329,7 +332,6 @@ perform the checks using always a RegExp.
   ]
 }
 ```
-
 
 ### scenario-size
 
