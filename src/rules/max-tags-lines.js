@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const name = 'table-align';
+const name = 'max-tags-lines';
 const availableConfigs = {
   feature: 1,
   rule: 2,
@@ -9,6 +9,10 @@ const availableConfigs = {
 };
 
 function run({feature}, config) {
+  if (feature == null) {
+    return;
+  }
+
   function checkTagsLines({keyword, tags, location}, maxLines) {
     const tagsLines = tags.map(t => t.location.line);
 
