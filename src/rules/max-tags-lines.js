@@ -9,6 +9,10 @@ const availableConfigs = {
 };
 
 function run({feature}, config) {
+  if (feature == null) {
+    return;
+  }
+
   function checkTagsLines({keyword, tags, location}, maxLines) {
     const tagsLines = tags.map(t => t.location.line);
 
