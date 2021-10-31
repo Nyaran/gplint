@@ -20,7 +20,7 @@ function run({feature}, config) {
 
     if (tagsLinesCount > maxLines) {
       errors.push({
-        message: `Number of tags for "${keyword}" exceeds the maximum: ${tagsLinesCount}/${maxLines}`,
+        message: `Number of line tags for "${keyword}" exceeds the maximum: ${tagsLinesCount}/${maxLines}`,
         rule: name,
         line: location.line,
         column: location.column,
