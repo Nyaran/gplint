@@ -1,7 +1,7 @@
 const ruleTestBase = require('../rule-test-base');
 const rule = require('../../../dist/rules/max-tags-lines.js');
 const runTest = ruleTestBase.createRuleTest(rule,
-  'Number of tags for "<%= keyword %>" exceeds the maximum: <%= tagsLinesCount %>/<%= maxLines %>');
+  'Number of line tags for "<%= keyword %>" exceeds the maximum: <%= tagsLinesCount %>/<%= maxLines %>');
 
 describe('Max Tag Lines Rule', function () {
   it('doesn\'t raise errors when there are no violations - tagged', function () {
