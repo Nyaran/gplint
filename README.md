@@ -59,7 +59,7 @@ Or check this:
 | `no-unnamed-scenarios`                              | Disallows empty Scenario name                                                                                      |
 | `no-unused-variables`                               | Disallows unused variables in scenario outlines                                                                    |
 | `one-space-between-tags`                            | Tags on the same line must be separated by a single space                                                          |
-| [`required-tags`](#required-tags)                   | Require tags/patterns of tags on Scenarios                                                                         |
+| [`required-tags`](#required-tags)                   | Require tags/patterns of tags                                                                                      |
 | [`scenario-size`](#scenario-size)                   | Allows restricting the maximum number of steps in a scenario, scenario outline and background                      |
 | [`table-align`](#table-align)                       | Allows to force table alignment on steps and/or examples.                                                          |
 | `use-and`                                           | Disallows repeated step names requiring use of And instead                                                         |
@@ -301,12 +301,32 @@ To search for duplicated including compiled outlines against all the features:
 
 `required-tags` supports some configuration options:
 
-- `tags` (array) the array of tag patterns that must match at least one tag - defaults to `[]`
-- `ignoreUntagged` (boolean) whether to ignore scenarios that have no tag - defaults to `true`
+`ignoreUntagged` (boolean): whether to ignore scenarios that have no tag - defaults to `true`.
+`global` (array): the array of tag patterns that must match - defaults to `[]`
+`feature` (array): the array of tag patterns that must match - defaults to `[]`
+`rule` (array): the array of tag patterns that must match - defaults to `[]`
+`scenario` (array): the array of tag patterns that must match - defaults to `[]`
+`example` (array): the array of tag patterns that must match - defaults to `[]`
+`extendRule` (boolean): When Scenario is not contained inside Rule, extends required `rule` tags to `scenario` - defaults to `false`
+`extendExample` (boolean): When Scenario is not a Scenario Outline, extends required `example` tags to `scenario` - defaults to `false`
+`tags` (array): (Deprecated, use `scenario`) the array of tag patterns that must match - defaults to `[]`. This rule
+perform the checks using always a RegExp.
 
-```
+```json
 {
-  "required-tags": ["on", {"tags": ["^@issue:[1-9]\\d*$"], "ignoreUntagged": false}]
+  "required-tags": [
+    "on",
+    {
+      "global": ["/^@ID\\.APP-[0-9]+$/"],
+      "feature": ["/@feature\\..+/"],
+      "rule": ["/^@user-case\\..+$/"],
+      "scenario": ["@ready"],
+      "example": ["/^@type\\..+$/"],
+      "extendRule": true,
+      "extendExample": true,
+      "ignoreUntagged": false
+    }
+  ]
 }
 ```
 
