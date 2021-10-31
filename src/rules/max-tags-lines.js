@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const name = 'table-align';
+const name = 'max-tags-lines';
 const availableConfigs = {
   feature: 1,
   rule: 2,
