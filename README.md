@@ -174,6 +174,7 @@ You can override the defaults for `indentation` like this:
       "but": 2,
       "feature tag": 0,
       "scenario tag": 0
+      "examples tag": 0
     }
   ]
 }

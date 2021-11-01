@@ -13,7 +13,9 @@ Background:
    @scenarioTag3
    Scenario Outline: This is a Scenario Outline with correct indentation
   Then I should not see an indentation error
-Examples:
-  | foo | bar |
-  | bar | foo |
-  | har | har |
+    @exampleTag1 @exampleTag2
+    @exampleTag3
+    Examples:
+      | foo | bar |
+      | bar | foo |
+      | har | har |
