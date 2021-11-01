@@ -66,22 +66,42 @@ describe('Required Tags Rule', function () {
         ignoreUntagged: true,
         scenario: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'],
       }, [{
-        messageElements: {tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario'},
+        messageElements: {tags: '@required-tag-scenario', nodeType: 'Scenario'},
+        line: 8,
+        column: 3,
+      }, {
+        messageElements: {tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario'},
         line: 8,
         column: 3,
       }, {
         messageElements: {
-          tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario Outline'
+          tags: '@required-tag-scenario', nodeType: 'Scenario Outline'
         },
         line: 12,
         column: 3,
       }, {
-        messageElements: {tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario'},
+        messageElements: {
+          tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario Outline'
+        },
+        line: 12,
+        column: 3,
+      }, {
+        messageElements: {tags: '@required-tag-scenario', nodeType: 'Scenario'},
+        line: 33,
+        column: 5,
+      }, {
+        messageElements: {tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario'},
         line: 33,
         column: 5,
       }, {
         messageElements: {
-          tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario Outline'
+          tags: '@required-tag-scenario', nodeType: 'Scenario Outline'
+        },
+        line: 37,
+        column: 5,
+      }, {
+        messageElements: {
+          tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario Outline'
         },
         line: 37,
         column: 5,
@@ -112,14 +132,42 @@ describe('Required Tags Rule', function () {
           extendRule: true,
         }, [{
           messageElements: {
-            tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/', '@required-tag-rule-on-scenario'],
+            tags: '@required-tag-scenario',
             nodeType: 'Scenario'
           },
           line: 8,
           column: 3,
         }, {
           messageElements: {
-            tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/', '@required-tag-rule-on-scenario'],
+            tags: '/@required-tag-scenario-\\d+/',
+            nodeType: 'Scenario'
+          },
+          line: 8,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '@required-tag-rule-on-scenario',
+            nodeType: 'Scenario'
+          },
+          line: 8,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '@required-tag-scenario',
+            nodeType: 'Scenario Outline'
+          },
+          line: 12,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '/@required-tag-scenario-\\d+/',
+            nodeType: 'Scenario Outline'
+          },
+          line: 12,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '@required-tag-rule-on-scenario',
             nodeType: 'Scenario Outline'
           },
           line: 12,
@@ -129,12 +177,22 @@ describe('Required Tags Rule', function () {
           line: 30,
           column: 3,
         }, {
-          messageElements: {tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario'},
+          messageElements: {tags: '@required-tag-scenario', nodeType: 'Scenario'},
+          line: 33,
+          column: 5,
+        }, {
+          messageElements: {tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario'},
           line: 33,
           column: 5,
         }, {
           messageElements: {
-            tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario Outline'
+            tags: '@required-tag-scenario', nodeType: 'Scenario Outline'
+          },
+          line: 37,
+          column: 5,
+        }, {
+          messageElements: {
+            tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario Outline'
           },
           line: 37,
           column: 5,
@@ -149,14 +207,34 @@ describe('Required Tags Rule', function () {
           extendExample: true,
         }, [{
           messageElements: {
-            tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/', '@required-tag-example-on-scenario'],
+            tags: '@required-tag-scenario',
             nodeType: 'Scenario'
           },
           line: 8,
           column: 3,
         }, {
           messageElements: {
-            tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario Outline'
+            tags: '/@required-tag-scenario-\\d+/',
+            nodeType: 'Scenario'
+          },
+          line: 8,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '@required-tag-example-on-scenario',
+            nodeType: 'Scenario'
+          },
+          line: 8,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '@required-tag-scenario', nodeType: 'Scenario Outline'
+          },
+          line: 12,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario Outline'
           },
           line: 12,
           column: 3,
@@ -166,14 +244,34 @@ describe('Required Tags Rule', function () {
           column: 5,
         }, {
           messageElements: {
-            tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/', '@required-tag-example-on-scenario'],
+            tags: '@required-tag-scenario',
             nodeType: 'Scenario'
           },
           line: 33,
           column: 5,
         }, {
           messageElements: {
-            tags: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'], nodeType: 'Scenario Outline'
+            tags: '/@required-tag-scenario-\\d+/',
+            nodeType: 'Scenario'
+          },
+          line: 33,
+          column: 5,
+        }, {
+          messageElements: {
+            tags: '@required-tag-example-on-scenario',
+            nodeType: 'Scenario'
+          },
+          line: 33,
+          column: 5,
+        }, {
+          messageElements: {
+            tags: '@required-tag-scenario', nodeType: 'Scenario Outline'
+          },
+          line: 37,
+          column: 5,
+        }, {
+          messageElements: {
+            tags: '/@required-tag-scenario-\\d+/', nodeType: 'Scenario Outline'
           },
           line: 37,
           column: 5,
@@ -193,7 +291,13 @@ describe('Required Tags Rule', function () {
           extendExample: true,
         }, [{
           messageElements: {
-            tags: ['@required-tag-rule-on-scenario', '@required-tag-example-on-scenario'], nodeType: 'Scenario'
+            tags: '@required-tag-rule-on-scenario', nodeType: 'Scenario'
+          },
+          line: 8,
+          column: 3,
+        }, {
+          messageElements: {
+            tags: '@required-tag-example-on-scenario', nodeType: 'Scenario'
           },
           line: 8,
           column: 3,
@@ -299,6 +403,7 @@ describe('Required Tags Rule', function () {
         ignoreUntagged: true,
         feature: [['@required-tag-feature-subset-A']],
         scenario: [
+          '@required-tag-scenario',
           ['@required-tag-scenario-subset-A', '@required-tag-scenario-subset-B']
         ],
       }, [{
@@ -310,11 +415,39 @@ describe('Required Tags Rule', function () {
         column: 1,
       }, {
         messageElements: {
+          tags: ['@required-tag-scenario'],
+          nodeType: 'Scenario'
+        },
+        line: 8,
+        column: 3,
+      }, {
+        messageElements: {
           tags: ['@required-tag-scenario-subset-A', '@required-tag-scenario-subset-B'],
           nodeType: 'Scenario'
         },
         line: 8,
         column: 3,
+      }, {
+        messageElements: {
+          tags: ['@required-tag-scenario'],
+          nodeType: 'Scenario Outline'
+        },
+        line: 12,
+        column: 3,
+      }, {
+        messageElements: {
+          tags: ['@required-tag-scenario'],
+          nodeType: 'Scenario'
+        },
+        line: 33,
+        column: 5,
+      }, {
+        messageElements: {
+          tags: ['@required-tag-scenario'],
+          nodeType: 'Scenario Outline'
+        },
+        line: 37,
+        column: 5,
       }, {
         messageElements: {
           tags: ['@required-tag-scenario-subset-A', '@required-tag-scenario-subset-B'],

@@ -49,10 +49,9 @@ function run({feature}, config) {
       });
     }
 
-    const missTags = allRequiredTags.filter(requiredTag => _.castArray(requiredTag).every(rt => getMissedTags(rt)));
-    if (missTags.length > 0) {
-      errors.push(createError(item, missTags, feature.language));
-    }
+    allRequiredTags
+      .filter(requiredTag => _.castArray(requiredTag).every(rt => getMissedTags(rt)))
+      .forEach(missTag => errors.push(createError(item, missTag, feature.language)));
   }
 
   checkRequiredTags(feature, mergedConfig.feature);

@@ -12,11 +12,19 @@ describe('Required Tags Rule - Deprecated', function() {
     return runTest('required-tags/deprecated/Violations.feature', {
       'tags': ['@requiredscenariotag', '@requiredScenarioTag', '@required-scenario-tag-\\d+']
     }, [{
-      messageElements: {tags: ['@requiredScenarioTag','@required-scenario-tag-\\d+'], nodeType: 'Scenario'},
+      messageElements: {tags: '@requiredScenarioTag', nodeType: 'Scenario'},
       line: 8,
       column: 1,
     }, {
-      messageElements: {tags: ['@requiredScenarioTag', '@required-scenario-tag-\\d+'], nodeType: 'Scenario Outline'},
+      messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'Scenario'},
+      line: 8,
+      column: 1,
+    }, {
+      messageElements: {tags: '@requiredScenarioTag', nodeType: 'Scenario Outline'},
+      line: 13,
+      column: 1,
+    }, {
+      messageElements: {tags: '@required-scenario-tag-\\d+', nodeType: 'Scenario Outline'},
       line: 13,
       column: 1,
     }]);
