@@ -13,6 +13,8 @@ Scenario: This is a Scenario with correct indentation - tabs
 @scenarioTag3
 Scenario Outline: This is a Scenario Outline with correct indentation - tabs
 		Then I should not see an indentation error <foo> <bar>
+@exampleTag1 @exampleTag2
+@exampleTag3
 Examples:
 		| foo | bar |
 		| bar | foo |

@@ -20,7 +20,8 @@ const defaultConfig = {
 const availableConfigs = _.merge({}, defaultConfig, {
   // The values here are unused by the config parsing logic.
   'feature tag': -1,
-  'scenario tag': -1
+  'scenario tag': -1,
+  'examples tag': -1
 });
 
 function mergeConfiguration(configuration) {
@@ -30,6 +31,9 @@ function mergeConfiguration(configuration) {
   }
   if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'scenario tag')) {
     mergedConfiguration['scenario tag'] = mergedConfiguration['Scenario'];
+  }
+  if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'examples tag')) {
+    mergedConfiguration['examples tag'] = mergedConfiguration['Examples'];
   }
   return mergedConfiguration;
 }
@@ -84,12 +88,13 @@ function run({feature}, configuration) {
       testTags(child.scenario.tags, 'scenario tag');
       child.scenario.steps.forEach(testStep);
 
-      child.scenario.examples.forEach(examples => {
-        test(examples.location, 'Examples');
+      child.scenario.examples.forEach(example => {
+        test(example.location, 'Examples');
+        testTags(example.tags, 'examples tag');
 
-        if (examples.tableHeader) {
-          test(examples.tableHeader.location, 'example');
-          examples.tableBody.forEach(row => {
+        if (example.tableHeader) {
+          test(example.tableHeader.location, 'example');
+          example.tableBody.forEach(row => {
             test(row.location, 'example');
           });
         }
