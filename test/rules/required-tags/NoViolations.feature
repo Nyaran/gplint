@@ -1,5 +1,4 @@
 @feature
-@required-global-tag-feature
 @required-tag-feature
 # Subarray tags for feature
 @required-tag-feature-subset-A
@@ -10,32 +9,36 @@ Feature: Feature with all of the required tags present
 
   @scenario
   @required-tag-scenario @required-tag-scenario-1234
-  @required-global-tag-scenario
   # Tags from rule as this scenario is not inside rule
-  @required-tag-rule-on-scenario @required-global-tag-rule
+  @required-tag-rule-on-scenario
   # Tags from example as this scenario is not inside and outline
-  @required-tag-example-on-scenario @required-global-tag-example
+  @required-tag-example-on-scenario
   Scenario: This is a Scenario with all of the required tags present
     Then I should not see an error
 
   @scenarioOutline
-  @required-tag-scenario @required-tag-scenario-4567
-  @required-global-tag-scenario
+    @required-tag-scenario @required-tag-scenario-4567
   # Tags from rule as this scenario is not inside rule
-  @required-tag-rule-on-scenario
-  @required-global-tag-rule
+    @required-tag-rule-on-scenario
   Scenario Outline: This is a Scenario Outline with all of the required tags present
     Then I should not see an error
-    @example
-    @required-tag-example
-    @required-global-tag-example
-    # Tags from scenario extend from example as this scenario is an outline
+    @example @required-tag-example
+      # Tags from scenario extend from example as this scenario is an outline
     @required-tag-example-on-scenario
-    # Subarray tags for example
-    @required-tag-example-subset-A
+      # Subarray tags for example
+    @required-tag-example-subset-A @required-tag-example-subset-B
     Examples:
       | foo |
       | bar |
+
+    @example @required-tag-example
+      # Tags from scenario extend from example as this scenario is an outline
+    @required-tag-example-on-scenario
+      # Subarray tags for example
+    @required-tag-example-subset-A @required-tag-example-subset-B
+    Examples:
+      | foo |
+      | baz |
 
   Scenario: This is a Scenario with all of the required tags present
     Then I should not see an error
@@ -48,46 +51,45 @@ Feature: Feature with all of the required tags present
       | bar |
 
   @rule @required-tag-rule
-  @required-global-tag-rule
   # Tags from scenario extend from rule as this is a rule
   @required-tag-rule-on-scenario
   Rule: A rule
 
-    @scenario
-    @required-tag-scenario @required-tag-scenario-1234
-    @required-tag-example-on-scenario
-    @required-global-tag-scenario @required-global-tag-example
-
-    @scenario
-    @required-tag-scenario @required-tag-scenario-1234
-    @required-global-tag-scenario
+  @scenario
+  @required-tag-scenario @required-tag-scenario-1234
     # Tags from example as this scenario is not inside and outline
-    @required-tag-example-on-scenario @required-global-tag-example
-    Scenario: This is a Scenario inside rule with all of the required tags present
-      Then I should not see an error
+  @required-tag-example-on-scenario
+  Scenario: This is a Scenario inside rule with all of the required tags present
+    Then I should not see an error
 
-    @scenarioOutline
+  @scenarioOutline
     @required-tag-scenario @required-tag-scenario-4567
-    @required-global-tag-scenario
-    @required-global-tag-rule
-    Scenario Outline: This is a Scenario Outline inside rule with all of the required tags present
-      Then I should not see an error
-      @example @required-tag-example
-      @required-global-tag-example
+  Scenario Outline: This is a Scenario Outline inside rule with all of the required tags present
+    Then I should not see an error
+    @example @required-tag-example
       # Tags from scenario extend from example as this scenario is an outline
-      @required-tag-example-on-scenario
+    @required-tag-example-on-scenario
       # Subarray tags for example
-      @required-tag-example-subset-A @required-tag-example-subset-B
-      Examples:
-        | foo |
-        | bar |
+    @required-tag-example-subset-A @required-tag-example-subset-B
+    Examples:
+      | foo |
+      | bar |
 
-    Scenario: This is a Scenario inside rule with all of the required tags present
-      Then I should not see an error
+    @example @required-tag-example
+      # Tags from scenario extend from example as this scenario is an outline
+    @required-tag-example-on-scenario
+      # Subarray tags for example
+    @required-tag-example-subset-A @required-tag-example-subset-B
+    Examples:
+      | foo |
+      | baz |
 
-    Scenario Outline: This is a Scenario Outline inside rule with all of the required tags present
-      Then I should not see an error
+  Scenario: This is a Scenario inside rule with all of the required tags present
+    Then I should not see an error
 
-      Examples:
-        | foo |
-        | bar |
+  Scenario Outline: This is a Scenario Outline inside rule with all of the required tags present
+    Then I should not see an error
+
+    Examples:
+      | foo |
+      | bar |

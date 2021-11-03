@@ -21,16 +21,6 @@ Feature: Feature with some of the required tags missing
       | foo |
       | baz |
 
-  Scenario: This is a Scenario with some of the required tags missing
-      Then I should see an error
-
-  Scenario Outline: This is a Scenario Outline with some of the required tags missing
-      Then I should see an error
-
-    Examples:
-      | foo |
-      | bar |
-
   @rule
   Rule: A rule
 
@@ -50,13 +40,3 @@ Feature: Feature with some of the required tags missing
       Examples:
         | foo |
         | baz |
-
-    Scenario: This is a Scenario inside rule with some of the required tags missing
-        Then I should see an error
-
-    Scenario Outline: This is a Scenario Outline inside rule with some of the required tags missing
-        Then I should see an error
-
-      Examples:
-        | foo |
-        | bar |
