@@ -31,16 +31,37 @@ function getNodeType(node, language) {
   return '';
 }
 
-
 function getLanguageInsitiveKeyword(node, language) {
-
   const languageMapping = Gherkin.dialects[language];
 
   return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));
 }
 
+function getNodeForPickle(feature, pickle, forceExamplesLevel = false) {
+  let node = feature;
+
+  for (const astNodeId of pickle.astNodeIds) {
+    if (Object.prototype.hasOwnProperty.call(node, 'children')) {
+      const scenarios = feature.children
+        .filter(child => child.rule)
+        .flatMap(child => child.rule.children)
+        .filter(child => child.scenario)
+        .concat(feature.children
+          .filter(child => child.scenario))
+        .map(child => child.scenario);
+      node = scenarios.find(t => t.id === astNodeId);
+    } else if (Object.prototype.hasOwnProperty.call(node, 'examples')) {
+      node = forceExamplesLevel
+        ? node.examples.find(e => e.tableBody.find(t => t.id === astNodeId))
+        : node.examples.flatMap(e => e.tableBody).find(t => t.id === astNodeId);
+    }
+  }
+
+  return node;
+}
 
 module.exports = {
-  getNodeType: getNodeType,
-  getLanguageInsitiveKeyword: getLanguageInsitiveKeyword,
+  getNodeForPickleScenario: getNodeForPickle,
+  getNodeType,
+  getLanguageInsitiveKeyword,
 };

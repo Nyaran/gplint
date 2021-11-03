@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const gherkinUtils = require('./utils/gherkin.js');
+
 const rule = 'no-dupe-scenario-names';
 const availableConfigs = [
   'anywhere',
@@ -25,7 +27,7 @@ function run({feature, pickles, file}, configuration) {
 
   items.forEach(scenario => {
     const scenarioName = scenario.name;
-    const scenarioLocation = compile ? guessPickleLocation(feature, scenario) : scenario.location;
+    const scenarioLocation = (compile ? gherkinUtils.getNodeForPickleScenario(feature, scenario) : scenario).location;
     if (Object.prototype.hasOwnProperty.call(scenarios, scenarioName)) {
       const dupes = getFileLinePairsAsStr(scenarios[scenarioName].locations);
 
@@ -63,15 +65,6 @@ function getFileLinePairsAsStr(objects) {
     strings.push(object.file + ':' + object.line);
   });
   return strings.join(', ');
-}
-
-function guessPickleLocation(feature, pickle) {
-  let item = feature.children.filter(child => child.scenario).find(child => child.scenario.id === pickle.astNodeIds[0]).scenario;
-
-  if (pickle.astNodeIds.length === 2) // Scenario Outline
-    item = item.examples.flatMap(e => e.tableBody).find(t => t.id === pickle.astNodeIds[1]);
-
-  return item.location;
 }
 
 module.exports = {

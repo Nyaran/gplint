@@ -14,11 +14,19 @@ const availableConfigs = {
   extendExample: false,
 };
 
-function reduceGlobals(globalTags, {tags}) {
-  return globalTags.filter(t => !tags.map(ft => ft.name).includes(t));
+function checkTagNotPresent(requiredTag, {tags}, useLegacyCheck = false) {
+  return _.castArray(requiredTag).every(rt =>
+    !tags.some(tag => {
+      const regexpMatch = rt.match(/^@?\/(?<exp>.*)\/$/);
+      if (useLegacyCheck) {
+        return RegExp(rt).test(tag.name);
+      } else {
+        return regexpMatch ? RegExp(regexpMatch.groups.exp).test(tag.name) : rt === tag.name;
+      }
+    }));
 }
 
-function run({feature}, config) {
+function run({feature, pickles}, config) {
   if (!feature) {
     return [];
   }
@@ -31,6 +39,14 @@ function run({feature}, config) {
     mergedConfig.scenario = mergedConfig.tags;
   }
 
+  if (mergedConfig.global.length > 0) {
+    pickles
+      .filter(pickle => !(mergedConfig.ignoreUntagged && pickle.tags.length === 0))
+      .forEach(pickle => mergedConfig.global
+        .filter(requiredTag => checkTagNotPresent(requiredTag, pickle))
+        .forEach(missTag => errors.push(createError(gherkinUtils.getNodeForPickleScenario(feature, pickle, true), missTag, pickle.language))));
+  }
+
   function checkRequiredTags(item, requiredTags, extraRequiredTags = [], useLegacyCheck = false) {
     if (mergedConfig.ignoreUntagged && item.tags.length === 0) {
       return;
@@ -38,35 +54,20 @@ function run({feature}, config) {
 
     const allRequiredTags = requiredTags.concat(extraRequiredTags);
 
-    function getMissedTags(requiredTag) {
-      return !item.tags.some(tag => {
-        const regexpMatch = requiredTag.match(/^@?\/(?<exp>.*)\/$/);
-        if (useLegacyCheck) {
-          return RegExp(requiredTag).test(tag.name);
-        } else {
-          return regexpMatch ? RegExp(regexpMatch.groups.exp).test(tag.name) : requiredTag === tag.name;
-        }
-      });
-    }
-
     allRequiredTags
-      .filter(requiredTag => _.castArray(requiredTag).every(rt => getMissedTags(rt)))
+      .filter(requiredTag => checkTagNotPresent(requiredTag, item, useLegacyCheck))
       .forEach(missTag => errors.push(createError(item, missTag, feature.language)));
   }
 
   checkRequiredTags(feature, mergedConfig.feature);
 
-  function iterScenarioContainer(item, globalTags, insideRule = false) {
-    const globalContainerTags = reduceGlobals(globalTags, item);
-
+  function iterScenarioContainer(item, insideRule = false) {
     for (const {rule, scenario} of item.children) {
       if (!insideRule && rule != null) {
         checkRequiredTags(rule, mergedConfig.rule);
 
-        iterScenarioContainer(rule, globalContainerTags, true);
+        iterScenarioContainer(rule, true);
       } else if (scenario != null) {
-        let globalScenarioTags = reduceGlobals(globalContainerTags, scenario);
-        const globalScenarioTagsAux = globalScenarioTags;
         const scenarioExtendedTags = [];
 
         if (mergedConfig.extendRule && !insideRule) {
@@ -77,21 +78,18 @@ function run({feature}, config) {
           scenarioExtendedTags.push(...mergedConfig.example);
         }
 
+        checkRequiredTags(scenario, mergedConfig.scenario, scenarioExtendedTags, legacyTagsCheck);
+
         if (scenario.examples.length !== 0) {
           for (const example of scenario.examples) {
-            globalScenarioTags = reduceGlobals(globalScenarioTagsAux, example);
             checkRequiredTags(example, mergedConfig.example);
           }
         }
-
-        scenarioExtendedTags.push(...globalScenarioTags);
-
-        checkRequiredTags(scenario, mergedConfig.scenario, scenarioExtendedTags, legacyTagsCheck);
       }
     }
   }
 
-  iterScenarioContainer(feature, mergedConfig.global);
+  iterScenarioContainer(feature);
 
   return errors;
 }
