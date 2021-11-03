@@ -1,6 +1,6 @@
 {
   "name": "gplint",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Gherkin linter/validator written in javascript.",
   "author": "Luis Zurro",
   "main": "dist/index.js",

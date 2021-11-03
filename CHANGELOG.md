@@ -7,6 +7,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 * Check on [changelog folder](changelog/).
 
+## [1.2.1] - 2021-11-03
+### Added
+* (internal) Created method `getNodeForPickle` to map nodes and pickles.
+* 
+### Fixed
+* Fix and improve `required-tags` using global.
+
 ## [1.2.0] - 2021-11-01
 ### Added
 * Added rule `max-tags-lines`.
