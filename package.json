@@ -24,7 +24,7 @@
     "core-js": "3.19.1",
     "glob": "7.2.0",
     "lodash": "4.17.21",
-    "strip-json-comments": "3.0.1",
+    "strip-json-comments": "4.0.0",
     "xml-js": "1.6.11"
   },
   "devDependencies": {
