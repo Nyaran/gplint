@@ -1,5 +1,3 @@
-/*eslint no-console: "off"*/
-
-module.exports = function (results) {
+export default function (results) {
   return JSON.stringify(results);
-};
+}

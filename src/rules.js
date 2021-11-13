@@ -1,8 +1,7 @@
-// Operations on rules
-const glob = require('glob');
-const path = require('path');
+import glob from 'glob';
+import path from 'path';
 
-function getAllRules(additionalRulesDirs) {
+export function getAllRules(additionalRulesDirs) {
   let rules = {};
 
   const rulesDirs = [
@@ -19,22 +18,22 @@ function getAllRules(additionalRulesDirs) {
   return rules;
 }
 
-function getRule(rule, additionalRulesDirs) {
+export function getRule(rule, additionalRulesDirs) {
   return getAllRules(additionalRulesDirs)[rule];
 }
 
-function doesRuleExist(rule, additionalRulesDirs) {
+export function doesRuleExist(rule, additionalRulesDirs) {
   return getRule(rule, additionalRulesDirs) !== undefined;
 }
 
-function isRuleEnabled(ruleConfig) {
+export function isRuleEnabled(ruleConfig) {
   if (Array.isArray(ruleConfig)) {
     return ruleConfig[0] === 'on';
   }
   return ruleConfig === 'on';
 }
 
-function runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs) {
+export function runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs) {
   let errors = [];
   const rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
@@ -42,19 +41,10 @@ function runAllEnabledRules(feature, pickles, file, configuration, additionalRul
     if (isRuleEnabled(configuration[rule.name])) {
       const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
       const error = rule.run({feature, pickles, file}, ruleConfig);
-      if (error) {
+      if (error != null && error.length > 0) {
         errors = errors.concat(error);
       }
     }
   });
   return errors;
 }
-
-
-module.exports = {
-  doesRuleExist: doesRuleExist,
-  isRuleEnabled: isRuleEnabled,
-  runAllEnabledRules: runAllEnabledRules,
-  getRule: getRule,
-  getAllRules: getAllRules
-};

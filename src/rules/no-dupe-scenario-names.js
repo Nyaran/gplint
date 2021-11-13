@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const gherkinUtils = require('./utils/gherkin.js');
+import _ from 'lodash';
+import * as gherkinUtils from './utils/gherkin';
 
-const rule = 'no-dupe-scenario-names';
-const availableConfigs = [
+export const name = 'no-dupe-scenario-names';
+export const availableConfigs = [
   'anywhere',
   'in-feature',
   'anywhere-compile',
@@ -11,7 +11,7 @@ const availableConfigs = [
 
 let scenarios = {};
 
-function run({feature, pickles, file}, configuration) {
+export function run({feature, pickles, file}, configuration) {
   if (!feature) {
     return [];
   }
@@ -27,7 +27,7 @@ function run({feature, pickles, file}, configuration) {
 
   items.forEach(scenario => {
     const scenarioName = scenario.name;
-    const scenarioLocation = (compile ? gherkinUtils.getNodeForPickleScenario(feature, scenario) : scenario).location;
+    const scenarioLocation = (compile ? gherkinUtils.getNodeForPickle(feature, scenario) : scenario).location;
     if (Object.prototype.hasOwnProperty.call(scenarios, scenarioName)) {
       const dupes = getFileLinePairsAsStr(scenarios[scenarioName].locations);
 
@@ -39,7 +39,7 @@ function run({feature, pickles, file}, configuration) {
 
       errors.push({
         message: 'Scenario name is already used in: ' + dupes,
-        rule: rule,
+        rule: name,
         line: scenarioLocation.line,
         column: scenarioLocation.column,
       });
@@ -66,9 +66,3 @@ function getFileLinePairsAsStr(objects) {
   });
   return strings.join(', ');
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

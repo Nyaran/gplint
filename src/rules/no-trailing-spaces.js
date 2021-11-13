@@ -1,12 +1,12 @@
-const rule = 'no-trailing-spaces';
+export const name = 'no-trailing-spaces';
 
-function run({file}) {
+export function run({file}) {
   let errors = [];
   let lineNo = 1;
   file.lines.forEach(line => {
     if (/[\t ]+$/.test(line)) {
       errors.push({message: 'Trailing spaces are not allowed',
-        rule   : rule,
+        rule   : name,
         line   : lineNo,
         column : 0,
       });
@@ -17,8 +17,3 @@ function run({file}) {
 
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

@@ -1,7 +1,7 @@
-const gherkinUtils = require('./utils/gherkin.js');
-const rule = 'no-restricted-patterns';
+import * as gherkinUtils from './utils/gherkin';
+export const name = 'no-restricted-patterns';
 
-const availableConfigs = {
+export const availableConfigs = {
   'Global': [],
   'Scenario': [],
   'ScenarioOutline': [],
@@ -10,7 +10,7 @@ const availableConfigs = {
 };
 
 
-function run({feature}, configuration) {
+export function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
@@ -55,7 +55,7 @@ function getRestrictedPatterns(configuration) {
 
 
 function getRestrictedPatternsForNode(node, restrictedPatterns, language) {
-  let key = gherkinUtils.getLanguageInsitiveKeyword(node, language).toLowerCase();
+  let key = gherkinUtils.getLanguageInsensitiveKeyword(node, language).toLowerCase();
 
   return restrictedPatterns[key];
 }
@@ -110,7 +110,7 @@ function check(node, property, pattern, language, errors) {
     if (strings[i].trim().match(pattern)) {
       errors.push({
         message: `${type} ${property}: "${strings[i].trim()}" matches restricted pattern "${pattern}"`,
-        rule: rule,
+        rule: name,
         line: node.location.line,
         column: node.location.column,
       });
@@ -118,9 +118,3 @@ function check(node, property, pattern, language, errors) {
   }
 }
 
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

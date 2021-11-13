@@ -1,6 +1,6 @@
-const rule = 'no-partially-commented-tag-lines';
+export const name = 'no-partially-commented-tag-lines';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -26,15 +26,10 @@ function checkTags(node, errors) {
     if (tag.name.indexOf('#') > 0) {
       errors.push({
         message: 'Partially commented tag lines not allowed',
-        rule   : rule,
+        rule   : name,
         line   : tag.location.line,
         column : tag.location.column,
       });
     }
   });
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

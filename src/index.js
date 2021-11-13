@@ -1,10 +1,9 @@
-#!/usr/bin/env node
+import {program} from 'commander';
 
-const {program} = require('commander');
-const linter = require('./linter.js');
-const featureFinder = require('./feature-finder.js');
-const configParser = require('./config-parser.js');
-const logger = require('./logger.js');
+import * as linter from './linter';
+import * as featureFinder from './feature-finder';
+import * as configParser from './config-parser';
+import * as logger from './logger';
 
 function list(val) {
   return val.split(',');
@@ -46,11 +45,11 @@ function getExitCode(results) {
 function printResults(results, format) {
   let formatter;
   if (format === 'json') {
-    formatter = require('./formatters/json.js');
+    formatter = require('./formatters/json');
   } else if (format === 'xunit') {
-    formatter = require('./formatters/xunit.js');
+    formatter = require('./formatters/xunit');
   } else if (!format || format === 'stylish') {
-    formatter = require('./formatters/stylish.js');
+    formatter = require('./formatters/stylish');
   } else {
     logger.boldError('Unsupported format. The supported formats are json, xunit and stylish.');
     process.exit(1);

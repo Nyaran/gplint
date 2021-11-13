@@ -1,14 +1,14 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 const TABLE_SEPARATOR = '|';
 
-const name = 'table-align';
-const availableConfigs = {
+export const name = 'table-align';
+export const availableConfigs = {
   examples: true,
   steps: true,
 };
 
-function run({feature, file}, config) {
+export function run({feature, file}, config) {
   function _checkRows(rows) {
     if (rows.length === 0 || rows.some(row => row == null)) {
       return;
@@ -68,9 +68,3 @@ function createError(cell) {
     column: cell.location.column,
   };
 }
-
-module.exports = {
-  name,
-  run,
-  availableConfigs,
-};

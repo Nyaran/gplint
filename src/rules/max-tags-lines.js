@@ -1,14 +1,14 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const name = 'max-tags-lines';
-const availableConfigs = {
+export const name = 'max-tags-lines';
+export const availableConfigs = {
   feature: 1,
   rule: 2,
   scenario: 5,
   example: 5,
 };
 
-function run({feature}, config) {
+export function run({feature}, config) {
   if (feature == null) {
     return;
   }
@@ -58,9 +58,3 @@ function run({feature}, config) {
 
   return errors;
 }
-
-module.exports = {
-  name,
-  run,
-  availableConfigs,
-};

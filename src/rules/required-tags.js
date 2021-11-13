@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const gherkinUtils = require('./utils/gherkin.js');
+import _ from 'lodash';
+import * as gherkinUtils from './utils/gherkin';
 
-const name = 'required-tags';
-const availableConfigs = {
+export const name = 'required-tags';
+export const availableConfigs = {
   ignoreUntagged: true,
   tags: [], // Deprecated
   global: [],
@@ -26,7 +26,7 @@ function checkTagNotPresent(requiredTag, {tags}, useLegacyCheck = false) {
     }));
 }
 
-function run({feature, pickles}, config) {
+export function run({feature, pickles}, config) {
   if (!feature) {
     return [];
   }
@@ -44,7 +44,7 @@ function run({feature, pickles}, config) {
       .filter(pickle => !(mergedConfig.ignoreUntagged && pickle.tags.length === 0))
       .forEach(pickle => mergedConfig.global
         .filter(requiredTag => checkTagNotPresent(requiredTag, pickle))
-        .forEach(missTag => errors.push(createError(gherkinUtils.getNodeForPickleScenario(feature, pickle, true), missTag, pickle.language))));
+        .forEach(missTag => errors.push(createError(gherkinUtils.getNodeForPickle(feature, pickle, true), missTag, pickle.language))));
   }
 
   function checkRequiredTags(item, requiredTags, extraRequiredTags = [], useLegacyCheck = false) {
@@ -104,9 +104,3 @@ function createError(item, requiredTags, lang) {
     column: item.location.column,
   };
 }
-
-module.exports = {
-  name,
-  run: run,
-  availableConfigs: availableConfigs
-};

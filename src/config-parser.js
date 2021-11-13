@@ -1,10 +1,10 @@
-const fs = require('fs');
-const stripJsonComments = require('strip-json-comments');
-const verifyConfig = require('./config-verifier.js');
-const logger = require('./logger.js');
-const defaultConfigFileName = '.gplintrc';
+import fs from 'fs';
+import stripJsonComments from 'strip-json-comments';
+import * as verifyConfig from './config-verifier';
+import * as logger from './logger';
+export const defaultConfigFileName = '.gplintrc';
 
-function getConfiguration(configPath, additionalRulesDirs) {
+export function getConfiguration(configPath, additionalRulesDirs) {
   if (configPath) {
     if (!fs.existsSync(configPath)) {
       logger.boldError('Could not find specified config file "' + configPath + '"');
@@ -18,8 +18,8 @@ function getConfiguration(configPath, additionalRulesDirs) {
     }
     configPath = defaultConfigFileName;
   }
-  const config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'UTF-8'})));
-  const errors = verifyConfig(config, additionalRulesDirs);
+  const config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'utf8'})));
+  const errors = verifyConfig.verifyConfigurationFile(config, additionalRulesDirs);
 
   if (errors.length > 0) {
     logger.boldError('Error(s) in configuration file:');
@@ -31,8 +31,3 @@ function getConfiguration(configPath, additionalRulesDirs) {
 
   return config;
 }
-
-module.exports = {
-  getConfiguration: getConfiguration,
-  defaultConfigFileName: defaultConfigFileName
-};

@@ -1,6 +1,6 @@
-const rules = require('./rules.js');
+import * as rules from './rules';
 
-function verifyConfigurationFile(config, additionalRulesDirs) {
+export function verifyConfigurationFile(config, additionalRulesDirs) {
   let errors = [];
   for (let rule in config) {
     if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
@@ -21,7 +21,7 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
       errors.push(genericErrorMsg + 'The first part of the config should be "on" or "off"');
     }
 
-    if (ruleConfig.length != 2 ) {
+    if (ruleConfig.length !== 2 ) {
       errors.push(genericErrorMsg + ' The config should only have 2 parts.');
     }
 
@@ -50,5 +50,3 @@ function testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, addit
     errors.push(genericErrorMsg + ' The rule does not have the specified configuration option "' + subConfig + '"');
   }
 }
-
-module.exports = verifyConfigurationFile;

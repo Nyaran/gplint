@@ -1,8 +1,8 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const rule = 'no-duplicate-tags';
+export const name = 'no-duplicate-tags';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -27,7 +27,7 @@ function verifyTags(node, errors) {
     if (!_.includes(failedTagNames, tag.name)) {
       if (_.includes(uniqueTagNames, tag.name)) {
         errors.push({message: 'Duplicate tags are not allowed: ' + tag.name,
-          rule   : rule,
+          rule   : name,
           line   : tag.location.line,
           column : tag.location.column,
         });
@@ -38,8 +38,3 @@ function verifyTags(node, errors) {
     }
   });
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

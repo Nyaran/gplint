@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const gherkinUtils = require('./utils/gherkin.js');
+import _ from 'lodash';
+import * as gherkinUtils from './utils/gherkin';
 
-const rule = 'no-superfluous-tags';
+export const name = 'no-superfluous-tags';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -32,14 +32,9 @@ function checkTags(child, parent, language, errors) {
   superfluousTags.forEach(tag => {
     errors.push({
       message: `Tag duplication between ${childType} and its corresponding ${parentType}: ${tag.name}`,
-      rule   : rule,
+      rule   : name,
       line   : tag.location.line,
       column   : tag.location.column,
     });
   });
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

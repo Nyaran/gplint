@@ -1,8 +1,8 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const rule = 'no-homogenous-tags';
+export const name = 'no-homogenous-tags';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -29,7 +29,7 @@ function run({feature}) {
           message: 'All Examples of a Scenario Outline have the same tag(s), ' +
             'they should be defined on the Scenario Outline instead: ' +
             homogenousExampleTags.join(', '),
-          rule: rule,
+          rule: name,
           line: scenario.location.line,
           column: scenario.location.column,
         });
@@ -43,7 +43,7 @@ function run({feature}) {
       message: 'All Scenarios on this Feature have the same tag(s), ' +
         'they should be defined on the Feature instead: ' +
         homogenousTags.join(', '),
-      rule   : rule,
+      rule   : name,
       line   : feature.location.line,
       column : feature.location.column,
     });
@@ -55,8 +55,3 @@ function run({feature}) {
 function getTagNames(node) {
   return _.map(node.tags, tag => tag.name);
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

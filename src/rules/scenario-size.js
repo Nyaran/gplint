@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const gherkinUtils = require('./utils/gherkin.js');
+import _ from 'lodash';
+import * as gherkinUtils from './utils/gherkin';
 
-const rule = 'scenario-size';
-const availableConfigs = {
+export const name = 'scenario-size';
+export const availableConfigs = {
   'steps-length': {
     'Rule': 15,
     'Background': 15,
@@ -10,7 +10,7 @@ const availableConfigs = {
   }
 };
 
-function run({feature}, configuration) {
+export function run({feature}, configuration) {
   if (!feature) {
     return;
   }
@@ -39,9 +39,3 @@ function run({feature}, configuration) {
   return errors;
 }
 
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

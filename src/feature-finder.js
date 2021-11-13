@@ -1,13 +1,13 @@
-const _ = require('lodash');
-const glob = require('glob');
-const fs = require('fs');
-const path = require('path');
-const logger = require('./logger.js');
+import _ from 'lodash';
+import glob from 'glob';
+import fs from 'fs';
+import path from 'path';
+import * as logger from './logger';
 
 const defaultIgnoreFileName = '.gplintignore';
 const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
-function getFeatureFiles(args, ignoreArg) {
+export function getFeatureFiles(args, ignoreArg) {
   let files = [];
   const patterns = args.length ? args : ['.'];
 
@@ -15,7 +15,7 @@ function getFeatureFiles(args, ignoreArg) {
     // First we need to fix up the pattern so that it only matches .feature files
     // and it's in the format that glob expects it to be
     let fixedPattern;
-    if (pattern == '.') {
+    if (pattern === '.') {
       fixedPattern = '**/*.feature';
     } else if (pattern.match(/.*\/\*\*/)) {
       fixedPattern = pattern + '/**.feature';
@@ -48,7 +48,7 @@ function getFeatureFiles(args, ignoreArg) {
   return _.uniq(files);
 }
 
-function getIgnorePatterns(ignoreArg) {
+export function getIgnorePatterns(ignoreArg) {
   if (ignoreArg) {
     return ignoreArg;
   } else if (fs.existsSync(defaultIgnoreFileName)) {
@@ -56,19 +56,8 @@ function getIgnorePatterns(ignoreArg) {
     return fs.readFileSync(defaultIgnoreFileName)
       .toString()
       .split(/[\n|\r]/)
-      .filter(i => {
-        // remove empty strings
-        if (i !== '') {
-          return true;
-        }
-        return false;
-      });
+      .filter(i => i !== ''); // remove empty strings
   } else {
     return defaultIgnoredFiles;
   }
 }
-
-module.exports = {
-  getFeatureFiles: getFeatureFiles,
-  defaultIgnoreFileName: defaultIgnoreFileName
-};

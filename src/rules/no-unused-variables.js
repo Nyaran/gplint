@@ -1,6 +1,6 @@
-const rule = 'no-unused-variables';
+export const name = 'no-unused-variables';
 
-function run({feature}) {
+export function run({feature}) {
   if(!feature) {
     return [];
   }
@@ -94,7 +94,7 @@ function run({feature}) {
       if (!scenarioVariables[exampleVariable]) {
         errors.push({
           message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
-          rule   : rule,
+          rule   : name,
           line   : examplesVariables[exampleVariable].line,
           column : examplesVariables[exampleVariable].column,
         });
@@ -105,7 +105,7 @@ function run({feature}) {
       if (!examplesVariables[scenarioVariable]) {
         errors.push({
           message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',
-          rule   : rule,
+          rule   : name,
           line   : scenarioVariables[scenarioVariable].line,
           column : scenarioVariables[scenarioVariable].column,
         });
@@ -115,8 +115,3 @@ function run({feature}) {
 
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

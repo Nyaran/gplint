@@ -1,17 +1,17 @@
-const _ = require('lodash');
-const rule = 'max-scenarios-per-file';
+import _ from 'lodash';
+export const name = 'max-scenarios-per-file';
 
-const defaultConfig = {
+export const availableConfigs = {
   'maxScenarios': 10,
   'countOutlineExamples': true
 };
 
-function run({feature}, config) {
+export function run({feature}, config) {
   if (!feature) {
     return [];
   }
   let errors = [];
-  const mergedConfiguration = _.merge({}, defaultConfig, config);
+  const mergedConfiguration = _.merge({}, availableConfigs, config);
   const maxScenarios = mergedConfiguration.maxScenarios;
   let count = feature.children.length;
 
@@ -31,7 +31,7 @@ function run({feature}, config) {
   if (count > maxScenarios) {
     errors.push({
       message: 'Number of scenarios exceeds maximum: ' + count + '/' + maxScenarios,
-      rule,
+      rule: name,
       line: 0,
       column: 0
     });
@@ -39,9 +39,3 @@ function run({feature}, config) {
 
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: defaultConfig
-};

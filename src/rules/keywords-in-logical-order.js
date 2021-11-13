@@ -1,8 +1,8 @@
-const gherkinUtils = require('./utils/gherkin.js');
+import * as gherkinUtils from './utils/gherkin';
 
-const rule = 'keywords-in-logical-order';
+export const name = 'keywords-in-logical-order';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -16,7 +16,7 @@ function run({feature}) {
     let maxKeywordPosition = undefined;
 
     node.steps.forEach((step) => {
-      const keyword = gherkinUtils.getLanguageInsitiveKeyword(
+      const keyword = gherkinUtils.getLanguageInsensitiveKeyword(
         step,
         feature.language
       );
@@ -49,13 +49,8 @@ function createError(step, maxKeyword) {
       step.text +
       '" should not appear after step using keyword ' +
       maxKeyword,
-    rule: rule,
+    rule: name,
     line: step.location.line,
     column: step.location.column,
   };
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-};

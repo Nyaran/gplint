@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const gherkinUtils = require('./utils/gherkin.js');
-const rule = 'no-scenario-outlines-without-examples';
+import _ from 'lodash';
+import * as gherkinUtils from './utils/gherkin';
+export const name = 'no-scenario-outlines-without-examples';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -15,7 +15,7 @@ function run({feature}) {
       if (nodeType === 'Scenario Outline' &&  (!_.find(scenario.examples, 'tableBody') || !_.find(scenario.examples, 'tableBody')['tableBody'].length)) {
         errors.push({
           message: 'Scenario Outline does not have any Examples',
-          rule   : rule,
+          rule   : name,
           line   : scenario.location.line,
           column : scenario.location.column,
         });
@@ -24,8 +24,3 @@ function run({feature}) {
   });
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};
