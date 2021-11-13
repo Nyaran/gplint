@@ -1,5 +1,5 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/max-scenarios-per-file.js');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/max-scenarios-per-file';
 var runTest = ruleTestBase.createRuleTest(rule, 'Number of scenarios exceeds maximum: <%= variable %>/10');
 
 describe('Max Scenarios per File rule', function () {

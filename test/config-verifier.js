@@ -1,5 +1,5 @@
-var assert = require('chai').assert;
-var verifyConfig = require('../dist/config-verifier.js');
+import {assert} from 'chai';
+import * as verifyConfig from '../src/config-verifier';
 
 describe('Config Verifier', function() {
   describe('Verification is successful when', function() {

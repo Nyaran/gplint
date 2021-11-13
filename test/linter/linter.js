@@ -1,5 +1,5 @@
-var assert = require('chai').assert;
-var linter = require('../../dist/linter.js');
+import {assert} from 'chai';
+import * as linter from '../../src/linter';
 
 
 function linterTest(feature, expected) {

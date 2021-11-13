@@ -31,6 +31,7 @@
     "@babel/cli": "7.16.0",
     "@babel/core": "7.16.0",
     "@babel/preset-env": "7.16.0",
+    "@babel/register": "7.16.0",
     "chai": "4.3.4",
     "coveralls": "3.1.1",
     "eslint": "8.2.0",
@@ -54,7 +55,7 @@
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
     "prepare": "npm run build",
-    "test": "run-s -c -n lint build test:unit",
+    "test": "run-s -c -n lint test:unit",
     "test:unit": "nyc -include=dist/** npm run mocha"
   },
   "directories": {

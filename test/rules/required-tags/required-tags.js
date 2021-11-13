@@ -1,5 +1,5 @@
-const ruleTestBase = require('../rule-test-base');
-const rule = require('../../../dist/rules/required-tags.js');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/required-tags';
 const runTest = ruleTestBase.createRuleTest(rule, 'The tag(s) [<%= tags %>] should be present for <%= nodeType %>.');
 
 describe('Required Tags Rule', function () {

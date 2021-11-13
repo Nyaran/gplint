@@ -1,5 +1,5 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-empty-file.js');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-empty-file';
 var runTest = ruleTestBase.createRuleTest(rule, 'Empty feature files are disallowed');
 
 describe('No Empty Files Rule', function() {

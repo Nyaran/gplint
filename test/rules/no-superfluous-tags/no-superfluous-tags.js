@@ -1,5 +1,5 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-superfluous-tags.js');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-superfluous-tags';
 var runTest = ruleTestBase.createRuleTest(rule,
   'Tag duplication between <%= childType %> and its corresponding <%=parentType %>: <%= tags %>');
 

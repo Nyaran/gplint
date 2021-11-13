@@ -1,5 +1,5 @@
-var rules = require('../../../dist/rules.js');
-var linter = require('../../../dist/linter.js');
+import * as rules from '../../../src/rules';
+import * as linter from '../../../src/linter';
 
 // Test cases for incomplete feature files that have broken over time across multiple rules
 describe('Malformated features do not break the linter', function() {

@@ -1,5 +1,5 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/file-name.js');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/file-name';
 var runTest = ruleTestBase.createRuleTest(rule, 'File names should be written in <%= style %> e.g. "<%= corrected %>"');
 
 describe('File Name Rule', function() {

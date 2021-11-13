@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/new-line-at-eof.js');
-var expect = require('chai').expect;
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/new-line-at-eof';
+import {expect} from 'chai';
 var runTestRequireNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is required');
 var runTestDissallowNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is not allowed');
 

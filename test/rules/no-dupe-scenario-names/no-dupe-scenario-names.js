@@ -1,5 +1,5 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-dupe-scenario-names.js');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-dupe-scenario-names';
 var runTest = ruleTestBase.createRuleTest(rule,
   'Scenario name is already used in: <%= location %>');
 

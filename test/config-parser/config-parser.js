@@ -1,12 +1,12 @@
-const expect = require('chai').expect;
-require('mocha-sinon');
-const mockFs = require('mock-fs');
+import {expect} from 'chai';
+import 'mocha-sinon';
+import mockFs from 'mock-fs';
 
 var configParser;
 
 describe('Configuration parser', function() {
   beforeEach(function() {
-    configParser = require('../../dist/config-parser.js');
+    configParser = require('../../src/config-parser');
     this.sinon.stub(console, 'error');
     this.sinon.stub(process, 'exit');
   });

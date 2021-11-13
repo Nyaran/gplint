@@ -1,7 +1,6 @@
-var assert = require('chai').assert;
-var expect = require('chai').expect;
-var featureFinder = require('../../dist/feature-finder.js');
-var mockFs = require('mock-fs');
+import {assert, expect} from 'chai';
+import * as featureFinder from '../../src/feature-finder';
+import mockFs from 'mock-fs';
 
 describe('Feature finder', function() {
   beforeEach(function() {
