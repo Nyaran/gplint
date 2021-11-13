@@ -1,6 +1,6 @@
 # gplint (Gherkin/Pickle Linter)
 [![Test](https://github.com/Nyaran/gplint/actions/workflows/test.yml/badge.svg)](https://github.com/Nyaran/gplint/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/Nyaran/gplint/branch/develop/graph/badge.svg?token=JAAQ2DCW9D)](https://codecov.io/gh/Nyaran/gplint)
+[![codecov](https://codecov.io/gh/Nyaran/gplint/branch/main/graph/badge.svg?token=JAAQ2DCW9D)](https://codecov.io/gh/Nyaran/gplint)
 [![npm](https://img.shields.io/npm/dw/gplint)](https://www.npmjs.com/package/gplint)
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gplintrc` file.
@@ -19,7 +19,7 @@ git clone https://github.com/Nyaran/gplint.git
 npm run demo
 ```
 Or check this:
-![console demo](https://raw.githubusercontent.com/Nyaran/gplint/develop/demo.png)
+![console demo](https://raw.githubusercontent.com/Nyaran/gplint/main/demo.png)
 
 
 ## Available rules
