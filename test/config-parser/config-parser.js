@@ -1,18 +1,23 @@
 import {expect} from 'chai';
-import 'mocha-sinon';
 import mockFs from 'mock-fs';
-
-let configParser;
+import sinon from 'sinon';
+import * as configParser from '../../src/config-parser';
 
 describe('Configuration parser', function() {
   beforeEach(function() {
-    configParser = require('../../src/config-parser');
+    if (this.sinon == null) {
+      this.sinon = sinon.createSandbox();
+    } else {
+      this.sinon.restore();
+    }
+  });
+
+  beforeEach(function() {
     this.sinon.stub(console, 'error');
     this.sinon.stub(process, 'exit');
   });
 
   afterEach(function() {
-    configParser = undefined;
     console.error.restore(); // eslint-disable-line no-console
     process.exit.restore();
     mockFs.restore();
