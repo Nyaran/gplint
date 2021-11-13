@@ -1,8 +1,18 @@
 import {assert, expect} from 'chai';
-import * as featureFinder from '../../src/feature-finder';
 import mockFs from 'mock-fs';
+import sinon from 'sinon';
+
+import * as featureFinder from '../../src/feature-finder';
 
 describe('Feature finder', function() {
+  beforeEach(function() {
+    if (this.sinon == null) {
+      this.sinon = sinon.createSandbox();
+    } else {
+      this.sinon.restore();
+    }
+  });
+
   beforeEach(function() {
     this.sinon.stub(console, 'error');
     this.sinon.stub(process, 'exit');

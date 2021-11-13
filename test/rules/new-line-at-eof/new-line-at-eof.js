@@ -1,10 +1,20 @@
+import {expect} from 'chai';
+import sinon from 'sinon';
+
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/new-line-at-eof';
-import {expect} from 'chai';
+
 const runTestRequireNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is required');
 const runTestDisallowNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is not allowed');
 
 describe('New Line at EOF Rule', function() {
+  beforeEach(function() {
+    if (this.sinon == null) {
+      this.sinon = sinon.createSandbox();
+    } else {
+      this.sinon.restore();
+    }
+  });
 
   describe('configuration', function() {
     beforeEach(function() {

@@ -1,9 +1,8 @@
 import {assert} from 'chai';
 import _ from 'lodash';
 import * as linter from '../../src/linter';
-import 'mocha-sinon';
 
-function createRuleTest(rule, messageTemplate) {
+export function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
     const expectedErrors = _.map(expected, function(error) {
       return {
@@ -19,7 +18,3 @@ function createRuleTest(rule, messageTemplate) {
       });
   };
 }
-
-module.exports = {
-  createRuleTest: createRuleTest
-};
