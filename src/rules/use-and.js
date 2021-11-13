@@ -1,8 +1,8 @@
-const gherkinUtils = require('./utils/gherkin.js');
+import * as gherkinUtils from './utils/gherkin';
 
-const rule = 'use-and';
+export const name = 'use-and';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -14,7 +14,7 @@ function run({feature}) {
     let previousKeyword = undefined;
     if (node.steps) {
       node.steps.forEach(step => {
-        const keyword = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
+        const keyword = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
 
         if (keyword === 'and') {
           return;
@@ -33,13 +33,8 @@ function run({feature}) {
 function createError(step) {
   return {
     message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
-    rule   : rule,
+    rule   : name,
     line   : step.location.line,
     column : step.location.column,
   };
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

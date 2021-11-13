@@ -1,11 +1,12 @@
-const _ = require('lodash');
-const { GherkinStreams } = require('@cucumber/gherkin-streams');
-const fs = require('fs');
-const rules = require('./rules.js');
-const logger = require('./logger.js');
+import {GherkinStreams} from '@cucumber/gherkin-streams';
+import fs from 'fs';
+import _ from 'lodash';
 
-function readAndParseFile(filePath) {
-  let feature ='';
+import * as logger from './logger';
+import * as rules from './rules';
+
+export function readAndParseFile(filePath) {
+  let feature = '';
   let pickles = [];
   let parsingErrors = [];
   let fileContent = [];
@@ -58,8 +59,7 @@ function readAndParseFile(filePath) {
   });
 }
 
-
-function lint(files, configuration, additionalRulesDirs) {
+export function lint(files, configuration, additionalRulesDirs) {
   let results = [];
 
   return Promise.all(files.map((f) => {
@@ -75,7 +75,7 @@ function lint(files, configuration, additionalRulesDirs) {
         (parsingErrors) => {
           perFileErrors = parsingErrors;
         })
-      .finally(()=> {
+      .finally(() => {
         let fileBlob = {
           filePath: fs.realpathSync(f),
           errors: _.sortBy(perFileErrors, 'line')
@@ -89,7 +89,7 @@ function lint(files, configuration, additionalRulesDirs) {
 function processFatalErrors(errors) {
   let errorMsgs = [];
   if (errors.length > 1) {
-    const result = getFormatedTaggedBackgroundError(errors);
+    const result = getFormattedTaggedBackgroundError(errors);
     errors = result.errors;
     errorMsgs = result.errorMsgs;
   }
@@ -99,11 +99,11 @@ function processFatalErrors(errors) {
   return errorMsgs;
 }
 
-function getFormatedTaggedBackgroundError(errors) {
+function getFormattedTaggedBackgroundError(errors) {
   const errorMsgs = [];
   let index = 0;
   if (errors[0].message.includes('got \'Background') &&
-      errors[1].message.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
+    errors[1].message.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
 
     errorMsgs.push({
       message: 'Tags on Backgrounds are disallowed',
@@ -124,7 +124,6 @@ function getFormatedTaggedBackgroundError(errors) {
   return {errors: errors.slice(index), errorMsgs: errorMsgs};
 }
 
-
 /*eslint no-console: "off"*/
 function getFormattedFatalError(error) {
   const errorLine = error.message.match(/\((\d+):.*/)[1];
@@ -133,7 +132,7 @@ function getFormattedFatalError(error) {
   if (error.message.includes('got \'Background')) {
     errorMsg = 'Multiple "Background" definitions in the same file are disallowed';
     rule = 'up-to-one-background-per-file';
-  } else if(error.message.includes('got \'Feature')) {
+  } else if (error.message.includes('got \'Feature')) {
     errorMsg = 'Multiple "Feature" definitions in the same file are disallowed';
     rule = 'one-feature-per-file';
   } else if (
@@ -149,13 +148,8 @@ function getFormattedFatalError(error) {
   }
   return {
     message: errorMsg,
-    rule   : rule,
-    line   : errorLine,
+    rule: rule,
+    line: errorLine,
     column: 0
   };
 }
-
-module.exports = {
-  lint: lint,
-  readAndParseFile: readAndParseFile
-};

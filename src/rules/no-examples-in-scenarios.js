@@ -1,7 +1,7 @@
-const gherkinUtils = require('./utils/gherkin.js');
-const rule = 'no-examples-in-scenarios';
+import * as gherkinUtils from './utils/gherkin';
+export const name = 'no-examples-in-scenarios';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -10,10 +10,10 @@ function run({feature}) {
     if (child.scenario) {
       const nodeType = gherkinUtils.getNodeType(child.scenario, feature.language);
 
-      if (nodeType == 'Scenario' && child.scenario.examples.length) {
+      if (nodeType === 'Scenario' && child.scenario.examples.length) {
         errors.push({
           message: 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead',
-          rule   : rule,
+          rule   : name,
           line   : child.scenario.location.line,
           column : child.scenario.location.column,
         });
@@ -22,8 +22,3 @@ function run({feature}) {
   });
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-};

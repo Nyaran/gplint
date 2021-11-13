@@ -1,4 +1,4 @@
-var rule = 'custom';
+const rule = 'custom';
 
 function custom() {
   return [

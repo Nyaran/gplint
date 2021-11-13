@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const rule = 'name-length';
+import _ from 'lodash';
+export const name = 'name-length';
 
-const availableConfigs = {
+export const availableConfigs = {
   'Feature': 70,
   'Rule': 70,
   'Step': 70,
@@ -10,10 +10,10 @@ const availableConfigs = {
 
 let errors = [];
 
-function test(name, location, configuration, type) {
-  if (name && (name.length > configuration[type])) {
-    errors.push({message: type + ' name is too long. Length of ' + name.length + ' is longer than the maximum allowed: ' + configuration[type],
-      rule   : rule,
+function test(stepText, location, configuration, type) {
+  if (stepText && (stepText.length > configuration[type])) {
+    errors.push({message: type + ' name is too long. Length of ' + stepText.length + ' is longer than the maximum allowed: ' + configuration[type],
+      rule   : name,
       line   : location.line,
       column : location.column,
     });
@@ -27,7 +27,7 @@ function testSteps(node, mergedConfiguration) {
   });
 }
 
-function run({feature}, configuration) {
+export function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
@@ -51,9 +51,3 @@ function run({feature}, configuration) {
 
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

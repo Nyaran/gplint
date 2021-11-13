@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-trailing-spaces.js');
-var runTest = ruleTestBase.createRuleTest(rule, 'Trailing spaces are not allowed');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-trailing-spaces';
+const runTest = ruleTestBase.createRuleTest(rule, 'Trailing spaces are not allowed');
 
 describe('No Trailing Spaces Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

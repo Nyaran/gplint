@@ -1,11 +1,10 @@
-var assert = require('chai').assert;
-var _ = require('lodash');
-var linter = require('../../dist/linter.js');
-require('mocha-sinon');
+import {assert} from 'chai';
+import _ from 'lodash';
+import * as linter from '../../src/linter';
 
-function createRuleTest(rule, messageTemplate) {
+export function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
-    var expectedErrors = _.map(expected, function(error) {
+    const expectedErrors = _.map(expected, function(error) {
       return {
         rule: rule.name,
         message: _.template(messageTemplate)(error.messageElements),
@@ -19,7 +18,3 @@ function createRuleTest(rule, messageTemplate) {
       });
   };
 }
-
-module.exports = {
-  createRuleTest: createRuleTest
-};

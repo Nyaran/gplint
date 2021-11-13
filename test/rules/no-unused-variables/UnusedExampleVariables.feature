@@ -15,7 +15,7 @@ Scenario Outline: This is a Scenario Outline with an example variable that's not
     | 1 | 2 |
 
 
-Scenario Outline: This is a Scenario Outline with multiple examples, one of which contains and unsed variable
+Scenario Outline: This is a Scenario Outline with multiple examples, one of which contains and unused variable
   Given this is step <a>
 
   Examples:

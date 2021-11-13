@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-empty-background.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-empty-background';
+const runTest = ruleTestBase.createRuleTest(rule,
   'Empty backgrounds are not allowed.');
 
 describe('No empty Backgrounds Rule', function() {

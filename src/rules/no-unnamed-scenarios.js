@@ -1,6 +1,6 @@
-const rule = 'no-unnamed-scenarios';
+export const name = 'no-unnamed-scenarios';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -9,7 +9,7 @@ function run({feature}) {
     if (child.scenario && !child.scenario.name) {
       errors.push({
         message: 'Missing Scenario name',
-        rule   : rule,
+        rule   : name,
         line   : child.scenario.location.line,
         column : child.scenario.location.column,
       });
@@ -17,8 +17,3 @@ function run({feature}) {
   });
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

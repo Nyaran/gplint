@@ -1,7 +1,6 @@
-/*eslint no-console: "off"*/
-require('core-js/stable/string');
-const chalk = require('chalk');
-const os = require('os');
+import 'core-js/stable/string';
+import chalk from 'chalk';
+import os from 'os';
 
 function stylizeError(error, maxLineLength, maxMessageLength, addColors) {
   const indent = '  '; // indent 2 spaces so it looks pretty
@@ -58,7 +57,7 @@ function pluralize(word, count) {
   return (count === 1 ? word : `${word}s`);
 }
 
-module.exports = function (results) {
+export default function (results) {
   // If the console is tty, get its width and use it to ensure we don't try to write messages longer
   // than the console width when possible
   let consoleWidth = Infinity;
@@ -93,4 +92,4 @@ module.exports = function (results) {
   }
 
   return errorCount > 0 ? output : '';
-};
+}

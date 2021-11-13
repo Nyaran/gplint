@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const gherkinUtils = require('./utils/gherkin.js');
+import _ from 'lodash';
+import * as gherkinUtils from './utils/gherkin';
 
-const rule = 'indentation';
+export const name = 'indentation';
 const defaultConfig = {
   'Feature': 0,
   'Background': 0,
@@ -17,7 +17,7 @@ const defaultConfig = {
   'but': 2
 };
 
-const availableConfigs = _.merge({}, defaultConfig, {
+export const availableConfigs = _.merge({}, defaultConfig, {
   // The values here are unused by the config parsing logic.
   'feature tag': -1,
   'scenario tag': -1,
@@ -38,7 +38,7 @@ function mergeConfiguration(configuration) {
   return mergedConfiguration;
 }
 
-function run({feature}, configuration) {
+export function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
@@ -54,7 +54,7 @@ function run({feature}, configuration) {
         message: 'Wrong indentation for "' + type +
                             '", expected indentation level of ' + mergedConfiguration[type] +
                             ', but got ' + (parsedLocation.column - 1),
-        rule   : rule,
+        rule   : name,
         line   : parsedLocation.line,
         column : parsedLocation.column,
       });
@@ -62,7 +62,7 @@ function run({feature}, configuration) {
   }
 
   function testStep(step) {
-    let stepType = gherkinUtils.getLanguageInsitiveKeyword(step, feature.language);
+    let stepType = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
     stepType = stepType in configuration ? stepType : 'Step';
     test(step.location, stepType);
   }
@@ -104,9 +104,3 @@ function run({feature}, configuration) {
 
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

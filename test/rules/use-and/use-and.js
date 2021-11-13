@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/use-and.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/use-and';
+const runTest = ruleTestBase.createRuleTest(rule,
   'Step "<%= keyword %><%= text %>" should use And instead of <%= keyword %>');
 
 describe('Use And Rule', function() {
@@ -8,7 +8,7 @@ describe('Use And Rule', function() {
     return runTest('use-and/NoViolations.feature', {}, []);
   });
 
-  it('raises erros when there are violations', function() {
+  it('raises errors when there are violations', function() {
     return runTest('use-and/Violations.feature', {}, [
       {
         messageElements: { keyword: 'Given ', text: 'step5'},

@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-restricted-patterns.js');
-var runTest = ruleTestBase.createRuleTest(rule, '<%= nodeType %> <%= property %>: "<%= string %>" matches restricted pattern "/<%= pattern %>/i"');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-restricted-patterns';
+const runTest = ruleTestBase.createRuleTest(rule, '<%= nodeType %> <%= property %>: "<%= string %>" matches restricted pattern "/<%= pattern %>/i"');
 
 describe('No Restricted Patterns Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
@@ -11,7 +11,7 @@ describe('No Restricted Patterns Rule', function() {
   });
 
   it('detects errors in Feature names and descriptions that match the Feature or Global config', function() {
-    var configuration = {
+    const configuration = {
       'Feature': [
         '^.*disallowed.*$'
       ],
@@ -56,7 +56,7 @@ describe('No Restricted Patterns Rule', function() {
   });
 
   it('detects errors in Background descriptions and steps that match the Background or Global config', function() {
-    var configuration = {
+    const configuration = {
       'Background': [
         '^.*disallowed.*$'
       ],
@@ -101,7 +101,7 @@ describe('No Restricted Patterns Rule', function() {
   });
 
   it('detects errors in Scenario names, descriptions and steps that match the Background or Global config', function() {
-    var configuration = {
+    const configuration = {
       'Scenario': [
         '^.*disallowed.*$'
       ],
@@ -156,7 +156,7 @@ describe('No Restricted Patterns Rule', function() {
   });
 
   it('detects errors in ScenarioOutline names, descriptions and steps that match the Background or Global config', function() {
-    var configuration = {
+    const configuration = {
       'ScenarioOutline': [
         '^.*disallowed.*$'
       ],

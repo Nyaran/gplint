@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-unnamed-scenarios.js');
-var runTest = ruleTestBase.createRuleTest(rule, 'Missing Scenario name');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-unnamed-scenarios';
+const runTest = ruleTestBase.createRuleTest(rule, 'Missing Scenario name');
 
 describe('No Unnamed Scenarios Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

@@ -1,6 +1,6 @@
-const rule = 'no-empty-background';
+export const name = 'no-empty-background';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -20,14 +20,9 @@ function run({feature}) {
 function createError(background) {
   return {
     message: 'Empty backgrounds are not allowed.',
-    rule   : rule,
+    rule   : name,
     line   : background.location.line,
     column : background.location.column,
 
   };
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

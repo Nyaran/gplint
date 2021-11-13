@@ -1,7 +1,7 @@
-const rule = 'no-dupe-feature-names';
+export const name = 'no-dupe-feature-names';
 const features = [];
 
-function run({feature, file}) {
+export function run({feature, file}) {
   if (!feature) {
     return [];
   }
@@ -11,7 +11,7 @@ function run({feature, file}) {
     features[feature.name].files.push(file.relativePath);
     errors.push({
       message: 'Feature name is already used in: ' + dupes,
-      rule   : rule,
+      rule   : name,
       line   : feature.location.line,
       column : feature.location.column,
     });
@@ -21,8 +21,3 @@ function run({feature, file}) {
 
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

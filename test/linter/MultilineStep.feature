@@ -4,7 +4,7 @@ Feature: This is a
   Scenario: This is a
     multiline scenario name
 
-    Given this step is not mutiline
+    Given this step is not multiline
     And this step
      is multiline
     Then parsing fails

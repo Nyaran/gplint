@@ -1,5 +1,5 @@
-var rule = 'another-custom-list';
-var availableConfigs = {
+const rule = 'another-custom-list';
+const availableConfigs = {
   'element': []
 };
 

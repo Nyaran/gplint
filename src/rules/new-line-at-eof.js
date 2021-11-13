@@ -1,16 +1,16 @@
-const _ = require('lodash');
-const logger = require('./../logger.js');
+import _ from 'lodash';
+import * as logger from './../logger';
 
-const rule = 'new-line-at-eof';
-const availableConfigs = [
+export const name = 'new-line-at-eof';
+export const availableConfigs = [
   'yes',
   'no'
 ];
 
-function run({file}, configuration) {
+export function run({file}, configuration) {
   let errors = [];
   if (_.indexOf(availableConfigs, configuration) === -1) {
-    logger.boldError(rule + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
+    logger.boldError(name + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
     process.exit(1);
   }
 
@@ -25,7 +25,7 @@ function run({file}, configuration) {
   if (errormsg !== '') {
     errors.push({
       message: errormsg,
-      rule   : rule,
+      rule   : name,
       line   : file.lines.length,
       column : 0
     });
@@ -33,9 +33,3 @@ function run({file}, configuration) {
 
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

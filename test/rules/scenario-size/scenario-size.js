@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/scenario-size.js');
-var runTest = ruleTestBase.createRuleTest(rule, 'Element <%= type %> too long: actual <%= actual %>, expected <%= expected %>');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/scenario-size';
+const runTest = ruleTestBase.createRuleTest(rule, 'Element <%= type %> too long: actual <%= actual %>, expected <%= expected %>');
 
 describe('Scenario size Rule', function() {
   it('No violations for scenario-size', function() {

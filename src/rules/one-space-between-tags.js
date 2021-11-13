@@ -1,8 +1,8 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const rule = 'one-space-between-tags';
+export const name = 'one-space-between-tags';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return;
   }
@@ -34,7 +34,7 @@ function testTags(node, errors) {
             errors.push({
               line: tags[i].location.line,
               column: tags[i].location.column,
-              rule: rule,
+              rule: name,
               message: 'There is more than one space between the tags ' +
                         tags[i].name + ' and ' + tags[i + 1].name
             });
@@ -42,8 +42,3 @@ function testTags(node, errors) {
         });
     });
 }
-
-module.exports = {
-  run: run,
-  name: rule
-};

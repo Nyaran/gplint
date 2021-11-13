@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const rule = 'allowed-tags';
+import _ from 'lodash';
+export const name = 'allowed-tags';
 
-const availableConfigs = {
+export const availableConfigs = {
   'tags': [],
   'patterns': []
 };
 
-function run({feature}, configuration) {
+export function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
@@ -52,14 +52,8 @@ function isAllowed(tag, allowedTags, allowedPatterns) {
 function createError(node, tag) {
   return {
     message: 'Not allowed tag ' + tag.name + ' on ' + node.keyword,
-    rule   : rule,
+    rule   : name,
     line   : tag.location.line,
     column : tag.location.column,
   };
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

@@ -1,6 +1,6 @@
-const rule = 'no-background-only-scenario';
+export const name = 'no-background-only-scenario';
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -23,13 +23,8 @@ function run({feature}) {
 function createError(background) {
   return {
     message: 'Backgrounds are not allowed when there is just one scenario.',
-    rule   : rule,
+    rule   : name,
     line   : background.location.line,
     column : background.location.column,
   };
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

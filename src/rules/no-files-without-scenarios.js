@@ -1,10 +1,10 @@
-const rule = 'no-files-without-scenarios';
+export const name = 'no-files-without-scenarios';
 
 function filterScenarios(child) {
-  return child.scenario != undefined;
+  return child.scenario != null;
 }
 
-function run({feature}) {
+export function run({feature}) {
   if (!feature) {
     return [];
   }
@@ -12,15 +12,10 @@ function run({feature}) {
   if (!feature.children.some(filterScenarios)) {
     errors.push({
       message: 'Feature file does not have any Scenarios',
-      rule   : rule,
+      rule   : name,
       line   : 1,
       column: 0
     });
   }
   return errors;
 }
-
-module.exports = {
-  name: rule,
-  run: run
-};

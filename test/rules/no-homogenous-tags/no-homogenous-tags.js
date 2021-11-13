@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/no-homogenous-tags.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/no-homogenous-tags';
+const runTest = ruleTestBase.createRuleTest(rule,
   '<%= intro %> have the same tag(s), they should be defined on the <%= nodeType %> instead: <%= tags %>');
 
 describe('No Homogenous Tags Rule', function() {

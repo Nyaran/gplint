@@ -1,6 +1,6 @@
-var ruleTestBase = require('../rule-test-base');
-var rule = require('../../../dist/rules/name-length.js');
-var runTest = ruleTestBase.createRuleTest(rule,
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/name-length';
+const runTest = ruleTestBase.createRuleTest(rule,
   '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
 
 describe('Name length rule', function() {

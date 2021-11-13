@@ -1,6 +1,6 @@
-const convert = require('xml-js');
+import * as convert from 'xml-js';
 
-module.exports = function (results) {
+export default function (results) {
   const testCases = results.map(result => ({
     _attributes: {
       name : result.filePath
@@ -34,4 +34,4 @@ module.exports = function (results) {
     }
   };
   return convert.js2xml(testSuiteReport, {compact: true, spaces: 4});
-};
+}

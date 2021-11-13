@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const gherkinUtils = require('./utils/gherkin.js');
+import _ from 'lodash';
+import * as gherkinUtils from './utils/gherkin';
 
-const rule = 'no-restricted-tags';
-const availableConfigs = {
+export const name = 'no-restricted-tags';
+export const availableConfigs = {
   'tags': [],
   'patterns': []
 };
 
 
-function run({feature}, configuration) {
+export function run({feature}, configuration) {
   if (!feature) {
     return [];
   }
@@ -46,7 +46,7 @@ function checkTags(node, language, forbiddenTags, forbiddenPatterns, errors) {
     if (isForbidden(tag, forbiddenTags, forbiddenPatterns)) {
       errors.push({
         message: `Forbidden tag ${tag.name} on ${nodeType}`,
-        rule   : rule,
+        rule   : name,
         line   : tag.location.line,
         column : tag.location.column,
       });
@@ -60,9 +60,3 @@ function isForbidden(tag, forbiddenTags, forbiddenPatterns) {
     || forbiddenPatterns.some((pattern) => pattern.test(tag.name));
 }
 
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};

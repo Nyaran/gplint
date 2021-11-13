@@ -1,5 +1,5 @@
-const ruleTestBase = require('../rule-test-base');
-const rule = require('../../../dist/rules/table-align.js');
+import * as ruleTestBase from '../rule-test-base';
+import * as rule from '../../../src/rules/table-align';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Cell with value "<%= cellValue %>" is not aligned');
 

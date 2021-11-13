@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const Gherkin = require('@cucumber/gherkin');
+import _ from 'lodash';
+import * as Gherkin from '@cucumber/gherkin';
 
 // We use the node's keyword to determine the node's type
 // because it's the only way to distinguish a scenario with a scenario outline
-function getNodeType(node, language) {
-  const key = getLanguageInsitiveKeyword(node, language).toLowerCase();
+export function getNodeType(node, language) {
+  const key = getLanguageInsensitiveKeyword(node, language).toLowerCase();
   const stepKeys = [
     'given',
     'when',
@@ -31,13 +31,13 @@ function getNodeType(node, language) {
   return '';
 }
 
-function getLanguageInsitiveKeyword(node, language) {
+export function getLanguageInsensitiveKeyword(node, language) {
   const languageMapping = Gherkin.dialects[language];
 
   return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));
 }
 
-function getNodeForPickle(feature, pickle, forceExamplesLevel = false) {
+export function getNodeForPickle(feature, pickle, forceExamplesLevel = false) {
   let node = feature;
 
   for (const astNodeId of pickle.astNodeIds) {
@@ -59,9 +59,3 @@ function getNodeForPickle(feature, pickle, forceExamplesLevel = false) {
 
   return node;
 }
-
-module.exports = {
-  getNodeForPickleScenario: getNodeForPickle,
-  getNodeType,
-  getLanguageInsitiveKeyword,
-};

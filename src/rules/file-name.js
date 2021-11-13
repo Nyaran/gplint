@@ -1,11 +1,12 @@
-const path = require('path');
-const _ = require('lodash');
+import path from 'path';
+import _ from 'lodash';
 
-const rule = 'file-name';
-const availableConfigs = {
+export const name = 'file-name';
+export const availableConfigs = {
   'style': 'PascalCase',
   'allowAcronyms': false
 };
+
 const checkers = {
   'PascalCase': filename => _.startCase(filename).replace(/ /g, ''),
   'Title Case': filename => _.startCase(filename),
@@ -23,7 +24,7 @@ const checkers = {
   'snake_case': filename => _.snakeCase(filename)
 };
 
-function run({file}, configuration) {
+export function run({file}, configuration) {
   if (!file) {
     return [];
   }
@@ -38,14 +39,8 @@ function run({file}, configuration) {
   }
   return [{
     message: `File names should be written in ${style} e.g. "${expected}.feature"`,
-    rule: rule,
+    rule: name,
     line: 0,
     column: 0
   }];
 }
-
-module.exports = {
-  name: rule,
-  run: run,
-  availableConfigs: availableConfigs
-};
