@@ -21,7 +21,7 @@ describe('Config Verifier', function() {
       assert.deepEqual(verifyConfig.verifyConfigurationFile({'new-line-at-eof': ['on', 'yes']}), []);
     });
 
-    it('a rule config is an array of size 2, with an "on/off" state and a keyworded array', function() {
+    it('a rule config is an array of size 2, with an "on/off" state and a keyword based array', function() {
       assert.deepEqual(verifyConfig.verifyConfigurationFile({
         'indentation': ['on', { 'Feature': 1, 'Background': 1, 'Scenario': 1, 'Step': 1, 'given': 1, 'and': 1}]
       }), []);

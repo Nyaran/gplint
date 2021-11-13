@@ -1,7 +1,7 @@
 export const name = 'no-files-without-scenarios';
 
 function filterScenarios(child) {
-  return child.scenario != undefined;
+  return child.scenario != null;
 }
 
 export function run({feature}) {

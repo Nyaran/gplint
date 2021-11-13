@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-files-without-scenarios';
-var runTest = ruleTestBase.createRuleTest(rule, 'Feature file does not have any Scenarios');
+const runTest = ruleTestBase.createRuleTest(rule, 'Feature file does not have any Scenarios');
 
 describe('No Files Without Scenarios Rule', function() {
   it('doesn\'t raise errors when there is a scenario in a file', function() {

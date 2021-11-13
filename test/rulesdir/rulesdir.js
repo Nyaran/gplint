@@ -5,12 +5,12 @@ import * as configParser from '../../src/config-parser';
 
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', function() {
-    var additionalRulesDirs = [
+    const additionalRulesDirs = [
       path.join(__dirname, 'rules'), // absolute path
       path.join('test', 'rulesdir', 'other_rules') // relative path from root
     ];
-    var config = configParser.getConfiguration(path.join(__dirname, '.gplintrc'), additionalRulesDirs);
-    var featureFile = path.join(__dirname, 'simple.feature');
+    const config = configParser.getConfiguration(path.join(__dirname, '.gplintrc'), additionalRulesDirs);
+    const featureFile = path.join(__dirname, 'simple.feature');
     return linter.lint([ featureFile ], config, additionalRulesDirs)
       .then((results) => {
         expect(results).to.deep.equal([

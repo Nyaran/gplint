@@ -8,7 +8,7 @@ Feature: Multiline step in background
   Scenario Outline: This is a multiline
 scenario outline step scenario
 
-    Given this step is not mutiline <foo>
+    Given this step is not multiline <foo>
     And this step
      is multiline
 

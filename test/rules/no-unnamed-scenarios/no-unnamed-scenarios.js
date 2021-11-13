@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-unnamed-scenarios';
-var runTest = ruleTestBase.createRuleTest(rule, 'Missing Scenario name');
+const runTest = ruleTestBase.createRuleTest(rule, 'Missing Scenario name');
 
 describe('No Unnamed Scenarios Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

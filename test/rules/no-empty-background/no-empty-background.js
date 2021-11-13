@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-empty-background';
-var runTest = ruleTestBase.createRuleTest(rule,
+const runTest = ruleTestBase.createRuleTest(rule,
   'Empty backgrounds are not allowed.');
 
 describe('No empty Backgrounds Rule', function() {

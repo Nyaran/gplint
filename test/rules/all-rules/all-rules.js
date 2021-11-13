@@ -2,12 +2,12 @@ import * as rules from '../../../src/rules';
 import * as linter from '../../../src/linter';
 
 // Test cases for incomplete feature files that have broken over time across multiple rules
-describe('Malformated features do not break the linter', function() {
+describe('Malformed features do not break the linter', function() {
   function testRule(file, rule) {
-    var configuration = {};
-    if (rule == 'new-line-at-eof') {
+    const configuration = {};
+    if (rule === 'new-line-at-eof') {
       configuration[rule] = ['on', 'yes'];
-    } else if (rule == 'required-tags') {
+    } else if (rule === 'required-tags') {
       configuration[rule] = ['on', {'tags': [] }];
     } else {
       configuration[rule] = 'on';

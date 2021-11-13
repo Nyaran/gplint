@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-duplicate-tags';
-var runTest = ruleTestBase.createRuleTest(rule, 'Duplicate tags are not allowed: <%= tags %>');
+const runTest = ruleTestBase.createRuleTest(rule, 'Duplicate tags are not allowed: <%= tags %>');
 
 describe('No Duplicate Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

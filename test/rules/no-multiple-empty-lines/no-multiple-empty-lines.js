@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-multiple-empty-lines';
-var runTest = ruleTestBase.createRuleTest(rule, 'Multiple empty lines are not allowed');
+const runTest = ruleTestBase.createRuleTest(rule, 'Multiple empty lines are not allowed');
 
 describe('No Multiple Empty Lines Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

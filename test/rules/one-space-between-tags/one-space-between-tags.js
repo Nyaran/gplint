@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/one-space-between-tags';
-var runTest = ruleTestBase.createRuleTest(rule,
+const runTest = ruleTestBase.createRuleTest(rule,
   'There is more than one space between the tags <%= left %> and <%= right %>');
 
 describe('One Space Between Tags Rule', function() {

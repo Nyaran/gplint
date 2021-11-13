@@ -3,12 +3,12 @@ import * as rule from '../../../src/rules/no-unused-variables';
 
 describe('No Unused Variables Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
-    var runTest = ruleTestBase.createRuleTest(rule, '');
+    const runTest = ruleTestBase.createRuleTest(rule, '');
     return runTest('no-unused-variables/NoViolations.feature', {}, []);
   });
 
   it('detects unused scenario variables', function() {
-    var runTest = ruleTestBase.createRuleTest(rule,
+    const runTest = ruleTestBase.createRuleTest(rule,
       'Step variable "<%= variable %>" does not exist in the examples table');
 
     return runTest('no-unused-variables/UnusedStepVariables.feature', {}, [
@@ -41,7 +41,7 @@ describe('No Unused Variables Rule', function() {
   });
 
   it('detects unused variables in the examples table', function() {
-    var runTest = ruleTestBase.createRuleTest(rule,
+    const runTest = ruleTestBase.createRuleTest(rule,
       'Examples table variable "<%= variable %>" is not used in any step');
 
     return runTest('no-unused-variables/UnusedExampleVariables.feature', {}, [

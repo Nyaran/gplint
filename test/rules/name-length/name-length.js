@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/name-length';
-var runTest = ruleTestBase.createRuleTest(rule,
+const runTest = ruleTestBase.createRuleTest(rule,
   '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
 
 describe('Name length rule', function() {

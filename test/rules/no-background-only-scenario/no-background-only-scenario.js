@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-background-only-scenario';
-var runTest = ruleTestBase.createRuleTest(rule,
+const runTest = ruleTestBase.createRuleTest(rule,
   'Backgrounds are not allowed when there is just one scenario.');
 
 describe('No empty Backgrounds Rule', function() {

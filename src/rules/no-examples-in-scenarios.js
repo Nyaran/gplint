@@ -10,7 +10,7 @@ export function run({feature}) {
     if (child.scenario) {
       const nodeType = gherkinUtils.getNodeType(child.scenario, feature.language);
 
-      if (nodeType == 'Scenario' && child.scenario.examples.length) {
+      if (nodeType === 'Scenario' && child.scenario.examples.length) {
         errors.push({
           message: 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead',
           rule   : name,

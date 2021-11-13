@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import 'mocha-sinon';
 import mockFs from 'mock-fs';
 
-var configParser;
+let configParser;
 
 describe('Configuration parser', function() {
   beforeEach(function() {
@@ -20,10 +20,10 @@ describe('Configuration parser', function() {
 
   describe('early exits with a non 0 exit code when', function() {
     it('the specified config file doesn\'t exit', function() {
-      var configFilePath = './non/existing/path';
+      const configFilePath = './non/existing/path';
       configParser.getConfiguration(configFilePath);
 
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      const consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
       });
       expect(consoleErrorArgs[0]).to.include('Could not find specified config file "' + configFilePath + '"');
@@ -43,10 +43,10 @@ describe('Configuration parser', function() {
     });
 
     it('a bad configuration file is used', function() {
-      var configFilePath = 'test/config-parser/bad_config.gherkinrc';
+      const configFilePath = 'test/config-parser/bad_config.gplintrc';
       configParser.getConfiguration(configFilePath);
 
-      var consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+      const consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
       });
 
@@ -57,22 +57,21 @@ describe('Configuration parser', function() {
 
   describe('doesn\'t exit with exit code 1 when', function() {
     it('a good configuration file is used', function() {
-      var configFilePath = 'test/config-parser/good_config.gherkinrc';
-      var parsedConfig = configParser.getConfiguration(configFilePath);
+      const configFilePath = 'test/config-parser/good_config.gplintrc';
+      const parsedConfig = configParser.getConfiguration(configFilePath);
       expect(process.exit.neverCalledWith(1));
       expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
     });
 
     it('a good configuration file is used that includes comments', function() {
-      var configFilePath = 'test/config-parser/good_config_with_comments.gherkinrc';
-      var parsedConfig = configParser.getConfiguration(configFilePath);
+      const configFilePath = 'test/config-parser/good_config_with_comments.gplintrc';
+      const parsedConfig = configParser.getConfiguration(configFilePath);
       expect(process.exit.neverCalledWith(1));
       expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
     });
 
     it('the default configuration file is found', function() {
-      var defaultConfigFilePath = 'test/config-parser/stub_default.gherkinrc';
-      configParser.defaultConfigFileName = defaultConfigFilePath;
+      configParser.defaultConfigFileName = 'test/config-parser/stub_default.gplintrc';
       configParser.getConfiguration();
       expect(process.exit.neverCalledWith(1));
     });

@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-restricted-tags';
-var runTest = ruleTestBase.createRuleTest(rule, 'Forbidden tag <%= tag %> on <%= nodeType %>');
+const runTest = ruleTestBase.createRuleTest(rule, 'Forbidden tag <%= tag %> on <%= nodeType %>');
 
 describe('No Restricted Tags Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

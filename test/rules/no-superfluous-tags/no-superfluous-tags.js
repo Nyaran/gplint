@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-superfluous-tags';
-var runTest = ruleTestBase.createRuleTest(rule,
+const runTest = ruleTestBase.createRuleTest(rule,
   'Tag duplication between <%= childType %> and its corresponding <%=parentType %>: <%= tags %>');
 
 describe('No Superfluous Tags Rule', function() {

@@ -5,7 +5,7 @@ import 'mocha-sinon';
 
 function createRuleTest(rule, messageTemplate) {
   return function runTest(featureFile, configuration, expected) {
-    var expectedErrors = _.map(expected, function(error) {
+    const expectedErrors = _.map(expected, function(error) {
       return {
         rule: rule.name,
         message: _.template(messageTemplate)(error.messageElements),

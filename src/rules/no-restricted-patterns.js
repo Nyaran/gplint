@@ -87,8 +87,8 @@ function check(node, property, pattern, language, errors) {
   let strings = [node[property]];
   const type = gherkinUtils.getNodeType(node, language);
 
-  if (property == 'description') {
-    // Descriptions can be multiline, in which case the description will contain escapted
+  if (property === 'description') {
+    // Descriptions can be multiline, in which case the description will contain escaped
     // newline characters "\n". If a multiline description matches one of the restricted patterns
     // when the error message gets printed in the console, it will break the message into multiple lines.
     // So let's split the description on newline chars and test each line separately.

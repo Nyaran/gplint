@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-trailing-spaces';
-var runTest = ruleTestBase.createRuleTest(rule, 'Trailing spaces are not allowed');
+const runTest = ruleTestBase.createRuleTest(rule, 'Trailing spaces are not allowed');
 
 describe('No Trailing Spaces Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

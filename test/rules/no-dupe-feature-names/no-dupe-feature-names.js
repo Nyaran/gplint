@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-dupe-feature-names';
-var runTest = ruleTestBase.createRuleTest(rule,
+const runTest = ruleTestBase.createRuleTest(rule,
   'Feature name is already used in: <%= location %>');
 
 describe('No Duplicate Feature Names Rule', function() {

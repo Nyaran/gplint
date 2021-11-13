@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/scenario-size';
-var runTest = ruleTestBase.createRuleTest(rule, 'Element <%= type %> too long: actual <%= actual %>, expected <%= expected %>');
+const runTest = ruleTestBase.createRuleTest(rule, 'Element <%= type %> too long: actual <%= actual %>, expected <%= expected %>');
 
 describe('Scenario size Rule', function() {
   it('No violations for scenario-size', function() {

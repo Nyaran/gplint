@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-scenario-outlines-without-examples';
-var runTest = ruleTestBase.createRuleTest(rule,
+const runTest = ruleTestBase.createRuleTest(rule,
   'Scenario Outline does not have any Examples');
 
 describe('No scenario outlines without examples rule', function() {

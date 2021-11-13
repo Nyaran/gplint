@@ -12,7 +12,7 @@ export function getFeatureFiles(args, ignoreArg) {
   const patterns = args.length ? args : ['.'];
 
   patterns.forEach(pattern => {
-    // First we need to fix up the pattern so that it only matches .feature files
+    // First we need to fix up the pattern so that it only matches .feature files,
     // and it's in the format that glob expects it to be
     let fixedPattern;
     if (pattern === '.') {

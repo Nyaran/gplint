@@ -1,6 +1,6 @@
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/no-unnamed-features';
-var runTest = ruleTestBase.createRuleTest(rule, 'Missing Feature name');
+const runTest = ruleTestBase.createRuleTest(rule, 'Missing Feature name');
 
 describe('No Unnamed Features Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {
