@@ -3,7 +3,7 @@
   "version": "1.2.1",
   "description": "A Gherkin linter/validator written in javascript.",
   "author": "Luis Zurro",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Nyaran/gplint"
@@ -49,21 +49,21 @@
     "gplint": "bin/gplint.js"
   },
   "scripts": {
-    "build": "babel src -d dist",
+    "build": "babel src -d build",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "demo": "node ./dist/index.js -c ./test-data-wip/.gplintrc test-data-wip/**",
+    "demo": "node ./build/index.js -c ./test-data-wip/.gplintrc test-data-wip/**",
     "lint": "eslint ./src ./test",
     "mocha": "mocha --recursive",
     "prepare": "npm run build",
     "test": "run-s -c -n lint test:unit",
-    "test:unit": "nyc -include=dist/** npm run mocha"
+    "test:unit": "nyc npm run mocha"
   },
   "directories": {
     "lib": "./src",
     "test": "./test"
   },
   "files": [
-    "/dist",
+    "/build",
     "/CHANGELOG.md"
   ],
   "license": "ISC"
