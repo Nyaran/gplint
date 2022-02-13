@@ -69,10 +69,10 @@ Or check this:
 ## Rule Configuration
 The not-configurable rules are turned on by default and cannot be turned off. Configurable rules can be customized using a [file](#configuration-file).
 
-The configurable rules are off by default. To turn them on, you will need to create a json file, where you specify the name of each rule and its desired state (which can be "on" or "off"). Eg:
+The configurable rules are off by default. To turn them on, you will need to create a json file, where you specify the name of each rule and its desired level (which can be "error" or "warn" or "off"). Eg:
 ```
 {
-  "no-unnamed-features": "on"
+  "no-unnamed-features": "error"
 }
 ```
 will turn on the `no-unnamed-features` rule.
@@ -83,7 +83,7 @@ will turn on the `no-unnamed-features` rule.
 
 ```
 {
-  "allowed-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
+  "allowed-tags": ["error", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
 }
 ```
 
@@ -95,7 +95,7 @@ Any tag not included in this list won't be allowed.
 
 ```json
 {
-  "file-name": ["on", {"style": "PascalCase"}]
+  "file-name": ["error", {"style": "PascalCase"}]
 }
 ```
 
@@ -113,7 +113,7 @@ If you are using acronyms with the style `camelCase` and you want to preserve th
 
 ```json
 {
-  "file-name": ["on", {"style": "camelCase", "allowAcronyms": true}]
+  "file-name": ["error", {"style": "camelCase", "allowAcronyms": true}]
 }
 ```
 - `camelCase` - first letter of each word capitalized, except first e.g. "myFancyFeatureACRON.feature"
@@ -125,7 +125,7 @@ All patterns are treated as case-insensitive.
 The rule can be configured like this:
 ```
 {
-  "no-restricted-patterns": ["on", {
+  "no-restricted-patterns": ["error", {
     "Global": [
       "^globally restricted pattern"
     ],
@@ -160,7 +160,7 @@ You can override the defaults for `indentation` like this:
 ```
 {
   "indentation" : [
-    "on", {
+    "error", {
       "Feature": 0,
       "Background": 0,
       "Scenario": 0,
@@ -193,7 +193,7 @@ The `max-scenarios-per-file` supports some configuration options:
 The configuration looks like this (showing the defaults):
 ```
 {
-  "max-scenarios-per-file": ["on", {"maxScenarios": 10, "countOutlineExamples": true}]
+  "max-scenarios-per-file": ["error", {"maxScenarios": 10, "countOutlineExamples": true}]
 }
 ```
 
@@ -204,7 +204,7 @@ Example configuration wth default values:
 ```json
 {
   "max-tags-lines": [
-    "on",
+    "error",
     {
       "feature": 1,
       "scenario": 5,
@@ -222,7 +222,7 @@ The default is 70 characters for each of these:
 
 ```
 {
-  "name-length" : ["on", { "Feature": 70, "Scenario": 70, "Step": 70 }]
+  "name-length" : ["error", { "Feature": 70, "Scenario": 70, "Step": 70 }]
 }
 ```
 
@@ -233,13 +233,13 @@ The default is 70 characters for each of these:
 - To enforce new lines at EOF:
 ```
 {
-  "new-line-at-eof": ["on", "yes"]
+  "new-line-at-eof": ["error", "yes"]
 }
 ```
 - To disallow new lines at EOF:
 ```
 {
-  "new-line-at-eof": ["on", "no"]
+  "new-line-at-eof": ["error", "no"]
 }
 ```
 
@@ -251,7 +251,7 @@ To enable searching for duplicates in each individual feature (same scenario nam
 
 ```
 {
-  "no-dupe-scenario-names": ["on", "in-feature"]
+  "no-dupe-scenario-names": ["error", "in-feature"]
 }
 ```
 
@@ -259,7 +259,7 @@ The default case is testing against all the features (same scenario name in diff
 
 ```
 {
-  "no-dupe-scenario-names": "on"
+  "no-dupe-scenario-names": "error"
 }
 ```
 
@@ -267,7 +267,7 @@ or
 
 ```
 {
-  "no-dupe-scenario-names": ["on", "anywhere"]
+  "no-dupe-scenario-names": ["error", "anywhere"]
 }
 ```
 
@@ -277,7 +277,7 @@ To search for duplicated including compiled outlines in each individual feature:
 
 ```
 {
-  "no-dupe-scenario-names": ["on", "in-feature-compile"]
+  "no-dupe-scenario-names": ["error", "in-feature-compile"]
 }
 ```
 
@@ -285,7 +285,7 @@ To search for duplicated including compiled outlines against all the features:
 
 ```
 {
-  "no-dupe-scenario-names": ["on", "anywhere-compile"]
+  "no-dupe-scenario-names": ["error", "anywhere-compile"]
 }
 ```
 
@@ -293,7 +293,7 @@ To search for duplicated including compiled outlines against all the features:
 `no-restricted-tags` should be configured with the list of restricted tags and patterns:
 ```
 {
-  "no-restricted-tags": ["on", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
+  "no-restricted-tags": ["error", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
 }
 ```
 
@@ -319,7 +319,7 @@ perform the checks using always a RegExp.
 ```json
 {
   "required-tags": [
-    "on",
+    "error",
     {
       "global": ["/^@ID\\.APP-[0-9]+$/"],
       "feature": ["/@feature\\..+/"],
@@ -339,7 +339,7 @@ perform the checks using always a RegExp.
 `scenario-size` lets you specify a maximum step length for scenarios and backgrounds. The `Scenario` configuration applies to both scenarios and scenario outlines:
 ```
 {
-  "scenario-size": ["on", { "steps-length": { "Background": 15, "Scenario": 15 }}]
+  "scenario-size": ["error", { "steps-length": { "Background": 15, "Scenario": 15 }}]
 }
 ```
 
@@ -348,7 +348,7 @@ perform the checks using always a RegExp.
 `table-align` lets you specify if tables must be aligned or not. This can be activated for steps and for examples (by default both are activated):
 ```
 {
-  "table-align": ["on", { "steps": true, "examples": true }]
+  "table-align": ["error", { "steps": true, "examples": true }]
 }
 ```
 
@@ -361,10 +361,18 @@ If you are using a file with a different name or a file in a different folder, y
 
 You can find an example configuration file, that turns on all the rules in the root of this repo (.gplintrc).
 
+## Configure rule level
+Each should have a rule level configured, there are 3 available levels
+- "off" or "0": Turn the rule off.
+- "warn" or "1" or 1: Turn the rule on, without affection exit code.
+- "error" or "2" or 2: Turn the rule on, setting exit code to 1 when triggered.
+
+Note: "warn" can provoke an exit code 1 if `--max-warnings` is provided with 0 or greater value.
+
 ## Ignoring Feature Files
 There are 2 ways you can specify files that the linter should ignore:
 1. Add a `.gplintignore` file in your working directory and specify one glob pattern per file line
-1. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gplintignore` file.
+2. Use the command line option`-i` or `--ignore`,  pass in a comma separated list of glob patterns. If specified, the command line option will override the `.gplintignore` file.
 
 
 ## Custom rules
