@@ -1,5 +1,12 @@
 import glob from 'glob';
 import path from 'path';
+import _ from 'lodash';
+
+const LEVELS = [
+  'off',
+  'warn',
+  'error',
+];
 
 export function getAllRules(additionalRulesDirs) {
   let rules = {};
@@ -26,11 +33,29 @@ export function doesRuleExist(rule, additionalRulesDirs) {
   return getRule(rule, additionalRulesDirs) !== undefined;
 }
 
-export function isRuleEnabled(ruleConfig) {
-  if (Array.isArray(ruleConfig)) {
-    return ruleConfig[0] === 'on';
+export function getRuleLevel(ruleConfig, rule) {
+  const level = Array.isArray(ruleConfig) ? ruleConfig[0] : ruleConfig;
+
+  if (level === 'on') { // 'on' is deprecated, but still supported for backward compatibility, means error level.
+    console.warn('Level "on" is deprecated, please replace it with "error" or "warn" on your .gplintrc file.');
+    return 2;
   }
-  return ruleConfig === 'on';
+
+  if (level == null) {
+    return 0;
+  }
+
+  let levelNum = _.isNumber(level) ? level : _.toNumber(level);
+
+  if (isNaN(levelNum)) {
+    levelNum = LEVELS.indexOf(level);
+  }
+
+  if (levelNum < 0 || levelNum > 2) {
+    throw new Error(`Unknown level ${level} for ${rule}.`);
+  }
+
+  return levelNum;
 }
 
 export function runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs) {
@@ -38,10 +63,14 @@ export function runAllEnabledRules(feature, pickles, file, configuration, additi
   const rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
     let rule = rules[ruleName];
-    if (isRuleEnabled(configuration[rule.name])) {
+    const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
+
+    if (ruleLevel > 0) {
       const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
       const error = rule.run({feature, pickles, file}, ruleConfig);
-      if (error != null && error.length > 0) {
+
+      if (error?.length > 0) {
+        error.forEach(e => e.level = ruleLevel);
         errors = errors.concat(error);
       }
     }

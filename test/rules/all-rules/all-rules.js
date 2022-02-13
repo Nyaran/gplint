@@ -6,11 +6,11 @@ describe('Malformed features do not break the linter', function() {
   function testRule(file, rule) {
     const configuration = {};
     if (rule === 'new-line-at-eof') {
-      configuration[rule] = ['on', 'yes'];
+      configuration[rule] = ['error', 'yes'];
     } else if (rule === 'required-tags') {
-      configuration[rule] = ['on', {'tags': [] }];
+      configuration[rule] = ['error', {'tags': [] }];
     } else {
-      configuration[rule] = 'on';
+      configuration[rule] = 'error';
     }
     return linter.readAndParseFile('test/rules/all-rules/' + file, 'utf8')
       .then(({feature, pickles, file}) => {

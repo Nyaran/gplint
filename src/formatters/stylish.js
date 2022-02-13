@@ -1,17 +1,24 @@
 import 'core-js/stable/string';
+import * as os from 'os';
 import chalk from 'chalk';
-import os from 'os';
+import stripAnsi from 'strip-ansi';
+import table from 'text-table';
 
-function stylizeError(error, maxLineLength, maxMessageLength, addColors) {
-  const indent = '  '; // indent 2 spaces so it looks pretty
-  const padding = '    '; //padding of 4 spaces, will be used between line numbers, error msgs and rule names, for readability
+const LEVELS_CONFIG = [
+  undefined,
+  {name: 'warning', color: chalk.yellow},
+  {name: 'error', color: chalk.red},
+];
+
+function stylizeError(error, maxLineLength) {
   const errorLocation = getLocationString(error);
   const errorLocationPadded = errorLocation.padEnd(maxLineLength);
-  const errorLocationStylized = addColors ? chalk.gray(errorLocationPadded) : errorLocationPadded;
-  const level = 'error'; // forced as levels are not implemented.
+  const errorLocationStylized = chalk.gray(errorLocationPadded);
+  const level = LEVELS_CONFIG[error.level];
 
-  const errorRuleStylized = addColors ? chalk.gray(error.rule) : error.rule;
-  return indent + errorLocationStylized + padding + level + padding + error.message.padEnd(maxMessageLength) + padding + errorRuleStylized;
+  const errorRuleStylized = chalk.gray(error.rule);
+
+  return ['', errorLocationStylized, level.color(level.name), error.message, errorRuleStylized];
 }
 
 function getLocationString(loc) {
@@ -29,23 +36,6 @@ function getMaxLocationLength(result) {
   return length;
 }
 
-function getMaxMessageLength(result, maxLineLength, consoleWidth) {
-  let length = 0;
-  result.errors.forEach(error => {
-    const errorStr = error.message.toString();
-
-    // Get the length of the formatted error message when no extra padding is applied
-    // If the formatted message is longer than the console width, we will ignore its length
-    const expandedErrorStrLength = stylizeError(error, maxLineLength, 0, false).length;
-
-    if (errorStr.length > length && expandedErrorStrLength < consoleWidth) {
-      length = errorStr.length;
-    }
-  });
-
-  return length;
-}
-
 /**
  * Given a word and a count, append an s if count is not one.
  * (Based on eslint version)
@@ -58,38 +48,50 @@ function pluralize(word, count) {
 }
 
 export default function (results) {
-  // If the console is tty, get its width and use it to ensure we don't try to write messages longer
-  // than the console width when possible
-  let consoleWidth = Infinity;
-  if (process.stdout.isTTY) {
-    consoleWidth = process.stdout.columns;
-  }
-
   let output = '\n',
+    warnCount = 0,
     errorCount = 0;
 
   results.forEach(result => {
-    errorCount += result.errors.length;
+    result.errors.forEach(e => {
+      if (e.level === 1) {
+        warnCount++;
+      } else if (e.level === 2) {
+        errorCount++;
+      }
+    });
     if (result.errors.length > 0) {
       const maxLineLength = getMaxLocationLength(result);
-      const maxMessageLength = getMaxMessageLength(result, maxLineLength, consoleWidth);
       output += chalk.underline(result.filePath);
       output += os.EOL;
 
-      result.errors.forEach(error => {
-        output += stylizeError(error, maxLineLength, maxMessageLength, true);
-        output += os.EOL;
-      });
-      output += '\n';
+      output += table(
+        result.errors.map(error => stylizeError(error, maxLineLength)),
+        {
+          align: ['', 'r', 'l'],
+          stringLength: (str) => stripAnsi(str).length,
+        }
+      );
+      output += os.EOL + os.EOL;
     }
   });
 
-  if (errorCount > 0) {
-    output += chalk.red.bold([
-      '\u2716 ', errorCount, pluralize(' problem', errorCount),
+  const problemsCount = warnCount + errorCount;
+
+  if (problemsCount > 0) {
+    const color = errorCount > 0 ? chalk.red : chalk.yellow;
+
+    output += color.bold([
+      '\u2716 ',
+      problemsCount, pluralize(' problem', problemsCount),
+      ' (',
+      errorCount, pluralize(' error', errorCount),
+      ', ',
+      warnCount, pluralize(' warning', warnCount),
+      ')',
       '\n'
     ].join(''));
   }
 
-  return errorCount > 0 ? output : '';
+  return problemsCount > 0 ? output : '';
 }

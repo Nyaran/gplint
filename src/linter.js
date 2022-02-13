@@ -109,7 +109,8 @@ function getFormattedTaggedBackgroundError(errors) {
       message: 'Tags on Backgrounds are disallowed',
       rule: 'no-tags-on-backgrounds',
       line: errors[0].message.match(/\((\d+):.*/)[1],
-      column: 0
+      column: 0,
+      level: 2, // Force error
     });
 
     index = 2;
@@ -150,6 +151,7 @@ function getFormattedFatalError(error) {
     message: errorMsg,
     rule: rule,
     line: errorLine,
-    column: 0
+    column: 0,
+    level: 2, // Force error
   };
 }
