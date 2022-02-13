@@ -3,11 +3,21 @@
   "version": "1.2.1",
   "description": "A Gherkin linter/validator written in javascript.",
   "author": "Luis Zurro",
-  "main": "build/index.js",
+  "homepage": "https://github.com/Nyaran/gplint#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/Nyaran/gplint"
   },
+  "bugs": {
+    "url": "https://github.com/Nyaran/gplint/issues"
+  },
+  "funding": [
+    {
+      "type": "ko-fi",
+      "url": "https://ko-fi.com/nyaran"
+    }
+  ],
+  "license": "ISC",
   "keywords": [
     "gherkin",
     "pickle",
@@ -16,6 +26,20 @@
     "linter",
     "lint"
   ],
+  "main": "build/index.js",
+  "bin": {
+    "gplint": "bin/gplint.js"
+  },
+  "scripts": {
+    "build": "babel src -d build",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "demo": "node ./build/index.js -c ./test-data-wip/.gplintrc test-data-wip/**",
+    "lint": "eslint --max-warnings 0 ./src ./test",
+    "mocha": "mocha --recursive",
+    "prepare": "npm run build",
+    "test": "run-s -c -n lint test:unit",
+    "test:unit": "nyc npm run mocha"
+  },
   "dependencies": {
     "@cucumber/gherkin": "22.0.0",
     "@cucumber/gherkin-streams": "4.0.0",
@@ -46,19 +70,6 @@
   "engines": {
     "node": ">=10.0.0"
   },
-  "bin": {
-    "gplint": "bin/gplint.js"
-  },
-  "scripts": {
-    "build": "babel src -d build",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "demo": "node ./build/index.js -c ./test-data-wip/.gplintrc test-data-wip/**",
-    "lint": "eslint ./src ./test",
-    "mocha": "mocha --recursive",
-    "prepare": "npm run build",
-    "test": "run-s -c -n lint test:unit",
-    "test:unit": "nyc npm run mocha"
-  },
   "directories": {
     "lib": "./src",
     "test": "./test"
@@ -66,6 +77,5 @@
   "files": [
     "/build",
     "/CHANGELOG.md"
-  ],
-  "license": "ISC"
+  ]
 }
