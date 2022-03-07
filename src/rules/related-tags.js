@@ -1,0 +1,72 @@
+import * as _ from 'lodash';
+export const name = 'related-tags';
+
+export const availableConfigs = {
+  tags: {}
+};
+
+const REGEXP_EXPRESSION = /^\/(?<pattern>.+)\/(?<flags>.*)/;
+
+export function run({feature}, configuration) {
+  if (!feature) {
+    return [];
+  }
+
+  const errors = [];
+
+  const tags = parseTags(configuration.tags);
+
+  checkTags(feature, tags, errors);
+
+  for (const child of feature.children) {
+    if (child.scenario) {
+      checkTags(child.scenario, tags, errors);
+
+      for (const example of child.scenario.examples) {
+        checkTags(example, tags, errors);
+      }
+    }
+  }
+
+  return errors;
+}
+
+function parseTags(tags = {}) {
+  const parsedTags = {};
+
+  for (const [tag, relatedTags] of Object.entries(tags)) {
+    parsedTags[tag] = relatedTags.map(rt => {
+      const match = rt.match(REGEXP_EXPRESSION);
+      return match == null ? rt : new RegExp(match.groups.pattern, match.groups.flags);
+    });
+  }
+
+  return parsedTags;
+}
+
+function checkTags(node, tags, errors) {
+  const plainNodeTags = node.tags.map(t => t.name);
+
+  return node.tags
+    .filter(tag => Object.prototype.hasOwnProperty.call(tags, tag.name)
+      ? !tags[tag.name].some(relatedTag => checkRelatedTag(relatedTag, plainNodeTags))
+      : false)
+    .forEach(tag => {
+      errors.push(createError(tag, tags[tag.name]));
+    });
+}
+
+function checkRelatedTag(relatedTag, nodeTags) {
+  return _.isRegExp(relatedTag)
+    ? nodeTags.some(t => relatedTag.test(t))
+    : nodeTags.includes(relatedTag);
+}
+
+function createError(tag, relatedTags) {
+  return {
+    message: `Missing related tag. ${tag.name} requires ${relatedTags}`,
+    rule   : name,
+    line   : tag.location.line,
+    column : tag.location.column,
+  };
+}

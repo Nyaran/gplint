@@ -1,0 +1,5 @@
+{
+  "extends": "@istanbuljs/nyc-config-babel",
+  "all": true,
+  "report-dir": "./coverage"
+}
