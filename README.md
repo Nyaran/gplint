@@ -62,6 +62,7 @@ Or check this:
 | `no-unused-variables`                                         | Disallows unused variables in scenario outlines                                                                    |
 | `one-space-between-tags`                                      | Tags on the same line must be separated by a single space                                                          |
 | [`required-tags`](#required-tags)                             | Require tags/patterns of tags                                                                                      |
+| [`related-tags`](#related-tags)                               | Tags that requires other tags.                                                                                     |
 | [`scenario-size`](#scenario-size)                             | Allows restricting the maximum number of steps in a scenario, scenario outline and background                      |
 | [`table-align`](#table-align)                                 | Allows to force table alignment on steps and/or examples.                                                          |
 | `use-and`                                                     | Disallows repeated step names requiring use of And instead                                                         |
@@ -365,6 +366,21 @@ perform the checks using always a RegExp.
       "ignoreUntagged": false
     }
   ]
+}
+```
+
+### related-tags
+
+`related-tags` allow to define a list of tags with a list of related tags that should be present too. The related tags can be an string or a regular expression (represented as a string between slashes `/`)
+
+```json
+{
+  "related-tags": ["error", {
+    "tags": {
+      "@disable": ["/^@TICKET.PROJ-[0-9]+$/"],
+      "@a-tag": ["@otherTag", "@otherTagBis"]
+    }
+  }]
 }
 ```
 
