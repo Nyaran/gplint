@@ -7,10 +7,28 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 * Check on [changelog folder](changelog).
 
+## [1.3.0] - 2022-03-07
+### Added
+* Added rules `allow-all-caps` & `allow-all-lowercase` #123.
+* Support warn/error levels for rules. (on is assumed as error). #66
+* New cli parameter, `--max-warnings` to configure exit code based on number of warnings. #66
+* Added rule `related-tags`.
+
+### Changed
+* Migrated code and tests to pure babel.
+* Tests now use sources instead of compiled files.
+* Replace mocha-sinon package with direct use.
+* Moved dist to build (just bc personal preference).
+* Apply language tag to code blocks on README.
+* Babel/nyc tweaks.
+
+### Fixed
+* Fix `undefined` use on `availableConfig`.
+
 ## [1.2.1] - 2021-11-03
 ### Added
 * (internal) Created method `getNodeForPickle` to map nodes and pickles.
-* 
+
 ### Fixed
 * Fix and improve `required-tags` using global.
 
