@@ -32,7 +32,7 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
       isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs.includes(subConfig);
       testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
-      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs[subConfig] !== undefined;
+      isValidSubConfig = (availableConfigs, subConfig) => Object.prototype.hasOwnProperty.call(ruleObj.availableConfigs, subConfig);
       for (let subConfig in ruleConfig[1]) {
         testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }
