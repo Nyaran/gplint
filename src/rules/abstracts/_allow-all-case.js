@@ -38,7 +38,7 @@ export function run({feature}, configuration, {rule, caseMethod, errorMsg}) {
   function check(levelName, text, location) {
     const config = configOrGlobal(mergedConfig[levelName], mergedConfig.Global);
 
-    const isValid = config || caseMethod.call(text) !== text;
+    const isValid = config || text === '' || caseMethod.call(text) !== text;
 
     if (!isValid) {
       errors.push({

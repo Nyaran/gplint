@@ -32,6 +32,12 @@ export const tests = ({
         Global: false
       }, []);
     });
+
+    it('Global: false - no errors - empty texts', () => {
+      return runTest('allow-all-case/no-text.feature', {
+        Global: false
+      }, []);
+    });
   });
 
   describe('Nodes', () => {
