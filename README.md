@@ -8,16 +8,19 @@ Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature 
 Forked from [gherkin-lint](https://github.com/vsiakka/gherkin-lint)
 
 ## Installation
-```
+
+```shell
 npm install gplint
 ```
 
 ## Demo
 To see the output for all the errors that the linter can detect run:
-```
+
+```shell
 git clone https://github.com/Nyaran/gplint.git
 npm run demo
 ```
+
 Or check this:
 ![console demo](https://raw.githubusercontent.com/Nyaran/gplint/main/demo.png)
 
@@ -73,18 +76,20 @@ Or check this:
 The not-configurable rules are turned on by default and cannot be turned off. Configurable rules can be customized using a [file](#configuration-file).
 
 The configurable rules are off by default. To turn them on, you will need to create a json file, where you specify the name of each rule and its desired level (which can be "error" or "warn" or "off"). Eg:
-```
+
+```json
 {
   "no-unnamed-features": "error"
 }
 ```
+
 will turn on the `no-unnamed-features` rule.
 
 ### allowed-tags
 
 `allowed-tags` should be configured with the list of allowed tags and patterns:
 
-```
+```json
 {
   "allowed-tags": ["error", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
 }
@@ -158,7 +163,8 @@ If you are using acronyms with the style `camelCase` and you want to preserve th
 `no-restricted-patterns` is a list of exact or partial patterns whose matches are disallowed in feature name and description, and in background, scenario and scenario outline name, description and steps.
 All patterns are treated as case-insensitive.
 The rule can be configured like this:
-```
+
+```json
 {
   "no-restricted-patterns": ["error", {
     "Global": [
@@ -192,7 +198,8 @@ Notes:
 - Expected indentation for Steps and each example: 2 spaces
 
 You can override the defaults for `indentation` like this:
-```
+
+```json
 {
   "indentation" : [
     "error", {
@@ -208,7 +215,7 @@ You can override the defaults for `indentation` like this:
       "and": 2,
       "but": 2,
       "feature tag": 0,
-      "scenario tag": 0
+      "scenario tag": 0,
       "examples tag": 0
     }
   ]
@@ -226,7 +233,8 @@ The `max-scenarios-per-file` supports some configuration options:
 - `countOutlineExamples` (boolean) whether to count every example row for a Scenario Outline, as opposed to just 1 for the whole block - defaults to `true`
 
 The configuration looks like this (showing the defaults):
-```
+
+```json
 {
   "max-scenarios-per-file": ["error", {"maxScenarios": 10, "countOutlineExamples": true}]
 }
@@ -236,6 +244,7 @@ The configuration looks like this (showing the defaults):
 `max-tags-lines` lets the user specify the maximum allowed lines for tags per level type. Each level type can be configured separately.
 
 Example configuration wth default values:
+
 ```json
 {
   "max-tags-lines": [
@@ -255,7 +264,7 @@ Example configuration wth default values:
 `name-length` can be configured separately for Feature, Scenario and Step names.
 The default is 70 characters for each of these:
 
-```
+```json
 {
   "name-length" : ["error", { "Feature": 70, "Scenario": 70, "Step": 70 }]
 }
@@ -266,13 +275,15 @@ The default is 70 characters for each of these:
 
 `new-line-at-eof` can be configured to enforce or disallow new lines at EOF.
 - To enforce new lines at EOF:
-```
+
+```json
 {
   "new-line-at-eof": ["error", "yes"]
 }
 ```
 - To disallow new lines at EOF:
-```
+
+```json
 {
   "new-line-at-eof": ["error", "no"]
 }
@@ -284,7 +295,7 @@ The default is 70 characters for each of these:
 `no-dupe-scenario-names` can be configured to search for duplicates in each individual feature or amongst all feature files.
 To enable searching for duplicates in each individual feature (same scenario name in different features won't raise an error) you need to configure the rule like this:
 
-```
+```json
 {
   "no-dupe-scenario-names": ["error", "in-feature"]
 }
@@ -292,7 +303,7 @@ To enable searching for duplicates in each individual feature (same scenario nam
 
 The default case is testing against all the features (same scenario name in different features will raise an error). To get that behavior use the following configuration:
 
-```
+```json
 {
   "no-dupe-scenario-names": "error"
 }
@@ -300,7 +311,7 @@ The default case is testing against all the features (same scenario name in diff
 
 or
 
-```
+```json
 {
   "no-dupe-scenario-names": ["error", "anywhere"]
 }
@@ -310,7 +321,7 @@ Additionally, you can also look for duplicated on outline scenarios with variabl
 
 To search for duplicated including compiled outlines in each individual feature:
 
-```
+```json
 {
   "no-dupe-scenario-names": ["error", "in-feature-compile"]
 }
@@ -318,7 +329,7 @@ To search for duplicated including compiled outlines in each individual feature:
 
 To search for duplicated including compiled outlines against all the features:
 
-```
+```json
 {
   "no-dupe-scenario-names": ["error", "anywhere-compile"]
 }
@@ -326,7 +337,8 @@ To search for duplicated including compiled outlines against all the features:
 
 ### no-restricted-tags
 `no-restricted-tags` should be configured with the list of restricted tags and patterns:
-```
+
+```json
 {
   "no-restricted-tags": ["error", {"tags": ["@watch", "@wip"], "patterns": ["^@todo$"]}]
 }
@@ -387,7 +399,8 @@ perform the checks using always a RegExp.
 ### scenario-size
 
 `scenario-size` lets you specify a maximum step length for scenarios and backgrounds. The `Scenario` configuration applies to both scenarios and scenario outlines:
-```
+
+```json
 {
   "scenario-size": ["error", { "steps-length": { "Background": 15, "Scenario": 15 }}]
 }
@@ -396,7 +409,7 @@ perform the checks using always a RegExp.
 ### table-align
 
 `table-align` lets you specify if tables must be aligned or not. This can be activated for steps and for examples (by default both are activated):
-```
+```json
 {
   "table-align": ["error", { "steps": true, "examples": true }]
 }
@@ -429,7 +442,8 @@ There are 2 ways you can specify files that the linter should ignore:
 You can specify one more custom rules directories by using the `-r` or `--rulesdir` command line option. Rules in the given directories will be available additionally to the default rules.
 
 Example:
-```
+
+```bash
 gplint --rulesdir "/path/to/my/rulesdir" --rulesdir "from/cwd/rulesdir"
 ```
 
