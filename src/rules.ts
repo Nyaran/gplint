@@ -1,6 +1,8 @@
 import * as glob from 'glob';
 import * as path from 'path';
 import * as _ from 'lodash';
+import {FileBlob, Rule, RuleConfig, RuleError, Rules, RulesConfig, RuleSubConfig} from './types';
+import {Feature, Pickle} from '@cucumber/messages';
 
 const LEVELS = [
   'off',
@@ -8,8 +10,8 @@ const LEVELS = [
   'error',
 ];
 
-export function getAllRules(additionalRulesDirs) {
-  let rules = {};
+export function getAllRules(additionalRulesDirs: string[]): Rules {
+  const rules = {} as Rules;
 
   const rulesDirs = [
     path.join(__dirname, 'rules')
@@ -25,15 +27,15 @@ export function getAllRules(additionalRulesDirs) {
   return rules;
 }
 
-export function getRule(rule, additionalRulesDirs) {
+export function getRule(rule: string, additionalRulesDirs: string[]): Rule {
   return getAllRules(additionalRulesDirs)[rule];
 }
 
-export function doesRuleExist(rule, additionalRulesDirs) {
+export function doesRuleExist(rule: string, additionalRulesDirs: string[]): boolean {
   return getRule(rule, additionalRulesDirs) !== undefined;
 }
 
-export function getRuleLevel(ruleConfig, rule) {
+export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
   const level = Array.isArray(ruleConfig) ? ruleConfig[0] : ruleConfig;
 
   if (level === 'on') { // 'on' is deprecated, but still supported for backward compatibility, means error level.
@@ -58,15 +60,15 @@ export function getRuleLevel(ruleConfig, rule) {
   return levelNum;
 }
 
-export function runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs) {
-  let errors = [];
+export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileBlob, configuration: RulesConfig, additionalRulesDirs: string[]): RuleError[] {
+  let errors = [] as RuleError[];
   const rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
-    let rule = rules[ruleName];
+    const rule = rules[ruleName];
     const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
 
     if (ruleLevel > 0) {
-      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
+      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {} as RuleSubConfig;
       const error = rule.run({feature, pickles, file}, ruleConfig);
 
       if (error?.length > 0) {

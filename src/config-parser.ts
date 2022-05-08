@@ -1,10 +1,11 @@
 import * as fs from 'fs';
-import * as stripJsonComments from 'strip-json-comments';
+import stripJsonComments from 'strip-json-comments';
 import * as verifyConfig from './config-verifier';
 import * as logger from './logger';
+import {RulesConfig} from './types';
 export const defaultConfigFileName = '.gplintrc';
 
-export function getConfiguration(configPath, additionalRulesDirs) {
+export function getConfiguration(configPath: string, additionalRulesDirs: string[]): RulesConfig {
   if (configPath) {
     if (!fs.existsSync(configPath)) {
       logger.boldError('Could not find specified config file "' + configPath + '"');
@@ -18,7 +19,7 @@ export function getConfiguration(configPath, additionalRulesDirs) {
     }
     configPath = defaultConfigFileName;
   }
-  const config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'utf8'})));
+  const config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'utf8'}))) as RulesConfig;
   const errors = verifyConfig.verifyConfigurationFile(config, additionalRulesDirs);
 
   if (errors.length > 0) {

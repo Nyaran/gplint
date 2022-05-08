@@ -14,7 +14,7 @@ describe('Linter', function() {
   it('detects up-to-one-background-per-file violations', function() {
     let feature = 'test/linter/MultipleBackgrounds.feature';
     let expected = [{
-      'line': '9',
+      'line': 9,
       'column': 0,
       'message': 'Multiple "Background" definitions in the same file are disallowed',
       'rule': 'up-to-one-background-per-file',
@@ -26,7 +26,7 @@ describe('Linter', function() {
   it('detects no-tags-on-backgrounds violations', function() {
     let feature = 'test/linter/TagOnBackground.feature';
     let expected = [{
-      'line': '4',
+      'line': 4,
       'column': 0,
       'message': 'Tags on Backgrounds are disallowed',
       'rule': 'no-tags-on-backgrounds',
@@ -39,7 +39,7 @@ describe('Linter', function() {
   it('detects one-feature-per-file violations', function() {
     let feature = 'test/linter/MultipleFeatures.feature';
     let expected = [{
-      'line': '7',
+      'line': 7,
       'column': 0,
       'message': 'Multiple "Feature" definitions in the same file are disallowed',
       'rule': 'one-feature-per-file',
@@ -51,7 +51,7 @@ describe('Linter', function() {
   it('detects no-multiline-steps violations', function() {
     let feature = 'test/linter/MultilineStep.feature';
     let expected = [{
-      'line': '9',
+      'line': 9,
       'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
       'rule': 'no-multiline-steps',
@@ -63,7 +63,7 @@ describe('Linter', function() {
   it('detects no-multiline-steps violations in backgrounds', function() {
     let feature = 'test/linter/MultilineBackgroundStep.feature';
     let expected = [{
-      'line': '5',
+      'line': 5,
       'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
       'rule': 'no-multiline-steps',
@@ -75,7 +75,7 @@ describe('Linter', function() {
   it('detects no-multiline-steps violations in scenario outlines', function() {
     let feature = 'test/linter/MultilineScenarioOutlineStep.feature';
     let expected = [{
-      'line': '9',
+      'line': 9,
       'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
       'rule': 'no-multiline-steps',

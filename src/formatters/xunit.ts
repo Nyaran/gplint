@@ -1,10 +1,11 @@
 import * as convert from 'xml-js';
+import {ErrorsByFile, RuleError} from '../types';
 
-function getMessageLevel(message) {
+function getMessageLevel(message: RuleError): string {
   return message.level === 2 ? 'Error' : 'Warning';
 }
 
-export default function (results) {
+export function print(results: ErrorsByFile[]): string {
   const testCases = results.map(result => ({
     _attributes: {
       name: result.filePath

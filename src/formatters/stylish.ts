@@ -1,8 +1,9 @@
 import 'core-js/stable/string';
 import * as os from 'os';
-import * as chalk from 'chalk';
-import * as stripAnsi from 'strip-ansi';
-import * as table from 'text-table';
+import chalk from 'chalk';
+import stripAnsi from 'strip-ansi';
+import table from 'text-table';
+import {ErrorsByFile, RuleError} from '../types';
 
 const LEVELS_CONFIG = [
   undefined,
@@ -10,7 +11,7 @@ const LEVELS_CONFIG = [
   {name: 'error', color: chalk.red},
 ];
 
-function stylizeError(error, maxLineLength) {
+function stylizeError(error: RuleError, maxLineLength: number): string[] {
   const errorLocation = getLocationString(error);
   const errorLocationPadded = errorLocation.padEnd(maxLineLength);
   const errorLocationStylized = chalk.gray(errorLocationPadded);
@@ -21,11 +22,11 @@ function stylizeError(error, maxLineLength) {
   return ['', errorLocationStylized, level.color(level.name), error.message, errorRuleStylized];
 }
 
-function getLocationString(loc) {
+function getLocationString(loc: RuleError): string {
   return `${loc.line}:${loc.column ? loc.column : '0'}`;
 }
 
-function getMaxLocationLength(result) {
+function getMaxLocationLength(result: ErrorsByFile): number {
   let length = 0;
   result.errors.forEach(error => {
     const errorStr = getLocationString(error);
@@ -43,11 +44,11 @@ function getMaxLocationLength(result) {
  * @param {int} count A number controlling whether word should be pluralized.
  * @returns {string} The original word with an s on the end if count is not one.
  */
-function pluralize(word, count) {
+function pluralize(word: string, count: number): string {
   return (count === 1 ? word : `${word}s`);
 }
 
-export default function (results) {
+export function print(results: ErrorsByFile[]): string {
   let output = '\n',
     warnCount = 0,
     errorCount = 0;
@@ -68,8 +69,8 @@ export default function (results) {
       output += table(
         result.errors.map(error => stylizeError(error, maxLineLength)),
         {
-          align: ['', 'r', 'l'],
-          stringLength: (str) => stripAnsi(str).length,
+          align: ['.', 'r', 'l'],
+          stringLength: (str: string): number => stripAnsi(str).length,
         }
       );
       output += os.EOL + os.EOL;

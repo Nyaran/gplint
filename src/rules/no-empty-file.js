@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 export const name = 'no-empty-file';
 
 export function run({feature}) {

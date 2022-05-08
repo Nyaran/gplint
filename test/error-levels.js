@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {getRuleLevel} from '../src/rules.js';
+import {getRuleLevel} from '../src/rules';
 import * as sinon from 'sinon';
 
 describe('Levels config', () => {

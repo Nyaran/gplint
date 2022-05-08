@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as gherkinUtils from './utils/gherkin';
 
 export const name = 'scenario-size';

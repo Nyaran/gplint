@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import * as mockFs from 'mock-fs';
+import mockFs from 'mock-fs';
 import * as sinon from 'sinon';
 import * as configParser from '../../src/config-parser';
 

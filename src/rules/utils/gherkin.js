@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as Gherkin from '@cucumber/gherkin';
 
 // We use the node's keyword to determine the node's type

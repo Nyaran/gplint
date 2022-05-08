@@ -4,12 +4,13 @@ import * as linter from './linter';
 import * as featureFinder from './feature-finder';
 import * as configParser from './config-parser';
 import * as logger from './logger';
+import {CliOptions, ErrorsByFile} from './types';
 
-function list(val) {
+function list(val: string): string[] {
   return val.split(',');
 }
 
-function collect(val, memo) {
+function collect(val: string, memo: string[]): string[] {
   memo.push(val);
   return memo;
 }
@@ -20,20 +21,21 @@ program
   .option('-i, --ignore <...>', `comma seperated list of files/glob patterns that the linter should ignore, overrides ${featureFinder.defaultIgnoreFileName} file`, list)
   .option('-c, --config [config]', `configuration file, defaults to ${configParser.defaultConfigFileName}`)
   .option('-r, --rulesdir <...>', 'additional rule directories', collect, [])
-  .option('--max-warnings <...>', 'additional rule directories', -1)
+  .option('--max-warnings <...>', 'additional rule directories', '-1')
   .parse(process.argv);
 
-const options = program.opts();
+const options = program.opts() as CliOptions;
 const additionalRulesDirs = options.rulesdir;
 const files = featureFinder.getFeatureFiles(program.args, options.ignore);
 const config = configParser.getConfiguration(options.config, additionalRulesDirs);
+
 linter.lint(files, config, additionalRulesDirs)
-  .then((results) => {
-    printResults(results, options.format);
+  .then(async (results) => {
+    await printResults(results, options.format);
     process.exit(getExitCode(results, options));
   });
 
-function getExitCode(results, {maxWarnings}) {
+function getExitCode(results: ErrorsByFile[], {maxWarnings}: CliOptions): number {
   let exitCode = 0;
 
   const {warnCount, errorCount} = countErrors(results);
@@ -48,7 +50,7 @@ function getExitCode(results, {maxWarnings}) {
   return exitCode;
 }
 
-function countErrors(results) {
+function countErrors(results: ErrorsByFile[]): {warnCount: number, errorCount: number} {
   let warnCount = 0,
     errorCount = 0;
 
@@ -63,17 +65,17 @@ function countErrors(results) {
   return {warnCount, errorCount};
 }
 
-function printResults(results, format) {
+async function printResults(results: ErrorsByFile[], format: string): Promise<void> {
   let formatter;
   if (format === 'json') {
-    formatter = require('./formatters/json').default;
+    formatter = await import('./formatters/json');
   } else if (format === 'xunit') {
-    formatter = require('./formatters/xunit').default;
+    formatter = await import('./formatters/xunit');
   } else if (!format || format === 'stylish') {
-    formatter = require('./formatters/stylish').default;
+    formatter = await import('./formatters/stylish');
   } else {
     logger.boldError('Unsupported format. The supported formats are json, xunit and stylish.');
     process.exit(1);
   }
-  console.log(formatter(results));
+  console.log(formatter.print(results));
 }

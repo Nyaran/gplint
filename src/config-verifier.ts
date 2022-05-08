@@ -1,8 +1,9 @@
 import * as rules from './rules';
+import {RuleConfig, RulesConfig, RuleSubConfig} from './types';
 
-export function verifyConfigurationFile(config, additionalRulesDirs) {
-  let errors = [];
-  for (let rule in config) {
+export function verifyConfigurationFile(config: RulesConfig, additionalRulesDirs: string[]): string[] {
+  const errors = [];
+  for (const rule in config) {
     if (!rules.doesRuleExist(rule, additionalRulesDirs)) {
       errors.push(`Rule "${rule}" does not exist`);
     } else {
@@ -12,7 +13,7 @@ export function verifyConfigurationFile(config, additionalRulesDirs) {
   return errors;
 }
 
-function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) {
+function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, additionalRulesDirs: string[], errors: string[]): void {
   const enablingSettings = ['off', '0', 'warn', '1', 'error', 'on', '2'];
   const genericErrorMsg = `Invalid rule configuration for "${rule}" -`;
 
@@ -29,11 +30,11 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
     let isValidSubConfig;
 
     if (typeof(ruleConfig[1]) === 'string') {
-      isValidSubConfig = (availableConfigs, subConfig) => ruleObj.availableConfigs.includes(subConfig);
+      isValidSubConfig = (availableConfigs: unknown, subConfig: string): boolean => (ruleObj.availableConfigs as string[]).includes(subConfig);
       testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
-      isValidSubConfig = (availableConfigs, subConfig) => Object.prototype.hasOwnProperty.call(ruleObj.availableConfigs, subConfig);
-      for (let subConfig in ruleConfig[1]) {
+      isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig): boolean => Object.prototype.hasOwnProperty.call(ruleObj.availableConfigs, subConfig);
+      for (const subConfig in ruleConfig[1]) {
         testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }
     }
@@ -44,7 +45,7 @@ function verifyRuleConfiguration(rule, ruleConfig, additionalRulesDirs, errors) 
   }
 }
 
-function testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors) {
+function testSubconfig(genericErrorMsg: string, rule: string, subConfig: RuleSubConfig, isValidSubConfig: (availableConfigs: unknown, subConfig: RuleSubConfig | string) => boolean, additionalRulesDirs: string[], errors: string[]): void {
   const ruleObj = rules.getRule(rule, additionalRulesDirs);
   if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
     errors.push(`${genericErrorMsg} The rule does not have the specified configuration option "${subConfig}"`);

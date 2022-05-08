@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 export const name = 'name-length';
 
 export const availableConfigs = {

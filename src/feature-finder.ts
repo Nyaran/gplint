@@ -4,11 +4,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as logger from './logger';
 
-const defaultIgnoreFileName = '.gplintignore';
+export const defaultIgnoreFileName = '.gplintignore';
 const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
-export function getFeatureFiles(args, ignoreArg) {
-  let files = [];
+export function getFeatureFiles(args: string[], ignoreArg: string[]): string[] {
+  let files = [] as string[];
   const patterns = args.length ? args : ['.'];
 
   patterns.forEach(pattern => {
@@ -48,7 +48,7 @@ export function getFeatureFiles(args, ignoreArg) {
   return _.uniq(files);
 }
 
-export function getIgnorePatterns(ignoreArg) {
+export function getIgnorePatterns(ignoreArg: string[]): string | string[] {
   if (ignoreArg) {
     return ignoreArg;
   } else if (fs.existsSync(defaultIgnoreFileName)) {

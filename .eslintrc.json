@@ -4,14 +4,18 @@
     "mocha": true,
     "es6": true
   },
-  "extends": [
-    "eslint:recommended"
-  ],
   "parser":  "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2022
   },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "indent": [
       "error",
@@ -35,6 +39,9 @@
     "space-before-blocks": [
       "error",
       "always"
-    ]
+    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-var-requires": "off"
   }
 }

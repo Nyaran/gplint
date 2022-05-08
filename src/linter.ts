@@ -1,15 +1,17 @@
-import {GherkinStreams} from '@cucumber/gherkin-streams';
 import * as fs from 'fs';
 import * as _ from 'lodash';
+import {Feature, ParseError, Pickle} from '@cucumber/messages';
+import {GherkinStreams} from '@cucumber/gherkin-streams';
 
 import * as logger from './logger';
 import * as rules from './rules';
+import {Errors, ErrorsByFile, GherkinData, GherkinError, RuleError, RulesConfig} from './types';
 
-export function readAndParseFile(filePath) {
-  let feature = '';
-  let pickles = [];
-  let parsingErrors = [];
-  let fileContent = [];
+export function readAndParseFile(filePath: string): Promise<GherkinData> {
+  let feature: Feature;
+  const pickles = [] as Pickle[];
+  const parsingErrors = [] as ParseError[];
+  let fileContent = [] as string[];
 
   return new Promise((resolve, reject) => {
     const options = {
@@ -38,8 +40,7 @@ export function readAndParseFile(filePath) {
 
     stream.on('error', data => {
       logger.error(`Gherkin emitted an error while parsing ${filePath}: ${data}`);
-      let error = {data: data};
-      reject(processFatalErrors(error));
+      reject(processFatalErrors([{message: data.message}]));
     });
 
     stream.on('end', () => {
@@ -59,11 +60,11 @@ export function readAndParseFile(filePath) {
   });
 }
 
-export function lint(files, configuration, additionalRulesDirs) {
-  let results = [];
+export function lint(files: string[], configuration: RulesConfig, additionalRulesDirs: string[]): Promise<ErrorsByFile[]> {
+  const results = [] as ErrorsByFile[];
 
   return Promise.all(files.map((f) => {
-    let perFileErrors = [];
+    let perFileErrors = [] as RuleError[];
 
     return readAndParseFile(f)
       .then(
@@ -76,7 +77,7 @@ export function lint(files, configuration, additionalRulesDirs) {
           perFileErrors = parsingErrors;
         })
       .finally(() => {
-        let fileBlob = {
+        const fileBlob = {
           filePath: fs.realpathSync(f),
           errors: _.sortBy(perFileErrors, 'line')
         };
@@ -86,21 +87,21 @@ export function lint(files, configuration, additionalRulesDirs) {
   })).then(() => results);
 }
 
-function processFatalErrors(errors) {
-  let errorMsgs = [];
+function processFatalErrors(errors: GherkinError[]): RuleError[] {
+  let errorMsgs = [] as RuleError[];
   if (errors.length > 1) {
     const result = getFormattedTaggedBackgroundError(errors);
     errors = result.errors;
     errorMsgs = result.errorMsgs;
   }
-  errors.forEach(error => {
+  errors.forEach((error: ParseError) => {
     errorMsgs.push(getFormattedFatalError(error));
   });
   return errorMsgs;
 }
 
-function getFormattedTaggedBackgroundError(errors) {
-  const errorMsgs = [];
+function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
+  const errorMsgs = [] as RuleError[];
   let index = 0;
   if (errors[0].message.includes('got \'Background') &&
     errors[1].message.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
@@ -108,7 +109,7 @@ function getFormattedTaggedBackgroundError(errors) {
     errorMsgs.push({
       message: 'Tags on Backgrounds are disallowed',
       rule: 'no-tags-on-backgrounds',
-      line: errors[0].message.match(/\((\d+):.*/)[1],
+      line: parseInt(errors[0].message.match(/\((\d+):.*/)[1]),
       column: 0,
       level: 2, // Force error
     });
@@ -122,12 +123,12 @@ function getFormattedTaggedBackgroundError(errors) {
       }
     }
   }
-  return {errors: errors.slice(index), errorMsgs: errorMsgs};
+  return {errors: errors.slice(index), errorMsgs};
 }
 
 /*eslint no-console: "off"*/
-function getFormattedFatalError(error) {
-  const errorLine = error.message.match(/\((\d+):.*/)[1];
+function getFormattedFatalError(error: RuleError|ParseError): RuleError {
+  const errorLine = parseInt(error.message.match(/\((\d+):.*/)[1]);
   let errorMsg;
   let rule;
   if (error.message.includes('got \'Background')) {
