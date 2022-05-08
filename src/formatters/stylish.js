@@ -1,8 +1,8 @@
 import 'core-js/stable/string';
 import * as os from 'os';
-import chalk from 'chalk';
-import stripAnsi from 'strip-ansi';
-import table from 'text-table';
+import * as chalk from 'chalk';
+import * as stripAnsi from 'strip-ansi';
+import * as table from 'text-table';
 
 const LEVELS_CONFIG = [
   undefined,

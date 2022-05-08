@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import * as logger from './../logger';
 
 export const name = 'new-line-at-eof';

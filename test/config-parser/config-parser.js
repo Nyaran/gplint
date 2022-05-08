@@ -1,6 +1,6 @@
 import {expect} from 'chai';
-import mockFs from 'mock-fs';
-import sinon from 'sinon';
+import * as mockFs from 'mock-fs';
+import * as sinon from 'sinon';
 import * as configParser from '../../src/config-parser';
 
 describe('Configuration parser', function () {

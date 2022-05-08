@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import sinon from 'sinon';
+import * as sinon from 'sinon';
 
 import * as ruleTestBase from '../rule-test-base';
 import * as rule from '../../../src/rules/new-line-at-eof';

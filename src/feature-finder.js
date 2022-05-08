@@ -1,7 +1,7 @@
-import _ from 'lodash';
-import glob from 'glob';
-import fs from 'fs';
-import path from 'path';
+import * as _ from 'lodash';
+import * as glob from 'glob';
+import * as fs from 'fs';
+import * as path from 'path';
 import * as logger from './logger';
 
 const defaultIgnoreFileName = '.gplintignore';

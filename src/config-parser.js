@@ -1,5 +1,5 @@
-import fs from 'fs';
-import stripJsonComments from 'strip-json-comments';
+import * as fs from 'fs';
+import * as stripJsonComments from 'strip-json-comments';
 import * as verifyConfig from './config-verifier';
 import * as logger from './logger';
 export const defaultConfigFileName = '.gplintrc';

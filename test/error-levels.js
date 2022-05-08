@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {getRuleLevel} from '../src/rules.js';
-import sinon from 'sinon';
+import * as sinon from 'sinon';
 
 describe('Levels config', () => {
   it('name to number', () => {

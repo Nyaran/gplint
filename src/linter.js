@@ -1,6 +1,6 @@
 import {GherkinStreams} from '@cucumber/gherkin-streams';
-import fs from 'fs';
-import _ from 'lodash';
+import * as fs from 'fs';
+import * as _ from 'lodash';
 
 import * as logger from './logger';
 import * as rules from './rules';

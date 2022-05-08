@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import * as linter from '../../src/linter';
 
 export function createRuleTest(rule, messageTemplate) {

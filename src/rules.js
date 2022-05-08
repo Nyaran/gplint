@@ -1,6 +1,6 @@
-import glob from 'glob';
-import path from 'path';
-import _ from 'lodash';
+import * as glob from 'glob';
+import * as path from 'path';
+import * as _ from 'lodash';
 
 const LEVELS = [
   'off',

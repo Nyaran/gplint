@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import {expect} from 'chai';
 import * as linter from '../../src/linter';
 import * as configParser from '../../src/config-parser';

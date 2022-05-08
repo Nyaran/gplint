@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 export const name = 'max-tags-lines';
 export const availableConfigs = {
