@@ -12,6 +12,7 @@
     "removeComments": false,
     "strictFunctionTypes": false,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "noEmitOnError": true,
     "noLib": false,
     "emitDecoratorMetadata": true,

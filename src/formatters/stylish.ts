@@ -3,7 +3,7 @@ import * as os from 'os';
 import chalk from 'chalk';
 import stripAnsi from 'strip-ansi';
 import table from 'text-table';
-import {ErrorsByFile, RuleError} from '../types';
+import {ErrorsByFile, RuleErrorLevel} from '../types';
 
 const LEVELS_CONFIG = [
   undefined,
@@ -11,7 +11,7 @@ const LEVELS_CONFIG = [
   {name: 'error', color: chalk.red},
 ];
 
-function stylizeError(error: RuleError, maxLineLength: number): string[] {
+function stylizeError(error: RuleErrorLevel, maxLineLength: number): string[] {
   const errorLocation = getLocationString(error);
   const errorLocationPadded = errorLocation.padEnd(maxLineLength);
   const errorLocationStylized = chalk.gray(errorLocationPadded);
@@ -22,7 +22,7 @@ function stylizeError(error: RuleError, maxLineLength: number): string[] {
   return ['', errorLocationStylized, level.color(level.name), error.message, errorRuleStylized];
 }
 
-function getLocationString(loc: RuleError): string {
+function getLocationString(loc: RuleErrorLevel): string {
   return `${loc.line}:${loc.column ? loc.column : '0'}`;
 }
 

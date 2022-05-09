@@ -1,7 +1,7 @@
 import * as glob from 'glob';
 import * as path from 'path';
 import * as _ from 'lodash';
-import {FileBlob, Rule, RuleConfig, RuleError, Rules, RulesConfig, RuleSubConfig} from './types';
+import {FileData, Rule, RuleConfig, RuleError, RuleErrorLevel, Rules, RulesConfig, RuleSubConfig} from './types';
 import {Feature, Pickle} from '@cucumber/messages';
 
 const LEVELS = [
@@ -9,6 +9,8 @@ const LEVELS = [
   'warn',
   'error',
 ];
+
+const RULE_FILES_EXTENSION = process.env['NODE_ENV'] === 'test' ? '[jt]s' : 'js';
 
 export function getAllRules(additionalRulesDirs: string[]): Rules {
   const rules = {} as Rules;
@@ -19,7 +21,7 @@ export function getAllRules(additionalRulesDirs: string[]): Rules {
 
   rulesDirs.forEach(rulesDir => {
     rulesDir = path.resolve(rulesDir);
-    glob.sync(`${rulesDir}/*.js`).forEach(file => {
+    glob.sync(`${rulesDir}/*.${RULE_FILES_EXTENSION}`).forEach(file => {
       const rule = require(file);
       rules[rule.name] = rule;
     });
@@ -60,16 +62,16 @@ export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
   return levelNum;
 }
 
-export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileBlob, configuration: RulesConfig, additionalRulesDirs: string[]): RuleError[] {
-  let errors = [] as RuleError[];
+export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileData, configuration: RulesConfig, additionalRulesDirs: string[]): RuleError[] {
+  let errors = [] as RuleErrorLevel[];
   const rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
     const rule = rules[ruleName];
     const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
 
     if (ruleLevel > 0) {
-      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {} as RuleSubConfig;
-      const error = rule.run({feature, pickles, file}, ruleConfig);
+      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {} as RuleSubConfig<unknown>;
+      const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
 
       if (error?.length > 0) {
         error.forEach(e => e.level = ruleLevel);

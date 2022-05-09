@@ -5,7 +5,15 @@ import {GherkinStreams} from '@cucumber/gherkin-streams';
 
 import * as logger from './logger';
 import * as rules from './rules';
-import {Errors, ErrorsByFile, GherkinData, GherkinError, RuleError, RulesConfig} from './types';
+import {
+  Errors,
+  ErrorsByFile,
+  GherkinData,
+  GherkinError,
+  RuleError,
+  RuleErrorLevel,
+  RulesConfig
+} from './types';
 
 export function readAndParseFile(filePath: string): Promise<GherkinData> {
   let feature: Feature;
@@ -77,12 +85,12 @@ export function lint(files: string[], configuration: RulesConfig, additionalRule
           perFileErrors = parsingErrors;
         })
       .finally(() => {
-        const fileBlob = {
+        const fileErrors = {
           filePath: fs.realpathSync(f),
           errors: _.sortBy(perFileErrors, 'line')
-        };
+        } as ErrorsByFile;
 
-        results.push(fileBlob);
+        results.push(fileErrors);
       });
   })).then(() => results);
 }
@@ -101,7 +109,7 @@ function processFatalErrors(errors: GherkinError[]): RuleError[] {
 }
 
 function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
-  const errorMsgs = [] as RuleError[];
+  const errorMsgs = [] as RuleErrorLevel[];
   let index = 0;
   if (errors[0].message.includes('got \'Background') &&
     errors[1].message.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
@@ -127,7 +135,7 @@ function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
 }
 
 /*eslint no-console: "off"*/
-function getFormattedFatalError(error: RuleError|ParseError): RuleError {
+function getFormattedFatalError(error: RuleError|ParseError): RuleErrorLevel {
   const errorLine = parseInt(error.message.match(/\((\d+):.*/)[1]);
   let errorMsg;
   let rule;

@@ -1,4 +1,13 @@
-import {Feature, ParseError, Pickle} from '@cucumber/messages';
+import {
+  Examples,
+  Feature,
+  Location,
+  ParseError,
+  Pickle,
+  Rule as CucumberRule,
+  Scenario,
+  TableRow
+} from '@cucumber/messages';
 
 export interface CliOptions {
   format: string
@@ -23,13 +32,14 @@ export interface RulesConfig {
 }
 
 export type RuleConfig = string | [string, RuleSubConfig]
-export type RuleSubConfig = string | object;
+export type RuleSubConfig<T> = T;
 
-export interface RuleError {
+export interface RuleError extends Location {
   message: string
   rule: string
-  line: number
-  column: number
+}
+
+export interface RuleErrorLevel extends RuleError {
   level: number
 }
 
@@ -42,16 +52,19 @@ export interface Errors {
 
 export interface ErrorsByFile {
   filePath: string
-  errors: RuleError[]
+  errors: RuleErrorLevel[]
 }
 
 export interface GherkinData {
-  feature: Feature
-  pickles: Pickle[]
-  file: FileBlob
+  feature?: Feature
+  pickles?: Pickle[]
+  file?: FileData
 }
 
-export interface FileBlob {
+export interface FileData {
   relativePath: string
   lines: string[]
 }
+
+export type GherkinTaggable = Feature | CucumberRule | Scenario | Examples;
+export type GherkinNode = GherkinPickable | Step | TableRow;

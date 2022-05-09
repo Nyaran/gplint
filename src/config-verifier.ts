@@ -33,7 +33,7 @@ function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, additiona
       isValidSubConfig = (availableConfigs: unknown, subConfig: string): boolean => (ruleObj.availableConfigs as string[]).includes(subConfig);
       testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
-      isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig): boolean => Object.prototype.hasOwnProperty.call(ruleObj.availableConfigs, subConfig);
+      isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig<unknown>): boolean => Object.prototype.hasOwnProperty.call(ruleObj.availableConfigs, subConfig);
       for (const subConfig in ruleConfig[1]) {
         testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }
@@ -45,7 +45,7 @@ function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, additiona
   }
 }
 
-function testSubconfig(genericErrorMsg: string, rule: string, subConfig: RuleSubConfig, isValidSubConfig: (availableConfigs: unknown, subConfig: RuleSubConfig | string) => boolean, additionalRulesDirs: string[], errors: string[]): void {
+function testSubconfig(genericErrorMsg: string, rule: string, subConfig: RuleSubConfig<unknown>, isValidSubConfig: (availableConfigs: unknown, subConfig: RuleSubConfig<unknown> | string) => boolean, additionalRulesDirs: string[], errors: string[]): void {
   const ruleObj = rules.getRule(rule, additionalRulesDirs);
   if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
     errors.push(`${genericErrorMsg} The rule does not have the specified configuration option "${subConfig}"`);
