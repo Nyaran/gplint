@@ -1,4 +1,3 @@
-import 'core-js/stable/string';
 import * as os from 'os';
 import chalk from 'chalk';
 import stripAnsi from 'strip-ansi';
