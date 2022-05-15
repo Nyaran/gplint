@@ -1,13 +1,14 @@
 import * as ruleTestBase from '../rule-test-base';
 
 import * as _commons from './_commons';
+import {Rule} from '../../../src/types';
 
 export const tests = ({
   rule,
   errorsFile,
   noErrorsFile,
   errorMessageTemplate
-}) => {
+}: { rule: Rule, errorsFile: string, noErrorsFile: string, errorMessageTemplate: string }) => {
   const runTest = ruleTestBase.createRuleTest(rule, errorMessageTemplate);
 
   describe('global and default', () => {

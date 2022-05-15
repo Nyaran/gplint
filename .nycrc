@@ -4,5 +4,8 @@
   "report-dir": "./coverage",
   "include": [
     "src/**"
+  ],
+  "exclude": [
+    "src/version.ts"
   ]
 }

@@ -5,7 +5,7 @@ import * as logger from './logger';
 import {RulesConfig} from './types';
 export const defaultConfigFileName = '.gplintrc';
 
-export function getConfiguration(configPath: string, additionalRulesDirs: string[]): RulesConfig {
+export function getConfiguration(configPath?: string, additionalRulesDirs?: string[]): RulesConfig {
   if (configPath) {
     if (!fs.existsSync(configPath)) {
       logger.boldError('Could not find specified config file "' + configPath + '"');

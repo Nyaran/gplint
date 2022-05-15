@@ -7,7 +7,7 @@ import * as logger from './logger';
 export const defaultIgnoreFileName = '.gplintignore';
 const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
 
-export function getFeatureFiles(args: string[], ignoreArg: string[]): string[] {
+export function getFeatureFiles(args: string[], ignoreArg?: string[]): string[] {
   let files = [] as string[];
   const patterns = args.length ? args : ['.'];
 

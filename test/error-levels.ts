@@ -1,6 +1,9 @@
-import {expect} from 'chai';
+import {expect, use} from 'chai';
 import {getRuleLevel} from '../src/rules';
 import * as sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+
+use(sinonChai);
 
 describe('Levels config', () => {
   it('name to number', () => {
@@ -32,7 +35,7 @@ describe('Levels config', () => {
       [-5, 'pure-number-rule'],
       ['3', 'str-number-rule'],
       ['foo', 'string-rule'],
-    ].map(([val, rule]) => expect(() => getRuleLevel(val, rule)).to.throws(`Unknown level ${val} for ${rule}.`));
+    ].map(([val, rule]: [string | number, string]) => expect(() => getRuleLevel(val, rule)).to.throws(`Unknown level ${val} for ${rule}.`));
   });
 
   describe('deprecations', () => {
@@ -43,7 +46,7 @@ describe('Levels config', () => {
     it('on as error', () => {
       expect(getRuleLevel('on', 'foo-bar')).to.be.equals(2);
 
-      expect(console.warn.calledOnce).to.be.true;
+      expect(console.warn).to.be.calledOnce;
     });
   });
 });

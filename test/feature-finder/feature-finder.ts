@@ -13,9 +13,11 @@ describe('Feature finder', function() {
     }
   });
 
-  beforeEach(function() {
-    this.sinon.stub(console, 'error');
-    this.sinon.stub(process, 'exit');
+  let consoleErrorStub: sinon.SinonStubbedMember<typeof console.error>;
+  let processExitStub: sinon.SinonStubbedMember<typeof process.exit>;
+  beforeEach(function () {
+    consoleErrorStub = this.sinon.stub(console, 'error');
+    processExitStub = this.sinon.stub(process, 'exit');
     mockFs({
       'folder/with/found/features': {
         'a.feature': '',
@@ -34,10 +36,10 @@ describe('Feature finder', function() {
     });
   });
 
-  afterEach(function() {
+  afterEach(function () {
+    consoleErrorStub.restore(); // eslint-disable-line no-console
+    processExitStub.restore();
     mockFs.restore();
-    console.error.restore(); // eslint-disable-line no-console
-    process.exit.restore();
   });
 
   it('returns all feature files found recursively in the current directory when no path is passed to the command line', function() {
@@ -99,10 +101,10 @@ describe('Feature finder', function() {
 
   it('prints an error message and exits with code 1 when a bad file pattern is used', function() {
     featureFinder.getFeatureFiles(['badpattern**']);
-    const consoleErrorArgs = console.error.args.map(function (args) { // eslint-disable-line no-console
+    const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
       return args[0];
     });
     expect(consoleErrorArgs[0]).to.include('Invalid format of the feature file path/pattern:');
-    expect(process.exit.args[0][0]).to.equal(1);
+    expect(processExitStub.args[0][0]).to.equal(1);
   });
 });

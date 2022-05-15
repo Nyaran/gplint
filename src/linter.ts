@@ -68,7 +68,7 @@ export function readAndParseFile(filePath: string): Promise<GherkinData> {
   });
 }
 
-export function lint(files: string[], configuration: RulesConfig, additionalRulesDirs: string[]): Promise<ErrorsByFile[]> {
+export function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
   const results = [] as ErrorsByFile[];
 
   return Promise.all(files.map((f) => {

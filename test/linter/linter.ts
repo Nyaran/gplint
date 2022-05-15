@@ -1,8 +1,8 @@
 import {assert} from 'chai';
 import * as linter from '../../src/linter';
+import {RuleError} from '../../src/types';
 
-
-function linterTest(feature, expected) {
+function linterTest(feature: string, expected: RuleError[]) {
   return linter.lint([feature], {})
     .then((actual) => {
       assert.lengthOf(actual, 1);
@@ -12,8 +12,8 @@ function linterTest(feature, expected) {
 
 describe('Linter', function() {
   it('detects up-to-one-background-per-file violations', function() {
-    let feature = 'test/linter/MultipleBackgrounds.feature';
-    let expected = [{
+    const feature = 'test/linter/MultipleBackgrounds.feature';
+    const expected = [{
       'line': 9,
       'column': 0,
       'message': 'Multiple "Background" definitions in the same file are disallowed',
@@ -24,8 +24,8 @@ describe('Linter', function() {
   });
 
   it('detects no-tags-on-backgrounds violations', function() {
-    let feature = 'test/linter/TagOnBackground.feature';
-    let expected = [{
+    const feature = 'test/linter/TagOnBackground.feature';
+    const expected = [{
       'line': 4,
       'column': 0,
       'message': 'Tags on Backgrounds are disallowed',
@@ -37,8 +37,8 @@ describe('Linter', function() {
   });
 
   it('detects one-feature-per-file violations', function() {
-    let feature = 'test/linter/MultipleFeatures.feature';
-    let expected = [{
+    const feature = 'test/linter/MultipleFeatures.feature';
+    const expected = [{
       'line': 7,
       'column': 0,
       'message': 'Multiple "Feature" definitions in the same file are disallowed',
@@ -49,8 +49,8 @@ describe('Linter', function() {
   });
 
   it('detects no-multiline-steps violations', function() {
-    let feature = 'test/linter/MultilineStep.feature';
-    let expected = [{
+    const feature = 'test/linter/MultilineStep.feature';
+    const expected = [{
       'line': 9,
       'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
@@ -61,8 +61,8 @@ describe('Linter', function() {
   });
 
   it('detects no-multiline-steps violations in backgrounds', function() {
-    let feature = 'test/linter/MultilineBackgroundStep.feature';
-    let expected = [{
+    const feature = 'test/linter/MultilineBackgroundStep.feature';
+    const expected = [{
       'line': 5,
       'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
@@ -73,8 +73,8 @@ describe('Linter', function() {
   });
 
   it('detects no-multiline-steps violations in scenario outlines', function() {
-    let feature = 'test/linter/MultilineScenarioOutlineStep.feature';
-    let expected = [{
+    const feature = 'test/linter/MultilineScenarioOutlineStep.feature';
+    const expected = [{
       'line': 9,
       'column': 0,
       'message': 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
@@ -86,19 +86,19 @@ describe('Linter', function() {
 
   // Not working on latest gherkin as all errors has the same start text
   it.skip('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', function() {
-    let feature = 'test/linter/MultipleViolations.feature';
-    let expected = [
+    const feature = 'test/linter/MultipleViolations.feature';
+    const expected = [
       {
         message: 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed',
         rule: 'no-multiline-steps',
-        line: '13',
+        line: 13,
         column: 0,
         level: 2,
       },
       {
         message: 'Tags on Backgrounds are disallowed',
         rule: 'no-tags-on-backgrounds',
-        line: '4',
+        line: 4,
         column: 0,
         level: 2,
       }
@@ -111,8 +111,8 @@ describe('Linter', function() {
   });
 
   it('correctly parses files that have the correct Gherkin format', function() {
-    let feature = 'test/linter/NoViolations.feature';
-    let expected = [];
+    const feature = 'test/linter/NoViolations.feature';
+    const expected = [] as RuleError[];
     return linterTest(feature, expected);
   });
 });

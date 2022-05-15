@@ -1,7 +1,16 @@
 import * as glob from 'glob';
 import * as path from 'path';
 import * as _ from 'lodash';
-import {FileData, Rule, RuleConfig, RuleError, RuleErrorLevel, Rules, RulesConfig, RuleSubConfig} from './types';
+import {
+  FileData,
+  Rule,
+  RuleConfigNumber,
+  RuleError,
+  RuleErrorLevel,
+  Rules,
+  RulesConfig,
+  RuleSubConfig
+} from './types';
 import {Feature, Pickle} from '@cucumber/messages';
 
 const LEVELS = [
@@ -12,7 +21,7 @@ const LEVELS = [
 
 const RULE_FILES_EXTENSION = process.env['NODE_ENV'] === 'test' ? '[jt]s' : 'js';
 
-export function getAllRules(additionalRulesDirs: string[]): Rules {
+export function getAllRules(additionalRulesDirs?: string[]): Rules {
   const rules = {} as Rules;
 
   const rulesDirs = [
@@ -29,15 +38,15 @@ export function getAllRules(additionalRulesDirs: string[]): Rules {
   return rules;
 }
 
-export function getRule(rule: string, additionalRulesDirs: string[]): Rule {
+export function getRule(rule: string, additionalRulesDirs?: string[]): Rule {
   return getAllRules(additionalRulesDirs)[rule];
 }
 
-export function doesRuleExist(rule: string, additionalRulesDirs: string[]): boolean {
+export function doesRuleExist(rule: string, additionalRulesDirs?: string[]): boolean {
   return getRule(rule, additionalRulesDirs) !== undefined;
 }
 
-export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
+export function getRuleLevel(ruleConfig: RuleConfigNumber, rule: string): number {
   const level = Array.isArray(ruleConfig) ? ruleConfig[0] : ruleConfig;
 
   if (level === 'on') { // 'on' is deprecated, but still supported for backward compatibility, means error level.
@@ -52,7 +61,7 @@ export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
   let levelNum = _.isNumber(level) ? level : _.toNumber(level);
 
   if (isNaN(levelNum)) {
-    levelNum = LEVELS.indexOf(level);
+    levelNum = LEVELS.indexOf(level as string);
   }
 
   if (levelNum < 0 || levelNum > 2) {
@@ -62,7 +71,7 @@ export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
   return levelNum;
 }
 
-export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileData, configuration: RulesConfig, additionalRulesDirs: string[]): RuleError[] {
+export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileData, configuration: RulesConfig, additionalRulesDirs?: string[]): RuleError[] {
   let errors = [] as RuleErrorLevel[];
   const rules = getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
@@ -70,7 +79,7 @@ export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: Fi
     const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
 
     if (ruleLevel > 0) {
-      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {} as RuleSubConfig<unknown>;
+      const ruleConfig = Array.isArray(configuration[rule.name]) ? (configuration[rule.name])[1] : {} as RuleSubConfig<unknown>;
       const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
 
       if (error?.length > 0) {

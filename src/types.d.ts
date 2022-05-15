@@ -31,7 +31,8 @@ export interface RulesConfig {
   [key: string]: RuleConfig
 }
 
-export type RuleConfig = string | [string, RuleSubConfig]
+export type RuleConfig = string | [string , ...RuleSubConfig];
+export type RuleConfigNumber = string | number | [string | number, ...RuleSubConfig];
 export type RuleSubConfig<T> = T;
 
 export interface RuleError extends Location {

@@ -1,10 +1,11 @@
 import * as rules from '../../../src/rules';
 import * as linter from '../../../src/linter';
+import { RulesConfig} from '../../../src/types';
 
 // Test cases for incomplete feature files that have broken over time across multiple rules
 describe('Malformed features do not break the linter', function() {
-  function testRule(file, rule) {
-    const configuration = {};
+  function testRule(file: string, rule: string) {
+    const configuration = {} as RulesConfig;
     if (rule === 'new-line-at-eof') {
       configuration[rule] = ['error', 'yes'];
     } else if (rule === 'required-tags') {
@@ -12,7 +13,7 @@ describe('Malformed features do not break the linter', function() {
     } else {
       configuration[rule] = 'error';
     }
-    return linter.readAndParseFile('test/rules/all-rules/' + file, 'utf8')
+    return linter.readAndParseFile(`test/rules/all-rules/${file}`)
       .then(({feature, pickles, file}) => {
         return rules.runAllEnabledRules(feature, pickles, file, configuration);
       });
