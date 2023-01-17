@@ -20,7 +20,6 @@ const LEVELS = [
 ];
 
 const RULE_FILES_EXTENSION = process.env['NODE_ENV'] === 'test' ? '[jt]s' : 'js';
-const GLOB_WINDOWS_PATHS_NO_SPACE = process.platform === 'win32';
 
 export function getAllRules(additionalRulesDirs?: string[]): Rules {
   const rules = {} as Rules;
@@ -32,7 +31,7 @@ export function getAllRules(additionalRulesDirs?: string[]): Rules {
   rulesDirs.forEach(rulesDir => {
     rulesDir = path.resolve(rulesDir);
     const rulesWildcard = path.join(rulesDir, `*.${RULE_FILES_EXTENSION}`);
-    glob.sync(rulesWildcard, {windowsPathsNoEscape: GLOB_WINDOWS_PATHS_NO_SPACE} as unknown).forEach(file => {
+    glob.sync(rulesWildcard, {windowsPathsNoEscape: true} as unknown).forEach(file => {
       const rule = require(file);
       rules[rule.name] = rule;
     });

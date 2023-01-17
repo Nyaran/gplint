@@ -41,7 +41,7 @@ export function getFeatureFiles(args: string[], ignoreArg?: string[]): string[] 
     const globOptions = {
       ignore: getIgnorePatterns(ignoreArg),
       nodir: true,
-      windowsPathsNoEscape: process.platform === 'win32',
+      windowsPathsNoEscape: true,
     };
 
     files = files.concat(glob.sync(fixedPattern, globOptions));
