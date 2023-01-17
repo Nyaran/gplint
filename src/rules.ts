@@ -30,7 +30,8 @@ export function getAllRules(additionalRulesDirs?: string[]): Rules {
 
   rulesDirs.forEach(rulesDir => {
     rulesDir = path.resolve(rulesDir);
-    glob.sync(`${rulesDir}/*.${RULE_FILES_EXTENSION}`).forEach(file => {
+    const rulesWildcard = path.join(rulesDir, `*.${RULE_FILES_EXTENSION}`);
+    glob.sync(rulesWildcard, {windowsPathsNoEscape: true} as unknown).forEach(file => {
       const rule = require(file);
       rules[rule.name] = rule;
     });

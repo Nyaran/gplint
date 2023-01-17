@@ -23,7 +23,7 @@ describe('Configuration parser', function () {
   });
 
   afterEach(function () {
-    consoleErrorStub.restore(); // eslint-disable-line no-console
+    consoleErrorStub.restore();
     processExitStub.restore();
     mockFs.restore();
   });
