@@ -152,6 +152,29 @@ describe('Table Align Rule', function () {
     ]);
   });
 
+  it('tables with pipe symbols', function () {
+    return runTest('table-align/escape.feature', {}, [
+      // 1st cell
+      {
+        messageElements: {cellValue: '|lorem'},
+        line: 5,
+        column: 9,
+      },
+      // 2nd cell
+      {
+        messageElements: {cellValue: '|ipsum|'},
+        line: 5,
+        column: 19,
+      },
+      // 3rd cell
+      {
+        messageElements: {cellValue: 'dolor|'},
+        line: 5,
+        column: 31,
+      },
+    ]);
+  });
+
   describe('tables without spaces - config', function () {
     it('only steps', function () {
       return runTest('table-align/simple-config.feature', {examples: false}, [
