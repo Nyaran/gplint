@@ -3,6 +3,7 @@ import {GherkinData, RuleSubConfig, RuleError} from '../types';
 import {TableCell, TableRow} from '@cucumber/messages';
 
 const TABLE_SEPARATOR = '|';
+const TABLE_SPLITTER = /(?<!\\)\|/;
 
 export const name = 'table-align';
 export const availableConfigs = {
@@ -23,7 +24,7 @@ export function run({feature, file}: GherkinData, configuration: RuleSubConfig<t
 
     rows.forEach(row => {
       const realLine = _.trim(file.lines[row.location.line - 1].trim(), TABLE_SEPARATOR);
-      const realCells = realLine.split(TABLE_SEPARATOR);
+      const realCells = realLine.split(TABLE_SPLITTER);
 
       row.cells.forEach((cell, index) => {
         const rowLine = ` ${cell.value.padEnd(columnsMaxLength[index])} `;
