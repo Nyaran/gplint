@@ -7,6 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 * Check on [changelog folder](changelog).
 
+## [1.4.0] - 2023-03-04
+### Changed
+* Escape pipes in table cells (by @devilj) #357.
+* Run tests on node 18 and 19.
+* Migrate project to TypeScript.
+
 ## [1.3.0] - 2022-03-07
 ### Added
 * Added rules `allow-all-caps` & `allow-all-lowercase` #123.
