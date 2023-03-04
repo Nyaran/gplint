@@ -22,12 +22,7 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
-        node_version:
-          - 12
-          - 14
-          - 16
-          - 17
-          - 18
+        node-version: [12, 14, 16, 18, 19]
         architecture:
           - x64
     name: Node ${{ matrix.node_version }} - ${{ matrix.architecture }} on ${{ matrix.os }}
