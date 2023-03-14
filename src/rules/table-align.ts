@@ -17,6 +17,12 @@ export function run({feature, file}: GherkinData, configuration: RuleSubConfig<t
       return;
     }
 
+    rows.forEach(row =>
+      row.cells.forEach(cell => {
+        cell.value = cell.value.replaceAll('|', '\\|');
+      })
+    );
+
     const columnsCount = rows[0].cells.length;
     const columns = _.range(columnsCount).map(i => rows.map(row => row.cells[i]));
 
