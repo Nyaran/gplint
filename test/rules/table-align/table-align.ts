@@ -156,21 +156,21 @@ describe('Table Align Rule', function () {
     return runTest('table-align/escape.feature', {}, [
       // 1st cell
       {
-        messageElements: {cellValue: '|lorem'},
+        messageElements: {cellValue: '\\|lorem'},
         line: 5,
         column: 9,
       },
       // 2nd cell
       {
-        messageElements: {cellValue: '|ipsum|'},
+        messageElements: {cellValue: '\\|ipsum\\|'},
         line: 5,
-        column: 19,
+        column: 20,
       },
       // 3rd cell
       {
-        messageElements: {cellValue: 'dolor|'},
+        messageElements: {cellValue: 'dolor\\|'},
         line: 5,
-        column: 31,
+        column: 33,
       },
     ]);
   });
