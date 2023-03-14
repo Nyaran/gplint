@@ -19,7 +19,7 @@ export function run({feature, file}: GherkinData, configuration: RuleSubConfig<t
 
     rows.forEach(row =>
       row.cells.forEach(cell => {
-        cell.value = cell.value.replaceAll('|', '\\|');
+        cell.value = cell.value.replace(/\|/g, '\\|');
       })
     );
 
