@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 * Check on [changelog folder](changelog).
 
+## [1.4.1] - 2023-03-14
+### Fixed
+* Fix table-align rule when scaped pipes are present (by @devilj) #363.
+* Fix test workflow to use properly different node versions. #367
+
 ## [1.4.0] - 2023-03-04
 ### Changed
 * Escape pipes in table cells (by @devilj) #357.
