@@ -79,3 +79,5 @@ async function printResults(results: ErrorsByFile[], format: string): Promise<vo
   }
   console.log(formatter.print(results));
 }
+
+export * from './types';

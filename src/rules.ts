@@ -1,19 +1,21 @@
-import * as glob from 'glob';
 import * as path from 'path';
+
+import {Feature, Pickle} from '@cucumber/messages';
+import * as glob from 'glob';
 import * as _ from 'lodash';
 import {register} from 'ts-node';
 
 import {
   FileData,
   Rule,
-  RuleConfigNumber,
+  RuleConfig,
+  RuleConfigArray,
   RuleError,
   RuleErrorLevel,
   Rules,
   RulesConfig,
-  RuleSubConfig
+  RuleSubConfig,
 } from './types';
-import {Feature, Pickle} from '@cucumber/messages';
 
 const LEVELS = [
   'off',
@@ -56,7 +58,7 @@ export function doesRuleExist(rule: string, additionalRulesDirs?: string[]): boo
   return getRule(rule, additionalRulesDirs) !== undefined;
 }
 
-export function getRuleLevel(ruleConfig: RuleConfigNumber, rule: string): number {
+export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
   const level = Array.isArray(ruleConfig) ? ruleConfig[0] : ruleConfig;
 
   if (level === 'on') { // 'on' is deprecated, but still supported for backward compatibility, means error level.
@@ -89,7 +91,7 @@ export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: Fi
     const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
 
     if (ruleLevel > 0) {
-      const ruleConfig = Array.isArray(configuration[rule.name]) ? (configuration[rule.name])[1] : {} as RuleSubConfig<unknown>;
+      const ruleConfig = Array.isArray(configuration[rule.name]) ? (configuration[rule.name] as RuleConfigArray)[1] : {} as RuleSubConfig<unknown>;
       const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
 
       if (error?.length > 0) {

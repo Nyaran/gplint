@@ -1,5 +1,5 @@
 import * as rules from './rules';
-import {RuleConfig, RulesConfig, RuleSubConfig} from './types';
+import {RuleConfig, RuleConfigArray, RulesConfig, RuleSubConfig} from './types';
 
 export function verifyConfigurationFile(config: RulesConfig, additionalRulesDirs?: string[]): string[] {
   const errors = [];
@@ -18,7 +18,7 @@ function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, additiona
   const genericErrorMsg = `Invalid rule configuration for "${rule}" -`;
 
   if (Array.isArray(ruleConfig)) {
-    if (!enablingSettings.includes((ruleConfig)[0])) {
+    if (!enablingSettings.includes((ruleConfig as RuleConfigArray)[0] as string)) {
       errors.push(`${genericErrorMsg} The first part of the config should be ${enablingSettings.join('/')}.`);
     }
 

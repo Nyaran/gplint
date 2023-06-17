@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as Gherkin from '@cucumber/gherkin';
 import {Feature, Pickle, Scenario} from '@cucumber/messages';
-import {GherkinNode, GherkinTaggable} from '../../types';
+import {GherkinKeyworded, GherkinNode, GherkinTaggable} from '../../types';
 
 // We use the node's keyword to determine the node's type
 // because it's the only way to distinguish a scenario with a scenario outline
@@ -33,7 +33,7 @@ export function getNodeType(node: GherkinNode, language: string): string {
   return '';
 }
 
-export function getLanguageInsensitiveKeyword(node: GherkinNode, language: string): string {
+export function getLanguageInsensitiveKeyword(node: GherkinKeyworded, language: string): string {
   const languageMapping = Gherkin.dialects[language];
 
   return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));

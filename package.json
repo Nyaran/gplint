@@ -45,6 +45,7 @@
     "test": "run-s -c -n lint test:unit",
     "test:unit": "nyc npm run mocha"
   },
+  "types": "./build/index.d.ts",
   "dependencies": {
     "@cucumber/gherkin": "26.2.0",
     "@cucumber/gherkin-streams": "5.0.1",

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Scenario} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, GherkinNode, GherkinTaggable, RuleError} from '../types';
+import {GherkinData, GherkinTaggable, RuleError} from '../types';
 
 export const name = 'no-superfluous-tags';
 
@@ -21,14 +21,14 @@ export function run({feature}: GherkinData): RuleError[] {
     if ((node as Scenario).examples) {
       (node as Scenario).examples.forEach(example => {
         checkTags(example, feature, feature.language, errors);
-        checkTags(example, node, feature.language, errors);
+        checkTags(example, node as GherkinTaggable, feature.language, errors);
       });
     }
   });
   return errors;
 }
 
-function checkTags(child: GherkinTaggable, parent: GherkinNode, language: string, errors: RuleError[]) {
+function checkTags(child: GherkinTaggable, parent: GherkinTaggable, language: string, errors: RuleError[]) {
   const superfluousTags = _.intersectionBy(child.tags, parent.tags, 'name');
   const childType = gherkinUtils.getNodeType(child, language);
   const parentType = gherkinUtils.getNodeType(parent, language);

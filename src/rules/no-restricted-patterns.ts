@@ -1,6 +1,6 @@
 import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleSubConfig, RuleError, GherkinNode} from '../types';
-import {Background, Scenario, Step} from '@cucumber/messages';
+import {GherkinData, RuleSubConfig, RuleError , GherkinKeyworded} from '../types';
+import {Background, Examples, Feature, Rule, Scenario, Step} from '@cucumber/messages';
 
 type IConfiguration<T> = {
   Global: T[]
@@ -65,13 +65,13 @@ function getRestrictedPatterns(configuration: Configuration): ConfigurationPatte
   return restrictedPatterns;
 }
 
-function getRestrictedPatternsForNode(node: GherkinNode, restrictedPatterns: ConfigurationPatterns, language: string): RegExp[] {
+function getRestrictedPatternsForNode(node: GherkinKeyworded, restrictedPatterns: ConfigurationPatterns, language: string): RegExp[] {
   const key = gherkinUtils.getLanguageInsensitiveKeyword(node, language).toLowerCase() as keyof ConfigurationPatterns;
 
   return restrictedPatterns[key];
 }
 
-function checkNameAndDescription(node: GherkinNode, restrictedPatterns: ConfigurationPatterns, language: string, errors: RuleError[]) {
+function checkNameAndDescription(node: GherkinKeyworded, restrictedPatterns: ConfigurationPatterns, language: string, errors: RuleError[]) {
   getRestrictedPatternsForNode(node, restrictedPatterns, language)
     .forEach(pattern => {
       check(node, 'name', pattern, language, errors);
@@ -87,12 +87,15 @@ function checkStepNode(node: Step, parentNode: Background | Scenario, restricted
     });
 }
 
-function check(node: GherkinNode, property: string, pattern: RegExp, language: string, errors: RuleError[]) {
-  if (!node[property]) {
+function check(node: GherkinKeyworded , property: string, pattern: RegExp, language: string, errors: RuleError[]) {
+  if (!Object.prototype.hasOwnProperty.call(node, property)) {
     return;
   }
 
-  let strings = [node[property as keyof GherkinData]];
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore IDK how to handle types for this...
+  let strings = [node[property]];
+
   const type = gherkinUtils.getNodeType(node, language);
 
   if (property === 'description') {
@@ -106,7 +109,7 @@ function check(node: GherkinNode, property: string, pattern: RegExp, language: s
     // with a sentinel, split lines and then restore the doubly escaped new line
     const escapedNewLineSentinel = '<!gplint new line sentinel!>';
     const escapedNewLine = '\\n';
-    strings = node[property]
+    strings = (node as Feature|Rule|Scenario|Examples).description
       .replace(escapedNewLine, escapedNewLineSentinel)
       .split('\n')
       .map((str: string) => str.replace(escapedNewLineSentinel, escapedNewLine));
