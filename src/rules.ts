@@ -1,6 +1,8 @@
 import * as glob from 'glob';
 import * as path from 'path';
 import * as _ from 'lodash';
+import {register} from 'ts-node';
+
 import {
   FileData,
   Rule,
@@ -19,9 +21,16 @@ const LEVELS = [
   'error',
 ];
 
-const RULE_FILES_EXTENSION = process.env['NODE_ENV'] === 'test' ? '[jt]s' : 'js';
-
 export function getAllRules(additionalRulesDirs?: string[]): Rules {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (process[Symbol.for('ts-node.register.instance')] == null) { // Check if ts-node was registered previously
+    register({
+      compilerOptions: {
+        allowJs: true
+      }
+    });
+  }
   const rules = {} as Rules;
 
   const rulesDirs = [
@@ -30,8 +39,8 @@ export function getAllRules(additionalRulesDirs?: string[]): Rules {
 
   rulesDirs.forEach(rulesDir => {
     rulesDir = path.resolve(rulesDir);
-    const rulesWildcard = path.join(rulesDir, `*.${RULE_FILES_EXTENSION}`);
-    glob.sync(rulesWildcard, {windowsPathsNoEscape: true} as unknown).forEach(file => {
+    const rulesWildcard = path.join(rulesDir, '*.[jt]s');
+    glob.sync(rulesWildcard, {windowsPathsNoEscape: true, ignore: '**/*.d.ts'}).forEach(file => {
       const rule = require(file);
       rules[rule.name] = rule;
     });
