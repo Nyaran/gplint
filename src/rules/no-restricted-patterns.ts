@@ -1,6 +1,6 @@
 import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleSubConfig, RuleError, GherkinNode} from '../types';
-import {Background, Scenario, Step} from '@cucumber/messages';
+import { GherkinData, RuleSubConfig, RuleError, GherkinNode } from '../types';
+import { Background, Scenario, Step } from '@cucumber/messages';
 
 type IConfiguration<T> = {
   Global: T[]
@@ -8,29 +8,36 @@ type IConfiguration<T> = {
   ScenarioOutline: T[]
   Background: T[]
   Feature: T[]
+  Given: T[]
+  When: T[]
+  Then: T[]
 };
 
+const Keywords = ['Given', 'When', 'Then'];
+let previosKeyword: string;
 type Configuration = RuleSubConfig<IConfiguration<string>>;
 type ConfigurationPatterns = RuleSubConfig<IConfiguration<RegExp>>;
 
 export const name = 'no-restricted-patterns';
-
 export const availableConfigs = {
   'Global': [] as string[],
   'Scenario': [] as string[],
   'ScenarioOutline': [] as string[],
   'Background': [] as string[],
   'Feature': [] as string[],
+  'Given': [] as string[],
+  'When': [] as string[],
+  'Then': [] as string[]
 } as Configuration;
 
-export function run({feature}: GherkinData, configuration: Configuration): RuleError[] {
+export function run({ feature }: GherkinData, configuration: Configuration): RuleError[] {
+  previosKeyword = '';
   if (!feature) {
     return [];
   }
   const errors = [] as RuleError[];
   const restrictedPatterns = getRestrictedPatterns(configuration);
   const language = feature.language;
-
   // Check the feature itself
   checkNameAndDescription(feature, restrictedPatterns, language, errors);
 
@@ -40,12 +47,16 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
     checkNameAndDescription(node, restrictedPatterns, language, errors);
 
     // And all the steps of each child
-    node.steps.forEach(step => {
+    node.steps.forEach((step, index) => {
+      checkStepNode(step, node.steps[index], restrictedPatterns, language, errors);
       checkStepNode(step, node, restrictedPatterns, language, errors);
+
     });
   });
-
-  return errors;
+  const filterErrors = errors.filter((obj, index, self) =>
+    index === self.findIndex((el) => el.message === obj.message)
+  );
+  return filterErrors;
 }
 
 function getRestrictedPatterns(configuration: Configuration): ConfigurationPatterns {
@@ -58,16 +69,20 @@ function getRestrictedPatterns(configuration: Configuration): ConfigurationPatte
     const resolvedConfig = (configuration[key] || []);
 
     restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
-
     restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(globalPatterns);
-  });
 
+  });
   return restrictedPatterns;
 }
 
 function getRestrictedPatternsForNode(node: GherkinNode, restrictedPatterns: ConfigurationPatterns, language: string): RegExp[] {
   const key = gherkinUtils.getLanguageInsensitiveKeyword(node, language).toLowerCase() as keyof ConfigurationPatterns;
-
+  if (Keywords.map(item => item.toLowerCase()).includes(key.toLowerCase())) {
+    previosKeyword = key;
+  }
+  if (key.toLowerCase() === 'and' && Keywords.map(item => item.toLowerCase()).includes(previosKeyword.toLowerCase())) {
+    return restrictedPatterns[previosKeyword as keyof ConfigurationPatterns];
+  }
   return restrictedPatterns[key];
 }
 
@@ -79,7 +94,7 @@ function checkNameAndDescription(node: GherkinNode, restrictedPatterns: Configur
     });
 }
 
-function checkStepNode(node: Step, parentNode: Background | Scenario, restrictedPatterns: ConfigurationPatterns, language: string, errors: RuleError[]) {
+function checkStepNode(node: Step, parentNode: Background | Scenario | Step, restrictedPatterns: ConfigurationPatterns, language: string, errors: RuleError[]) {
   // Use the node keyword of the parent to determine which rule configuration to use
   getRestrictedPatternsForNode(parentNode, restrictedPatterns, language)
     .forEach(pattern => {
@@ -111,13 +126,12 @@ function check(node: GherkinNode, property: string, pattern: RegExp, language: s
       .split('\n')
       .map((str: string) => str.replace(escapedNewLineSentinel, escapedNewLine));
   }
-
-  for (let i = 0; i < strings.length; i++) {
+  for (const element of strings) {
     // We use trim() on the examined string because names and descriptions can contain
     // white space before and after, unlike steps
-    if (strings[i].trim().match(pattern)) {
+    if (element.trim().match(pattern)) {
       errors.push({
-        message: `${type} ${property}: "${strings[i].trim()}" matches restricted pattern "${pattern}"`,
+        message: `${type} ${property}: "${element.trim()}" matches restricted pattern "${pattern}"`,
         rule: name,
         line: node.location.line,
         column: node.location.column,
@@ -125,4 +139,3 @@ function check(node: GherkinNode, property: string, pattern: RegExp, language: s
     }
   }
 }
-
