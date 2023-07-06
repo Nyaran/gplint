@@ -31,7 +31,7 @@ export const availableConfigs = {
 } as Configuration;
 
 export function run({ feature }: GherkinData, configuration: Configuration): RuleError[] {
-  previosKeyword = '';
+  previousKeyword = '';
   if (!feature) {
     return [];
   }
