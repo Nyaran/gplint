@@ -13,7 +13,7 @@ type IConfiguration<T> = {
   Then: T[]
 };
 
-const Keywords = ['Given', 'When', 'Then'];
+const keywords = ['Given', 'When', 'Then'];
 let previosKeyword: string;
 type Configuration = RuleSubConfig<IConfiguration<string>>;
 type ConfigurationPatterns = RuleSubConfig<IConfiguration<RegExp>>;
