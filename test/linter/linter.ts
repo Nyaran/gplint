@@ -1,13 +1,11 @@
 import {assert} from 'chai';
 import * as linter from '../../src/linter';
-import {RuleError} from '../../src/types';
+import {RuleError} from '../../src';
 
-function linterTest(feature: string, expected: RuleError[]) {
-  return linter.lint([feature], {})
-    .then((actual) => {
-      assert.lengthOf(actual, 1);
-      assert.deepEqual(actual[0].errors, expected);
-    });
+async function linterTest(feature: string, expected: RuleError[]) {
+  const actual = await linter.lint([feature]);
+  assert.lengthOf(actual, 1);
+  assert.deepEqual(actual[0].errors, expected);
 }
 
 describe('Linter', function() {

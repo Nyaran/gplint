@@ -29,9 +29,9 @@ describe('Configuration parser', function () {
   });
 
   describe('early exits with a non 0 exit code when', function () {
-    it('the specified config file doesn\'t exit', function () {
+    it('the specified config file doesn\'t exit', async function () {
       const configFilePath = './non/existing/path';
-      configParser.getConfiguration(configFilePath);
+      await configParser.getConfiguration(configFilePath);
 
       const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
@@ -40,9 +40,9 @@ describe('Configuration parser', function () {
       expect(processExitStub.args[0][0]).to.equal(1);
     });
 
-    it('no config file has been specified and default config file doesn\'t exist', function () {
+    it('no config file has been specified and default config file doesn\'t exist', async function () {
       mockFs({});
-      configParser.getConfiguration();
+      await configParser.getConfiguration();
 
       const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
@@ -52,9 +52,9 @@ describe('Configuration parser', function () {
       expect(processExitStub.args[0][0]).to.equal(1);
     });
 
-    it('a bad configuration file is used', function () {
+    it('a bad configuration file is used', async function () {
       const configFilePath = 'test/config-parser/bad_config.gplintrc';
-      configParser.getConfiguration(configFilePath);
+      await configParser.getConfiguration(configFilePath);
 
       const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
         return args[0];
@@ -66,26 +66,26 @@ describe('Configuration parser', function () {
   });
 
   describe('doesn\'t exit with exit code 1 when', function () {
-    it('a good configuration file is used', function () {
+    it('a good configuration file is used', async function () {
       const configFilePath = 'test/config-parser/good_config.gplintrc';
-      const parsedConfig = configParser.getConfiguration(configFilePath);
+      const parsedConfig = await configParser.getConfiguration(configFilePath);
       expect(process.exit).to.not.have.been.calledWith(1);
       expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
     });
 
-    it('a good configuration file is used that includes comments', function () {
+    it('a good configuration file is used that includes comments', async function () {
       const configFilePath = 'test/config-parser/good_config_with_comments.gplintrc';
-      const parsedConfig = configParser.getConfiguration(configFilePath);
+      const parsedConfig = await configParser.getConfiguration(configFilePath);
       expect(process.exit).to.not.have.been.calledWith(1);
       expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
     });
 
-    it('the default configuration file is found', function () {
+    it('the default configuration file is found', async function () {
       mockFs({
         '.gplintrc': '{}',
       });
 
-      configParser.getConfiguration();
+      await configParser.getConfiguration();
       expect(process.exit).to.not.have.been.calledWith(1);
     });
   });

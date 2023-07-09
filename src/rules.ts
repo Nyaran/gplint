@@ -3,7 +3,6 @@ import * as path from 'path';
 import {Feature, Pickle} from '@cucumber/messages';
 import * as glob from 'glob';
 import * as _ from 'lodash';
-import {register} from 'ts-node';
 
 import {
   FileData,
@@ -23,16 +22,15 @@ const LEVELS = [
   'error',
 ];
 
-export function getAllRules(additionalRulesDirs?: string[]): Rules {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (process[Symbol.for('ts-node.register.instance')] == null) { // Check if ts-node was registered previously
-    register({
-      compilerOptions: {
-        allowJs: true
-      }
-    });
+export async function getAllRules(additionalRulesDirs?: string[]): Promise<Rules> {
+  if (additionalRulesDirs?.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (process[Symbol.for('ts-node.register.instance')] == null) { // Check if ts-node was registered previously
+      await loadRegister();
+    }
   }
+
   const rules = {} as Rules;
 
   const rulesDirs = [
@@ -50,12 +48,12 @@ export function getAllRules(additionalRulesDirs?: string[]): Rules {
   return rules;
 }
 
-export function getRule(rule: string, additionalRulesDirs?: string[]): Rule {
-  return getAllRules(additionalRulesDirs)[rule];
+export async function getRule(rule: string, additionalRulesDirs?: string[]): Promise<Rule> {
+  return (await getAllRules(additionalRulesDirs))[rule];
 }
 
-export function doesRuleExist(rule: string, additionalRulesDirs?: string[]): boolean {
-  return getRule(rule, additionalRulesDirs) !== undefined;
+export async function doesRuleExist(rule: string, additionalRulesDirs?: string[]): Promise<boolean> {
+  return (await getRule(rule, additionalRulesDirs)) !== undefined;
 }
 
 export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
@@ -83,9 +81,9 @@ export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
   return levelNum;
 }
 
-export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileData, configuration: RulesConfig, additionalRulesDirs?: string[]): RuleError[] {
+export async function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileData, configuration: RulesConfig, additionalRulesDirs?: string[]): Promise<RuleError[]> {
   let errors = [] as RuleErrorLevel[];
-  const rules = getAllRules(additionalRulesDirs);
+  const rules = await getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
     const rule = rules[ruleName];
     const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
@@ -102,3 +100,17 @@ export function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: Fi
   });
   return errors;
 }
+
+async function loadRegister(): Promise<void> {
+  try {
+    const {register} = await import('ts-node');
+    register({
+      compilerOptions: {
+        allowJs: true
+      }
+    });
+  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+  }
+}
+

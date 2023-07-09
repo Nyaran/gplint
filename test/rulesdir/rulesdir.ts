@@ -1,17 +1,15 @@
 import * as path from 'path';
 import {expect} from 'chai';
 import * as linter from '../../src/linter';
-import * as configParser from '../../src/config-parser';
 
 describe('rulesdir CLI option', function() {
-  it('loads additional rules from specified directories', function() {
+  it('loads additional rules from specified directories', async function() {
     const additionalRulesDirs = [
       path.join(__dirname, 'rules'), // absolute path
       path.join('test', 'rulesdir', 'other_rules') // relative path from root
     ];
-    const config = configParser.getConfiguration(path.join(__dirname, '.gplintrc'), additionalRulesDirs);
     const featureFile = path.join(__dirname, 'simple.feature');
-    return linter.lint([ featureFile ], config, additionalRulesDirs)
+    return linter.lint([ featureFile ], path.join(__dirname, '.gplintrc'), additionalRulesDirs)
       .then((results) => {
         expect(results).to.deep.equal([
           {
