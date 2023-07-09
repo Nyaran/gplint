@@ -281,4 +281,59 @@ describe('No Restricted Patterns Rule', function() {
     ]);
   });
 
+  it('detects errors in Scenario steps independently of keyword', function() {
+    const configuration = {
+      'Step': [
+        'bad step when',
+        'step incorrect then',
+      ],
+      'Global': [
+        '^a restricted global pattern$',
+        'a bad description'
+      ]
+    };
+
+    return runTest('no-restricted-patterns/StepViolations.feature', configuration, [
+      {
+        messageElements: {
+          pattern: 'a bad description',
+          string: 'A bad description',
+          nodeType:'Scenario',
+          property: 'description'
+        },
+        line: 4,
+        column: 1,
+      },
+      {
+        messageElements: {
+          pattern: '^a restricted global pattern$',
+          string: 'a restricted global pattern',
+          nodeType:'Step',
+          property: 'text'
+        },
+        line: 7,
+        column: 3,
+      },
+      {
+        messageElements: {
+          pattern: 'bad step when',
+          string: 'bad step when',
+          nodeType:'Step',
+          property: 'text'
+        },
+        line: 9,
+        column: 3,
+      },
+      {
+        messageElements: {
+          pattern: 'step incorrect then',
+          string: 'bad step incorrect then',
+          nodeType:'Step',
+          property: 'text'
+        },
+        line: 11,
+        column: 3,
+      }
+    ]);
+  });
 });

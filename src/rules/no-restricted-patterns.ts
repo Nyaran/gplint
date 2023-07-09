@@ -1,6 +1,6 @@
 import * as gherkinUtils from './utils/gherkin';
-import { GherkinData, RuleSubConfig, RuleError, GherkinNode } from '../types';
-import { Background, Scenario, Step } from '@cucumber/messages';
+import {GherkinData, GherkinNode, RuleError, RuleSubConfig} from '../types';
+import {Background, Scenario, Step} from '@cucumber/messages';
 
 type IConfiguration<T> = {
   Global: T[]
@@ -8,7 +8,7 @@ type IConfiguration<T> = {
   ScenarioOutline: T[]
   Background: T[]
   Feature: T[]
-  Step: []
+  Step: T[]
   Given: T[]
   When: T[]
   Then: T[]
@@ -32,7 +32,7 @@ export const availableConfigs = {
   'Then': [] as string[]
 } as Configuration;
 
-export function run({ feature }: GherkinData, configuration: Configuration): RuleError[] {
+export function run({feature}: GherkinData, configuration: Configuration): RuleError[] {
   previousKeyword = '';
   if (!feature) {
     return [];
@@ -55,10 +55,9 @@ export function run({ feature }: GherkinData, configuration: Configuration): Rul
 
     });
   });
-  const filterErrors = errors.filter((obj, index, self) =>
+  return errors.filter((obj, index, self) =>
     index === self.findIndex((el) => el.message === obj.message)
   );
-  return filterErrors;
 }
 
 function getRestrictedPatterns(configuration: Configuration): ConfigurationPatterns {
@@ -67,15 +66,15 @@ function getRestrictedPatterns(configuration: Configuration): ConfigurationPatte
   //pattern to apply on all steps
   const stepPatterns = (configuration.Step || []).map(pattern => new RegExp(pattern, 'i'));
   const restrictedPatterns = {} as ConfigurationPatterns;
+
   Object.keys(availableConfigs).forEach((key: keyof Configuration) => {
     const resolvedKey = key.toLowerCase().replace(/ /g, '') as keyof Configuration;
     const resolvedConfig = (configuration[key] || []);
     restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
-    if(keywords.map(item => item.toLowerCase()).includes(resolvedKey.toLowerCase())){
+    if (keywords.map(item => item.toLowerCase()).includes(resolvedKey.toLowerCase())) {
       restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(stepPatterns);
     }
     restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(globalPatterns);
-
   });
   return restrictedPatterns;
 }
