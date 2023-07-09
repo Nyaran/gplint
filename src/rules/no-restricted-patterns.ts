@@ -1,6 +1,6 @@
 import * as gherkinUtils from './utils/gherkin';
 import {GherkinData, GherkinNode, RuleError, RuleSubConfig} from '../types';
-import {Background, Scenario, Step} from '@cucumber/messages';
+import {Background, Scenario, Step, StepKeywordType} from '@cucumber/messages';
 
 type IConfiguration<T> = {
   Global: T[]
@@ -84,7 +84,7 @@ function getRestrictedPatternsForNode(node: GherkinNode, restrictedPatterns: Con
   if (keywords.map(item => item.toLowerCase()).includes(key.toLowerCase())) {
     previousKeyword = key;
   }
-  if (key.toLowerCase() === 'and' && keywords.map(item => item.toLowerCase()).includes(previousKeyword.toLowerCase())) {
+  if (node.keywordType === StepKeywordType.CONJUNCTION && keywords.map(item => item.toLowerCase()).includes(previousKeyword.toLowerCase())) {
     return restrictedPatterns[previousKeyword as keyof ConfigurationPatterns];
   }
   return restrictedPatterns[key];
