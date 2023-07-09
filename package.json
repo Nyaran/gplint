@@ -52,7 +52,7 @@
     "commander": "10.0.1",
     "glob": "8.1.0",
     "lodash": "4.17.21",
-    "strip-ansi": "7.1.0",
+    "strip-ansi": "6.0.1",
     "strip-json-comments": "3.0.1",
     "text-table": "0.2.0",
     "xml-js": "1.6.11"
