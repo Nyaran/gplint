@@ -8,13 +8,14 @@ type IConfiguration<T> = {
   ScenarioOutline: T[]
   Background: T[]
   Feature: T[]
+  Step: []
   Given: T[]
   When: T[]
   Then: T[]
 };
 
 const keywords = ['Given', 'When', 'Then'];
-let previosKeyword: string;
+let previousKeyword: string;
 type Configuration = RuleSubConfig<IConfiguration<string>>;
 type ConfigurationPatterns = RuleSubConfig<IConfiguration<RegExp>>;
 
@@ -25,6 +26,7 @@ export const availableConfigs = {
   'ScenarioOutline': [] as string[],
   'Background': [] as string[],
   'Feature': [] as string[],
+  'Step': [] as string[],
   'Given': [] as string[],
   'When': [] as string[],
   'Then': [] as string[]
@@ -62,13 +64,16 @@ export function run({ feature }: GherkinData, configuration: Configuration): Rul
 function getRestrictedPatterns(configuration: Configuration): ConfigurationPatterns {
   // Patterns applied to everything; feature, scenarios, etc.
   const globalPatterns = (configuration.Global || []).map(pattern => new RegExp(pattern, 'i'));
-
+  //pattern to apply on all steps
+  const stepPatterns = (configuration.Step || []).map(pattern => new RegExp(pattern, 'i'));
   const restrictedPatterns = {} as ConfigurationPatterns;
   Object.keys(availableConfigs).forEach((key: keyof Configuration) => {
     const resolvedKey = key.toLowerCase().replace(/ /g, '') as keyof Configuration;
     const resolvedConfig = (configuration[key] || []);
-
     restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
+    if(keywords.map(item => item.toLowerCase()).includes(resolvedKey.toLowerCase())){
+      restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(stepPatterns);
+    }
     restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(globalPatterns);
 
   });
@@ -77,11 +82,11 @@ function getRestrictedPatterns(configuration: Configuration): ConfigurationPatte
 
 function getRestrictedPatternsForNode(node: GherkinNode, restrictedPatterns: ConfigurationPatterns, language: string): RegExp[] {
   const key = gherkinUtils.getLanguageInsensitiveKeyword(node, language).toLowerCase() as keyof ConfigurationPatterns;
-  if (Keywords.map(item => item.toLowerCase()).includes(key.toLowerCase())) {
-    previosKeyword = key;
+  if (keywords.map(item => item.toLowerCase()).includes(key.toLowerCase())) {
+    previousKeyword = key;
   }
-  if (key.toLowerCase() === 'and' && Keywords.map(item => item.toLowerCase()).includes(previosKeyword.toLowerCase())) {
-    return restrictedPatterns[previosKeyword as keyof ConfigurationPatterns];
+  if (key.toLowerCase() === 'and' && keywords.map(item => item.toLowerCase()).includes(previousKeyword.toLowerCase())) {
+    return restrictedPatterns[previousKeyword as keyof ConfigurationPatterns];
   }
   return restrictedPatterns[key];
 }
