@@ -5,7 +5,7 @@ import * as logger from './logger';
 import {RulesConfig} from './types';
 export const defaultConfigFileName = '.gplintrc';
 
-export function getConfiguration(configPath?: string, additionalRulesDirs?: string[]): RulesConfig {
+export async function getConfiguration(configPath?: string, additionalRulesDirs?: string[]): Promise<RulesConfig> {
   if (configPath) {
     if (!fs.existsSync(configPath)) {
       logger.boldError('Could not find specified config file "' + configPath + '"');
@@ -20,7 +20,7 @@ export function getConfiguration(configPath?: string, additionalRulesDirs?: stri
     configPath = defaultConfigFileName;
   }
   const config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'utf8'}))) as RulesConfig;
-  const errors = verifyConfig.verifyConfigurationFile(config, additionalRulesDirs);
+  const errors = await verifyConfig.verifyConfigurationFile(config, additionalRulesDirs);
 
   if (errors.length > 0) {
     logger.boldError('Error(s) in configuration file:');

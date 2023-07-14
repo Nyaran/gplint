@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {Pickle} from '@cucumber/messages';
+import {Pickle, Scenario} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin';
 import {GherkinData, RuleError, RuleSubConfig} from '../types';
 
@@ -41,7 +41,7 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
 
   items.forEach(scenario => {
     const scenarioName = scenario.name;
-    const scenarioLocation = (compile ? gherkinUtils.getNodeForPickle(feature, scenario as Pickle) : scenario).location;
+    const scenarioLocation = (compile ? gherkinUtils.getNodeForPickle(feature, scenario as Pickle) : scenario as Scenario).location;
     if (Object.prototype.hasOwnProperty.call(scenarios, scenarioName)) {
       const dupes = getFileLinePairsAsStr(scenarios[scenarioName].locations);
 

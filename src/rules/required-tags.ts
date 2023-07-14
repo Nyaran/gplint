@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Feature, Pickle, Rule as CucumberRule} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, GherkinTaggable, RuleError, RuleSubConfig} from '../types';
+import {GherkinData, GherkinNode, GherkinTaggable, RuleError, RuleSubConfig} from '../types';
 
 export const name = 'required-tags';
 export const availableConfigs = {
@@ -96,7 +96,7 @@ export function run({feature, pickles}: GherkinData, configuration: RuleSubConfi
   return errors;
 }
 
-function createError(item: GherkinTaggable, requiredTags: string | string[], lang: string) {
+function createError(item: GherkinNode, requiredTags: string | string[], lang: string) {
   const type = gherkinUtils.getNodeType(item, lang);
 
   return {

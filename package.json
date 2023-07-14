@@ -45,6 +45,7 @@
     "test": "run-s -c -n lint test:unit",
     "test:unit": "nyc npm run mocha"
   },
+  "types": "./build/index.d.ts",
   "dependencies": {
     "@cucumber/gherkin": "26.2.0",
     "@cucumber/gherkin-streams": "5.0.1",
@@ -55,6 +56,7 @@
     "strip-ansi": "6.0.1",
     "strip-json-comments": "3.0.1",
     "text-table": "0.2.0",
+    "ts-node": "10.9.1",
     "xml-js": "1.6.11"
   },
   "devDependencies": {
@@ -80,7 +82,6 @@
     "nyc": "15.1.0",
     "sinon": "15.2.0",
     "sinon-chai": "3.7.0",
-    "ts-node": "10.9.1",
     "typescript": "5.0.4"
   },
   "engines": {

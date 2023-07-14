@@ -6,7 +6,9 @@ import {
   Pickle,
   Rule as CucumberRule,
   Scenario,
-  TableRow
+  TableRow,
+  Step,
+  Background,
 } from '@cucumber/messages';
 
 export interface CliOptions {
@@ -24,15 +26,16 @@ export interface Rules {
 export interface Rule {
   name: string
   availableConfigs?: Record<string, unknown> | string[]
-  run: (gherkinData: GherkinData, config: RuleSubConfig) => RuleError[]
+  run: (gherkinData: GherkinData, config: RuleSubConfig<unknown>) => RuleError[]
 }
 
 export interface RulesConfig {
   [key: string]: RuleConfig
 }
 
-export type RuleConfig = string | [string , ...RuleSubConfig];
-export type RuleConfigNumber = string | number | [string | number, ...RuleSubConfig];
+export type RuleConfig = string | number | RuleConfigArray;
+export type RuleConfigArray = [string | number , ...RuleSubConfig<any>[]] // eslint-disable-line @typescript-eslint/no-explicit-any
+
 export type RuleSubConfig<T> = T;
 
 export interface RuleError extends Location {
@@ -68,4 +71,5 @@ export interface FileData {
 }
 
 export type GherkinTaggable = Feature | CucumberRule | Scenario | Examples;
-export type GherkinNode = GherkinPickable | Step | TableRow;
+export type GherkinKeyworded = GherkinTaggable | Background | Step;
+export type GherkinNode = GherkinKeyworded | TableRow;
