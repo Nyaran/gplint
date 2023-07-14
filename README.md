@@ -55,7 +55,7 @@ Or check this:
 | `no-homogenous-tags`                                          | Disallows tags present on every Scenario in a Feature, rather than on the Feature itself                           |
 | `no-multiple-empty-lines`                                     | Disallows multiple empty lines                                                                                     |
 | `no-partially-commented-tag-lines`                            | Disallows partially commented tag lines                                                                            |
-| [`no-restricted-patterns`](#no-restricted-patterns)           | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines |
+| [`no-restricted-patterns`](#no-restricted-patterns)           | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines, Steps |
 | [`no-restricted-tags`](#no-restricted-tags)                   | Disallow use of particular @tags                                                                                   |
 | `no-scenario-outlines-without-examples`                       | Disallows scenario outlines without examples                                                                       |
 | `no-superfluous-tags`                                         | Disallows tags present on a Feature and a Scenario in that Feature                                                 |
@@ -182,13 +182,24 @@ The rule can be configured like this:
     "Scenario": [
       "show last response",
       "a debugging step"
+    ],
+    "Given": [
+      "bad step given",
+      "a debugging step given"
+    ],
+    "When": [
+      "bad step when",
+      "a debugging step when"
+    ],
+    "Then": [
+      "bad step then",
+      "a debugging step then"
     ]
   }]
 }
 ```
 
 Notes:
-- Step keywords `Given`, `When`, `Then` and `And` should not be included in the patterns.
 - Description violations always get reported in the Feature/Scenario/etc. definition line. This is due to the parsed gherkin tree not having information about which line the description appears.
 
 ### indentation
