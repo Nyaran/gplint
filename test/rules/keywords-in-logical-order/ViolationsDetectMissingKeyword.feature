@@ -4,7 +4,7 @@ Feature: Feature with keywords-in-logical-order violations with detect missing k
         When step11
         Then step then
 
-    Scenario Outline: Scenario outline without Then
+    Scenario Outline: Scenario outline without When
         Given the step given
         Then the step then "<test>"
 
