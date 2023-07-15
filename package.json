@@ -1,6 +1,6 @@
 {
   "name": "gplint",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A Gherkin linter/validator written in javascript.",
   "author": "Luis Zurro",
   "homepage": "https://github.com/Nyaran/gplint#readme",
@@ -15,6 +15,10 @@
     {
       "type": "ko-fi",
       "url": "https://ko-fi.com/nyaran"
+    },
+    {
+      "type": "Buy me a coffee",
+      "url": "https://www.buymeacoffee.com/nyaran"
     }
   ],
   "license": "ISC",
