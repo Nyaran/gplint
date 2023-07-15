@@ -44,7 +44,7 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
       maxKeywordPosition =
         Math.max(maxKeywordPosition, keywordPosition) || keywordPosition;
     });
-    if (detectMissingKeywords && child.scenario && !Object.values(existsKeyword).every((value) => value === true)) {
+    if (detectMissingKeywords && child.scenario && !Object.values(existsKeyword).every((value) => value)) {
       const keys: string[] = [];
       Object.entries(existsKeyword).forEach(([key, value]) => {
         if (!value) {
