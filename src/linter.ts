@@ -12,8 +12,8 @@ import {
   GherkinError,
   RuleError,
   RuleErrorLevel,
-  RulesConfig
 } from './types';
+import * as configParser from './config-parser';
 
 export function readAndParseFile(filePath: string): Promise<GherkinData> {
   let feature: Feature;
@@ -68,7 +68,9 @@ export function readAndParseFile(filePath: string): Promise<GherkinData> {
   });
 }
 
-export function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
+export async function lint(files: string[], configPath?: string, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
+  const configuration = configPath ? await configParser.getConfiguration(configPath, additionalRulesDirs) : {};
+
   const results = [] as ErrorsByFile[];
 
   return Promise.all(files.map((f) => {
@@ -77,8 +79,8 @@ export function lint(files: string[], configuration?: RulesConfig, additionalRul
     return readAndParseFile(f)
       .then(
         // Handle Promise.resolve
-        ({feature, pickles, file}) => {
-          perFileErrors = rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
+        async ({feature, pickles, file}) => {
+          perFileErrors = await rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
         },
         // Handle Promise.reject
         (parsingErrors) => {

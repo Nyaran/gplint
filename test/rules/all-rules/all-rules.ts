@@ -3,7 +3,7 @@ import * as linter from '../../../src/linter';
 import { RulesConfig} from '../../../src/types';
 
 // Test cases for incomplete feature files that have broken over time across multiple rules
-describe('Malformed features do not break the linter', function() {
+describe('Malformed features do not break the linter', async function() {
   function testRule(file: string, rule: string) {
     const configuration = {} as RulesConfig;
     if (rule === 'new-line-at-eof') {
@@ -19,7 +19,7 @@ describe('Malformed features do not break the linter', function() {
       });
   }
 
-  const allRules = rules.getAllRules();
+  const allRules = await rules.getAllRules();
 
   Object.keys(allRules).forEach((rule) => {
     it(`${rule} does not throw exceptions when processing an empty feature`, function() {
