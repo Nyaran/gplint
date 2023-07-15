@@ -63,7 +63,7 @@ describe('Keywords in logical order', function () {
         column: 5,
       },
       {
-        messageElements: { scenario: 'Scenario outline without Then', missingKeywords: 'when' },
+        messageElements: { scenario: 'Scenario outline without When', missingKeywords: 'when' },
         line: 7,
         column: 5,
       }
