@@ -183,6 +183,9 @@ The rule can be configured like this:
       "show last response",
       "a debugging step"
     ],
+    "Step": [
+      "bad step"
+    ],
     "Given": [
       "bad step given",
       "a debugging step given"
@@ -355,6 +358,22 @@ To search for duplicated including compiled outlines against all the features:
 }
 ```
 
+### keywords-in-logical-order
+`keywords-in-logical-order` Allows the user to maintain the wording order by using the scenario keywords, following the Given, When, Then sequence.
+
+* `detectMissingKeywords` (boolean): whether to ignore the lack of some keyword that violates the structure - defaults to `false`.
+Example configuration with default values:
+
+```json
+{
+  "keywords-in-logical-order": [
+    "error",
+    { 
+      "detectMissingKeywords": false
+    }
+  ]
+}
+```
 
 ### required-tags
 
