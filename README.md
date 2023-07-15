@@ -358,15 +358,15 @@ To search for duplicated including compiled outlines against all the features:
 }
 ```
 
-### no-structure-correct
-`no-structure-correct` Allows the user to maintain the wording order by using the scenario keywords, following the Given, When, Then sequence.
+### keywords-in-logical-order
+`keywords-in-logical-order` Allows the user to maintain the wording order by using the scenario keywords, following the Given, When, Then sequence.
 
 * `detectMissingKeywords` (boolean): whether to ignore the lack of some keyword that violates the structure - defaults to `false`.
 Example configuration with default values:
 
 ```json
 {
-  "no-structure-correct": [
+  "keywords-in-logical-order": [
     "error",
     { 
       "detectMissingKeywords": false
