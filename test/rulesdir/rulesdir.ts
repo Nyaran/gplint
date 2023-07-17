@@ -9,7 +9,7 @@ describe('rulesdir CLI option', function() {
       path.join('test', 'rulesdir', 'other_rules') // relative path from root
     ];
     const featureFile = path.join(__dirname, 'simple.feature');
-    return linter.lint([ featureFile ], path.join(__dirname, '.gplintrc'), additionalRulesDirs)
+    return linter.lintInit([ featureFile ], path.join(__dirname, '.gplintrc'), additionalRulesDirs)
       .then((results) => {
         expect(results).to.deep.equal([
           {
