@@ -28,7 +28,7 @@ const options = program.opts() as CliOptions;
 const additionalRulesDirs = options.rulesdir;
 const files = featureFinder.getFeatureFiles(program.args, options.ignore);
 
-linter.lint(files, options.config, additionalRulesDirs)
+linter.lintInit(files, options.config, additionalRulesDirs)
   .then(async (results) => {
     await printResults(results, options.format);
     process.exit(getExitCode(results, options));

@@ -12,6 +12,7 @@ import {
   GherkinError,
   RuleError,
   RuleErrorLevel,
+  RulesConfig,
 } from './types';
 import * as configParser from './config-parser';
 
@@ -68,11 +69,13 @@ export function readAndParseFile(filePath: string): Promise<GherkinData> {
   });
 }
 
-export async function lint(files: string[], configPath?: string, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
-  const configuration = configPath ? await configParser.getConfiguration(configPath, additionalRulesDirs) : {};
+export async function lintInit(files: string[], configPath?: string, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
+  const configuration = await configParser.getConfiguration(configPath, additionalRulesDirs);
+  return lint(files, configuration, additionalRulesDirs);
+}
 
+export function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
   const results = [] as ErrorsByFile[];
-
   return Promise.all(files.map((f) => {
     let perFileErrors = [] as RuleError[];
 

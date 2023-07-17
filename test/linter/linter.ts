@@ -3,7 +3,7 @@ import * as linter from '../../src/linter';
 import {RuleError} from '../../src';
 
 async function linterTest(feature: string, expected: RuleError[]) {
-  const actual = await linter.lint([feature]);
+  const actual = await linter.lint([feature], {});
   assert.lengthOf(actual, 1);
   assert.deepEqual(actual[0].errors, expected);
 }
