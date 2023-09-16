@@ -51,6 +51,6 @@ jobs:
       - name: Generate coverage report
         run: npx nyc report --reporter=json > coverage/coverage.json
 
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
