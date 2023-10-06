@@ -1,0 +1,32 @@
+{
+  "ignore": {
+    "chalk": {
+      "versions": ">4",
+      "reason": "From v5 requires ESM support"
+    },
+    "commander": {
+      "versions": ">10",
+      "reason": "From v11 requires Node 16"
+    },
+    "glob": {
+      "versions": ">8",
+      "reason": "From v9 requires Node 16"
+    },
+    "strip-ansi": {
+      "versions": ">6",
+      "reason": "From v7 requires ESM support"
+    },
+    "strip-json-comments": {
+      "versions": ">3",
+      "reason": "From v4 requires ESM support"
+    },
+    "@typescript-eslint/eslint-plugin": {
+      "versions": ">5",
+      "reason": "From v6 requires Node 16"
+    },
+    "@typescript-eslint/parser": {
+      "versions": ">5",
+      "reason": "From v6 requires Node 16"
+    }
+  }
+}
