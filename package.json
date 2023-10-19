@@ -67,7 +67,7 @@
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@types/chai": "4.3.9",
     "@types/glob": "8.1.0",
-    "@types/lodash": "4.14.199",
+    "@types/lodash": "4.14.200",
     "@types/mocha": "10.0.2",
     "@types/mock-fs": "4.13.2",
     "@types/node": "^20.8.2",
