@@ -73,7 +73,7 @@
     "@types/node": "^20.8.2",
     "@types/sinon": "10.0.19",
     "@types/sinon-chai": "3.2.10",
-    "@types/text-table": "0.2.3",
+    "@types/text-table": "0.2.4",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "chai": "4.3.10",
