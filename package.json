@@ -71,7 +71,7 @@
     "@types/mocha": "10.0.3",
     "@types/mock-fs": "4.13.3",
     "@types/node": "^20.8.2",
-    "@types/sinon": "10.0.20",
+    "@types/sinon": "17.0.0",
     "@types/sinon-chai": "3.2.11",
     "@types/text-table": "0.2.4",
     "@typescript-eslint/eslint-plugin": "5.62.0",
