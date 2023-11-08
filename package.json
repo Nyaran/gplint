@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@types/chai": "4.3.9",
+    "@types/chai": "4.3.10",
     "@types/glob": "8.1.0",
     "@types/lodash": "4.14.200",
     "@types/mocha": "10.0.3",
