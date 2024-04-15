@@ -1,8 +1,8 @@
-import * as os from 'os';
+import os from 'os';
 import chalk from 'chalk';
 import stripAnsi from 'strip-ansi';
 import table from 'text-table';
-import {ErrorsByFile, RuleErrorLevel} from '../types';
+import {ErrorsByFile, RuleErrorLevel} from '../types.js';
 
 const LEVELS_CONFIG = [
   undefined,

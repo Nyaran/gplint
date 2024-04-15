@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-background-only-scenario';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-background-only-scenario.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Backgrounds are not allowed when there is just one scenario.');
 

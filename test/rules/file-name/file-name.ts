@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/file-name';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/file-name.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'File names should be written in <%= style %> e.g. "<%= corrected %>"');
 
 describe('File Name Rule', function() {

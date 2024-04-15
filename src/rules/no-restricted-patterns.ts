@@ -1,5 +1,5 @@
-import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleSubConfig, RuleError , GherkinKeyworded} from '../types';
+import * as gherkinUtils from './utils/gherkin.js';
+import {GherkinData, RuleSubConfig, RuleError , GherkinKeyworded} from '../types.js';
 import {Background, Examples, Feature, Rule, Scenario, Step, StepKeywordType} from '@cucumber/messages';
 
 type IConfiguration<T> = {

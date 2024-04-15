@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, GherkinTaggable, RuleError, RuleSubConfig} from '../types';
+import {GherkinData, GherkinTaggable, RuleError, RuleSubConfig} from '../types.js';
 import {Tag} from '@cucumber/messages';
 
 export const name = 'related-tags';

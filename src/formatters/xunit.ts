@@ -1,5 +1,5 @@
 import * as convert from 'xml-js';
-import {ErrorsByFile, RuleErrorLevel} from '../types';
+import {ErrorsByFile, RuleErrorLevel} from '../types.js';
 
 function getMessageLevel(message: RuleErrorLevel): string {
   return message.level === 2 ? 'Error' : 'Warning';

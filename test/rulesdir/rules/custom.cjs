@@ -4,7 +4,7 @@ function custom() {
   return [
     {
       message: 'Custom error',
-      rule   : rule,
+      rule,
       line   : 123,
       column : 21
     }

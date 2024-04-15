@@ -1,5 +1,5 @@
-import * as allowAllCase from './abstracts/_allow-all-case';
-import {GherkinData, RuleSubConfig, RuleError} from '../types';
+import * as allowAllCase from './abstracts/_allow-all-case.js';
+import {GherkinData, RuleSubConfig, RuleError} from '../types.js';
 
 export const name = 'allow-all-lowercase';
 

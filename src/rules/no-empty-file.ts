@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, RuleError} from '../types';
+import {GherkinData, RuleError} from '../types.js';
 
 export const name = 'no-empty-file';
 

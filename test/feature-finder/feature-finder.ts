@@ -2,7 +2,9 @@ import {assert, expect} from 'chai';
 import mockFs from 'mock-fs';
 import * as sinon from 'sinon';
 
-import * as featureFinder from '../../src/feature-finder';
+import * as featureFinder from '../../src/feature-finder.js';
+import os from "os";
+import path from "node:path";
 
 describe('Feature finder', function() {
   beforeEach(function() {
@@ -37,22 +39,22 @@ describe('Feature finder', function() {
   });
 
   afterEach(function () {
-    consoleErrorStub.restore(); // eslint-disable-line no-console
+    consoleErrorStub.restore();
     processExitStub.restore();
     mockFs.restore();
   });
 
   it('returns all feature files found recursively in the current directory when no path is passed to the command line', function() {
     const actual = featureFinder.getFeatureFiles([]);
-    assert.deepEqual(actual, [
+    _assertPaths(actual, [
       'folder/with/found/features/a.feature',
-      'folder/with/found/features/folder/b.feature'
+      'folder/with/found/features/folder/b.feature',
     ]);
   });
 
   it('returns all feature files in a directory and its subfolders when a "path/to/dir/**" pattern is used', function() {
     const actual = featureFinder.getFeatureFiles(['folder/with/found/features/**']);
-    assert.deepEqual(actual, [
+    _assertPaths(actual, [
       'folder/with/found/features/a.feature',
       'folder/with/found/features/folder/b.feature'
     ]);
@@ -60,14 +62,14 @@ describe('Feature finder', function() {
 
   it('returns all feature files in a directory when a "path/to/dir/*.feature" pattern is used', function() {
     const actual = featureFinder.getFeatureFiles(['folder/with/found/features/*.feature']);
-    assert.deepEqual(actual, [
+    _assertPaths(actual, [
       'folder/with/found/features/a.feature'
     ]);
   });
 
   it('returns all feature files in a directory and its subfolders when a path to a directory is used', function() {
     const actual = featureFinder.getFeatureFiles(['folder/with/found/features/']);
-    assert.deepEqual(actual, [
+    _assertPaths(actual, [
       'folder/with/found/features/a.feature',
       'folder/with/found/features/folder/b.feature'
     ]);
@@ -78,7 +80,7 @@ describe('Feature finder', function() {
       'folder/with/found/features/**',
       'path/to/fake/**'
     ]);
-    assert.deepEqual(actual, [
+    _assertPaths(actual, [
       'folder/with/found/features/a.feature',
       'folder/with/found/features/folder/b.feature'
     ]);
@@ -87,7 +89,7 @@ describe('Feature finder', function() {
   it('ignores files when the --ignore argument is provided', function() {
     const actual = featureFinder.getFeatureFiles(['folder/with/found/features/**'],
       ['folder/with/found/features/**']);
-    assert.deepEqual(actual, []);
+    _assertPaths(actual, []);
   });
 
   it('ignores files in the .gplintignore when specified as glob patterns', function() {
@@ -96,15 +98,19 @@ describe('Feature finder', function() {
       'folder/with/found/features/a.feature\n\n..folder/with/found/features/**'
     });
     const actual = featureFinder.getFeatureFiles(['folder/with/found/features/**']);
-    assert.deepEqual(actual, []);
+    _assertPaths(actual, []);
   });
 
   it('prints an error message and exits with code 1 when a bad file pattern is used', function() {
     featureFinder.getFeatureFiles(['badpattern**']);
-    const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
+    const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
       return args[0];
     });
     expect(consoleErrorArgs[0]).to.include('Invalid format of the feature file path/pattern:');
     expect(processExitStub.args[0][0]).to.equal(1);
   });
 });
+
+function _assertPaths(current: string[], expected: string[]) {
+  assert.deepEqual(path.sep === '/' ? current : current.map(c => c.replaceAll(path.sep, '/')), expected);
+}

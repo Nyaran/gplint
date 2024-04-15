@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Tag} from '@cucumber/messages';
-import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleSubConfig, RuleError, GherkinTaggable} from '../types';
+import * as gherkinUtils from './utils/gherkin.js';
+import {GherkinData, RuleSubConfig, RuleError, GherkinTaggable} from '../types.js';
 
 export const name = 'no-restricted-tags';
 export const availableConfigs = {

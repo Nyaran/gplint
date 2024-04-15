@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {GherkinData, RuleSubConfig, RuleError} from '../types';
+import {GherkinData, RuleSubConfig, RuleError} from '../types.js';
 import {Examples, Feature, Rule as CucumberRule, Scenario} from '@cucumber/messages';
 
 export const name = 'max-tags-lines';

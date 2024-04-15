@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/name-length';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/name-length.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   '<%= element %> name is too long. Length of <%= length %> is longer than the maximum allowed: 70');
 

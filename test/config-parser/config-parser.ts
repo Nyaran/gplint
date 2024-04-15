@@ -1,10 +1,8 @@
-import {expect, use} from 'chai';
+import {expect} from 'chai';
 import mockFs from 'mock-fs';
 import * as sinon from 'sinon';
-import * as configParser from '../../src/config-parser';
-import sinonChai from 'sinon-chai';
-
-use(sinonChai);
+import * as configParser from '../../src/config-parser.js';
+import { SinonSpy } from 'sinon';
 
 describe('Configuration parser', function () {
   beforeEach(function () {
@@ -33,10 +31,10 @@ describe('Configuration parser', function () {
       const configFilePath = './non/existing/path';
       await configParser.getConfiguration(configFilePath);
 
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
+      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
         return args[0];
       });
-      expect(consoleErrorArgs[0]).to.include('Could not find specified config file "' + configFilePath + '"');
+      expect(consoleErrorArgs[0]).to.include(`Could not find config file "${configFilePath}" in the working directory`);
       expect(processExitStub.args[0][0]).to.equal(1);
     });
 
@@ -44,11 +42,11 @@ describe('Configuration parser', function () {
       mockFs({});
       await configParser.getConfiguration();
 
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
+      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
         return args[0];
       });
 
-      expect(consoleErrorArgs[0]).to.include('Could not find default config file');
+      expect(consoleErrorArgs[0]).to.include('Could not find config file ".gplintrc" in the working directory');
       expect(processExitStub.args[0][0]).to.equal(1);
     });
 
@@ -56,7 +54,7 @@ describe('Configuration parser', function () {
       const configFilePath = 'test/config-parser/bad_config.gplintrc';
       await configParser.getConfiguration(configFilePath);
 
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
+      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
         return args[0];
       });
 
@@ -69,14 +67,14 @@ describe('Configuration parser', function () {
     it('a good configuration file is used', async function () {
       const configFilePath = 'test/config-parser/good_config.gplintrc';
       const parsedConfig = await configParser.getConfiguration(configFilePath);
-      expect(process.exit).to.not.have.been.calledWith(1);
+      sinon.assert.neverCalledWith(process.exit as SinonSpy<[number], never>, 1)
       expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
     });
 
     it('a good configuration file is used that includes comments', async function () {
       const configFilePath = 'test/config-parser/good_config_with_comments.gplintrc';
       const parsedConfig = await configParser.getConfiguration(configFilePath);
-      expect(process.exit).to.not.have.been.calledWith(1);
+      sinon.assert.neverCalledWith(process.exit as SinonSpy<[number], never>, 1)
       expect(parsedConfig).to.deep.eq({'no-files-without-scenarios': 'off'});
     });
 
@@ -86,7 +84,7 @@ describe('Configuration parser', function () {
       });
 
       await configParser.getConfiguration();
-      expect(process.exit).to.not.have.been.calledWith(1);
+      sinon.assert.neverCalledWith(process.exit as SinonSpy<[number], never>, 1);
     });
   });
 });

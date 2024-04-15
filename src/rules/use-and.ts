@@ -1,6 +1,6 @@
-import * as gherkinUtils from './utils/gherkin';
+import * as gherkinUtils from './utils/gherkin.js';
 import {Background, Scenario, Step} from '@cucumber/messages';
-import {GherkinData, RuleError} from '../types';
+import {GherkinData, RuleError} from '../types.js';
 
 export const name = 'use-and';
 

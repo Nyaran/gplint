@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {Examples, Feature, Scenario, Tag} from '@cucumber/messages';
-import {GherkinData, RuleError, RuleSubConfig} from '../types';
+import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
 
 export const name = 'allowed-tags';
 

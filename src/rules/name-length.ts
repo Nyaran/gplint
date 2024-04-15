@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, RuleError, RuleSubConfig} from '../types';
+import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
 import {Background, Location, Scenario} from '@cucumber/messages';
 
 export const name = 'name-length';

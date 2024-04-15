@@ -1,6 +1,6 @@
 import {assert} from 'chai';
-import * as linter from '../../src/linter';
-import {RuleError} from '../../src';
+import * as linter from '../../src/linter.js';
+import {RuleError} from '../../src/index.js';
 
 async function linterTest(feature: string, expected: RuleError[]) {
   const actual = await linter.lint([feature], {});

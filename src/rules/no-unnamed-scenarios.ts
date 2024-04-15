@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types';
+import {GherkinData, RuleError} from '../types.js';
 
 export const name = 'no-unnamed-scenarios';
 

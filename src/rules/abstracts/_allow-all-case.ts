@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, RuleSubConfig, RuleError} from '../../types';
+import {GherkinData, RuleSubConfig, RuleError} from '../../types.js';
 import {
   Background,
   Examples,

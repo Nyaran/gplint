@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Pickle, Scenario} from '@cucumber/messages';
-import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleError, RuleSubConfig} from '../types';
+import * as gherkinUtils from './utils/gherkin.js';
+import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
 
 export const name = 'no-dupe-scenario-names';
 export const availableConfigs = [

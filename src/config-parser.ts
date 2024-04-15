@@ -1,34 +1,30 @@
-import * as fs from 'fs';
+import fs from 'fs';
 import stripJsonComments from 'strip-json-comments';
-import * as verifyConfig from './config-verifier';
-import * as logger from './logger';
-import {RulesConfig} from './types';
+import * as verifyConfig from './config-verifier.js';
+import * as logger from './logger.js';
+import {RulesConfig} from './types.js';
 export const defaultConfigFileName = '.gplintrc';
 
-export async function getConfiguration(configPath?: string, additionalRulesDirs?: string[]): Promise<RulesConfig> {
-  if (configPath) {
-    if (!fs.existsSync(configPath)) {
-      logger.boldError('Could not find specified config file "' + configPath + '"');
+export async function getConfiguration(configPath: string = defaultConfigFileName, additionalRulesDirs?: string[]): Promise<RulesConfig> {
+  try {
+    const config = JSON.parse(stripJsonComments(await fs.promises.readFile(configPath, {encoding: 'utf8'}))) as RulesConfig;
+    const errors = await verifyConfig.verifyConfigurationFile(config, additionalRulesDirs);
+
+    if (errors.length > 0) {
+      logger.boldError('Error(s) in configuration file:');
+      errors.forEach(error => {
+        logger.error(`- ${error}`);
+      });
+      process.exit(1);
+    }
+
+    return config;
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      logger.boldError(`Could not find config file "${configPath}" in the working directory.
+To use a custom name/path provide the config file using the "-c" arg.`);
       return process.exit(1);
     }
-  } else {
-    if (!fs.existsSync(defaultConfigFileName)) {
-      logger.boldError('Could not find default config file "' + defaultConfigFileName +'" in the working ' +
-                      'directory.\nTo use a custom name/path provide the config file using the "-c" arg.');
-      return process.exit(1);
-    }
-    configPath = defaultConfigFileName;
+    throw e;
   }
-  const config = JSON.parse(stripJsonComments(fs.readFileSync(configPath, {encoding: 'utf8'}))) as RulesConfig;
-  const errors = await verifyConfig.verifyConfigurationFile(config, additionalRulesDirs);
-
-  if (errors.length > 0) {
-    logger.boldError('Error(s) in configuration file:');
-    errors.forEach(error => {
-      logger.error(`- ${error}`);
-    });
-    process.exit(1);
-  }
-
-  return config;
 }

@@ -1,13 +1,13 @@
 const rule = 'another-custom-list';
 const availableConfigs = {
-  'element': []
+  element: []
 };
 
 function custom() {
   return [
     {
       message: 'Another custom-list error',
-      rule   : rule,
+      rule,
       line   : 109,
       column : 27
     }
@@ -17,5 +17,5 @@ function custom() {
 module.exports = {
   name: rule,
   run: custom,
-  availableConfigs: availableConfigs
+  availableConfigs
 };

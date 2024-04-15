@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import * as logger from './../logger';
-import {GherkinData, RuleError, RuleSubConfig} from '../types';
+import * as logger from './../logger.js';
+import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
 
 export const name = 'new-line-at-eof';
 export const availableConfigs = [

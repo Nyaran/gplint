@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/scenario-size';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/scenario-size.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Element <%= type %> too long: actual <%= actual %>, expected <%= expected %>');
 
 describe('Scenario size Rule', function() {

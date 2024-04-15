@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-dupe-scenario-names';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-dupe-scenario-names.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Scenario name is already used in: <%= location %>');
 

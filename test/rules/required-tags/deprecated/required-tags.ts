@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../../rule-test-base';
-import * as rule from '../../../../src/rules/required-tags';
+import * as ruleTestBase from '../../rule-test-base.js';
+import * as rule from '../../../../src/rules/required-tags.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'The tag(s) [<%= tags %>] should be present for <%= nodeType %>.');
 
 describe('Required Tags Rule - Deprecated', function() {

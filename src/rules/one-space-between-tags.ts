@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, RuleError} from '../types';
+import {GherkinData, RuleError} from '../types.js';
 import {Examples, Feature, Scenario} from '@cucumber/messages';
 
 export const name = 'one-space-between-tags';

@@ -1,5 +1,5 @@
-import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleError} from '../types';
+import * as gherkinUtils from './utils/gherkin.js';
+import {GherkinData, RuleError} from '../types.js';
 
 export const name = 'no-examples-in-scenarios';
 

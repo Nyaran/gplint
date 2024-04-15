@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-empty-file';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-empty-file.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Empty feature files are disallowed');
 
 describe('No Empty Files Rule', function() {

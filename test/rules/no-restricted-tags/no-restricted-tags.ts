@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-restricted-tags';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-restricted-tags.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Forbidden tag <%= tag %> on <%= nodeType %>');
 
 describe('No Restricted Tags Rule', function() {

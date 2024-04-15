@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/max-scenarios-per-file';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/max-scenarios-per-file.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Number of scenarios exceeds maximum: <%= variable %>/10');
 
 describe('Max Scenarios per File rule', function () {

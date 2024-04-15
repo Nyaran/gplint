@@ -11,14 +11,6 @@ import {
   Background,
 } from '@cucumber/messages';
 
-export interface CliOptions {
-  format: string
-  ignore: string[]
-  config: string
-  rulesdir: string[]
-  maxWarnings: number
-}
-
 export interface Rules {
   [key: string]: Rule
 }

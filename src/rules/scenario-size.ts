@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import * as gherkinUtils from './utils/gherkin';
+import * as gherkinUtils from './utils/gherkin.js';
 
-import {GherkinData, RuleError, RuleSubConfig} from '../types';
+import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
 import {Background, Scenario} from '@cucumber/messages';
 
 export const name = 'scenario-size';

@@ -1,9 +1,7 @@
-import {expect, use} from 'chai';
-import {getRuleLevel} from '../src/rules';
+import {expect} from 'chai';
+import {getRuleLevel} from '../src/rules.js';
 import * as sinon from 'sinon';
-import sinonChai from 'sinon-chai';
-
-use(sinonChai);
+import { SinonSpy } from 'sinon';
 
 describe('Levels config', () => {
   it('name to number', () => {
@@ -46,7 +44,7 @@ describe('Levels config', () => {
     it('on as error', () => {
       expect(getRuleLevel('on', 'foo-bar')).to.be.equals(2);
 
-      expect(console.warn).to.be.calledOnce;
+      sinon.assert.calledOnce(console.warn as SinonSpy);
     });
   });
 });

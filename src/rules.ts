@@ -1,8 +1,9 @@
-import * as path from 'path';
+import path from 'path';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 
 import {Feature, Pickle} from '@cucumber/messages';
 import * as glob from 'glob';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import {
   FileData,
@@ -14,7 +15,7 @@ import {
   Rules,
   RulesConfig,
   RuleSubConfig,
-} from './types';
+} from './types.js';
 
 const LEVELS = [
   'off',
@@ -32,19 +33,22 @@ export async function getAllRules(additionalRulesDirs?: string[]): Promise<Rules
   }
 
   const rules = {} as Rules;
-
+  const cwd = path.dirname(fileURLToPath(import.meta.url));
   const rulesDirs = [
-    path.join(__dirname, 'rules')
+    path.join(cwd, 'rules')
   ].concat(additionalRulesDirs || []);
 
-  rulesDirs.forEach(rulesDir => {
+  for (let rulesDir of rulesDirs) {
     rulesDir = path.resolve(rulesDir);
-    const rulesWildcard = path.join(rulesDir, '*.[jt]s');
-    glob.sync(rulesWildcard, {windowsPathsNoEscape: true, ignore: '**/*.d.ts'}).forEach(file => {
-      const rule = require(file);
+    const rulesWildcard = path.join(rulesDir, '*.?(c|m)@(j|t)s'); // .js, .cjs, .mjs (and TS equivalents)
+    for (const file of glob.sync(rulesWildcard, {
+      windowsPathsNoEscape: true,
+      ignore: '**/*.d.?(c|m)ts'
+    })) {
+      const rule = await import(pathToFileURL(file).toString());
       rules[rule.name] = rule;
-    });
-  });
+    }
+  }
   return rules;
 }
 
@@ -93,7 +97,7 @@ export async function runAllEnabledRules(feature: Feature, pickles: Pickle[], fi
       const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
 
       if (error?.length > 0) {
-        error.forEach(e => e.level = ruleLevel);
+        error.forEach(e => (e.level = ruleLevel));
         errors = errors.concat(error);
       }
     }
@@ -109,8 +113,5 @@ async function loadRegister(): Promise<void> {
         allowJs: true
       }
     });
-  } catch (err) {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-  }
+  } catch (err) { /* empty */ }
 }
-

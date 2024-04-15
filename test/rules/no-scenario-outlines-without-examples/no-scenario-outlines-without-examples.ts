@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-scenario-outlines-without-examples';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-scenario-outlines-without-examples.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Scenario Outline does not have any Examples');
 

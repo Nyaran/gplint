@@ -1,6 +1,6 @@
-import * as rules from '../../../src/rules';
-import * as linter from '../../../src/linter';
-import { RulesConfig} from '../../../src/types';
+import * as rules from '../../../src/rules.js';
+import * as linter from '../../../src/linter.js';
+import { RulesConfig} from '../../../src/types.js';
 
 // Test cases for incomplete feature files that have broken over time across multiple rules
 describe('Malformed features do not break the linter', async function() {

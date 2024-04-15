@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-homogenous-tags';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-homogenous-tags.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   '<%= intro %> have the same tag(s), they should be defined on the <%= nodeType %> instead: <%= tags %>');
 

@@ -1,4 +1,4 @@
-import {GherkinData, GherkinTaggable, RuleError} from '../types';
+import {GherkinData, GherkinTaggable, RuleError} from '../types.js';
 
 export const name = 'no-partially-commented-tag-lines';
 

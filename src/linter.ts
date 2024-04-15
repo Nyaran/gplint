@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import * as _ from 'lodash';
+import fs from 'fs';
+import _ from 'lodash';
 import {Feature, ParseError, Pickle} from '@cucumber/messages';
 import {GherkinStreams} from '@cucumber/gherkin-streams';
 
-import * as logger from './logger';
-import * as rules from './rules';
+import * as logger from './logger.js';
+import * as rules from './rules.js';
 import {
   Errors,
   ErrorsByFile,
@@ -13,10 +13,10 @@ import {
   RuleError,
   RuleErrorLevel,
   RulesConfig,
-} from './types';
-import * as configParser from './config-parser';
+} from './types.js';
+import * as configParser from './config-parser.js';
 
-export function readAndParseFile(filePath: string): Promise<GherkinData> {
+export async function readAndParseFile(filePath: string): Promise<GherkinData> {
   let feature: Feature;
   const pickles = [] as Pickle[];
   const parsingErrors = [] as ParseError[];
@@ -74,9 +74,9 @@ export async function lintInit(files: string[], configPath?: string, additionalR
   return lint(files, configuration, additionalRulesDirs);
 }
 
-export function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
+export async function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
   const results = [] as ErrorsByFile[];
-  return Promise.all(files.map((f) => {
+  return Promise.all(files.map(async (f) => {
     let perFileErrors = [] as RuleError[];
 
     return readAndParseFile(f)
@@ -118,7 +118,6 @@ function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
   let index = 0;
   if (errors[0].message.includes('got \'Background') &&
     errors[1].message.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
-
     errorMsgs.push({
       message: 'Tags on Backgrounds are disallowed',
       rule: 'no-tags-on-backgrounds',
@@ -139,7 +138,6 @@ function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
   return {errors: errors.slice(index), errorMsgs};
 }
 
-/*eslint no-console: "off"*/
 function getFormattedFatalError(error: RuleError|ParseError): RuleErrorLevel {
   const errorLine = parseInt(error.message.match(/\((\d+):.*/)[1]);
   let errorMsg;
@@ -156,14 +154,13 @@ function getFormattedFatalError(error: RuleError|ParseError): RuleErrorLevel {
   ) {
     errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed';
     rule = 'no-multiline-steps';
-
   } else {
     errorMsg = error.message;
     rule = 'unexpected-error';
   }
   return {
     message: errorMsg,
-    rule: rule,
+    rule,
     line: errorLine,
     column: 0,
     level: 2, // Force error

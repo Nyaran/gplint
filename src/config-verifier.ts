@@ -1,5 +1,5 @@
-import * as rules from './rules';
-import {RuleConfig, RuleConfigArray, RulesConfig, RuleSubConfig} from './types';
+import * as rules from './rules.js';
+import {RuleConfig, RulesConfig, RuleSubConfig} from './types.js';
 
 export async function verifyConfigurationFile(config: RulesConfig, additionalRulesDirs?: string[]): Promise<string[]> {
   const errors = [];
@@ -18,18 +18,18 @@ async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, add
   const genericErrorMsg = `Invalid rule configuration for "${rule}" -`;
 
   if (Array.isArray(ruleConfig)) {
-    if (!enablingSettings.includes((ruleConfig as RuleConfigArray)[0] as string)) {
+    if (!enablingSettings.includes(ruleConfig[0] as string)) {
       errors.push(`${genericErrorMsg} The first part of the config should be ${enablingSettings.join('/')}.`);
     }
 
-    if (ruleConfig.length !== 2 ) {
+    if (ruleConfig.length !== 2) {
       errors.push(`${genericErrorMsg} The config should only have 2 parts.`);
     }
 
     const ruleObj = await rules.getRule(rule, additionalRulesDirs);
     let isValidSubConfig;
 
-    if (typeof(ruleConfig[1]) === 'string') {
+    if (typeof (ruleConfig[1]) === 'string') {
       isValidSubConfig = (availableConfigs: unknown, subConfig: string): boolean => (ruleObj.availableConfigs as string[]).includes(subConfig);
       await testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
@@ -48,6 +48,6 @@ async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, add
 async function testSubconfig(genericErrorMsg: string, rule: string, subConfig: RuleSubConfig<unknown>, isValidSubConfig: (availableConfigs: unknown, subConfig: RuleSubConfig<unknown> | string) => boolean, additionalRulesDirs: string[], errors: string[]): Promise<void> {
   const ruleObj = await rules.getRule(rule, additionalRulesDirs);
   if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
-    errors.push(`${genericErrorMsg} The rule does not have the specified configuration option "${subConfig}"`);
+    errors.push(`${genericErrorMsg} The rule does not have the specified configuration option "${subConfig as string}"`);
   }
 }

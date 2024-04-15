@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-duplicate-tags';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-duplicate-tags.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Duplicate tags are not allowed: <%= tags %>');
 
 describe('No Duplicate Tags Rule', function() {

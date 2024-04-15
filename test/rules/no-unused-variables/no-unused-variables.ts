@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-unused-variables';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-unused-variables.js';
 
 describe('No Unused Variables Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/indentation';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/indentation.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Wrong indentation for "<%= element %>", expected indentation level of <%= expected %>, but got <%= actual %>');
 

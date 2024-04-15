@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-trailing-spaces';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-trailing-spaces.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Trailing spaces are not allowed');
 
 describe('No Trailing Spaces Rule', function() {

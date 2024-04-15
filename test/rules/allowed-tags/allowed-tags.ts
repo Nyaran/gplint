@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/allowed-tags';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/allowed-tags.js';
 
 const runTest = ruleTestBase.createRuleTest(rule, 'Not allowed tag <%= tags %> on <%= nodeType %>');
 

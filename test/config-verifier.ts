@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import * as verifyConfig from '../src/config-verifier';
+import * as verifyConfig from '../src/config-verifier.js';
 
 describe('Config Verifier', function() {
   describe('Verification is successful when', function() {

@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types';
+import {GherkinData, RuleError} from '../types.js';
 import {Background} from '@cucumber/messages';
 
 export const name = 'no-empty-background';

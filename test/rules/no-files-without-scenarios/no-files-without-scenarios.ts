@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-files-without-scenarios';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-files-without-scenarios.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Feature file does not have any Scenarios');
 
 describe('No Files Without Scenarios Rule', function() {

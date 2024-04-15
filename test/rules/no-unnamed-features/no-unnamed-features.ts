@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-unnamed-features';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-unnamed-features.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Missing Feature name');
 
 describe('No Unnamed Features Rule', function() {

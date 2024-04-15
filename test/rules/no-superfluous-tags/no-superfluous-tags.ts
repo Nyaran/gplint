@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-superfluous-tags';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-superfluous-tags.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Tag duplication between <%= childType %> and its corresponding <%=parentType %>: <%= tags %>');
 

@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-empty-background';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-empty-background.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Empty backgrounds are not allowed.');
 

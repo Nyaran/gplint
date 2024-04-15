@@ -1,6 +1,6 @@
-import * as gherkinUtils from './utils/gherkin';
+import * as gherkinUtils from './utils/gherkin.js';
 import _ from 'lodash';
-import { GherkinData, RuleSubConfig, RuleError } from '../types';
+import { GherkinData, RuleSubConfig, RuleError } from '../types.js';
 import { Step, Scenario } from '@cucumber/messages';
 export const name = 'keywords-in-logical-order';
 export const availableConfigs = {

@@ -1,7 +1,7 @@
-import * as ruleTestBase from '../rule-test-base';
+import * as ruleTestBase from '../rule-test-base.js';
 
-import * as _commons from './_commons';
-import {Rule} from '../../../src/types';
+import * as _commons from './_commons.js';
+import {Rule} from '../../../src/types.js';
 
 export const tests = ({
   rule,

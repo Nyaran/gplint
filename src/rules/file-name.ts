@@ -1,7 +1,7 @@
-import * as path from 'path';
+import path from 'path';
 import _ from 'lodash';
 
-import {GherkinData, RuleSubConfig, RuleError} from '../types';
+import {GherkinData, RuleSubConfig, RuleError} from '../types.js';
 
 export const name = 'file-name';
 export const availableConfigs = {

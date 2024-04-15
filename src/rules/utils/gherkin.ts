@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as Gherkin from '@cucumber/gherkin';
 import {Feature, Pickle, Scenario} from '@cucumber/messages';
-import {GherkinKeyworded, GherkinNode, GherkinTaggable} from '../../types';
+import {GherkinKeyworded, GherkinNode, GherkinTaggable} from '../../types.js';
 
 // We use the node's keyword to determine the node's type
 // because it's the only way to distinguish a scenario with a scenario outline

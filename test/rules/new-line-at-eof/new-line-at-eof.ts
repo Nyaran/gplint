@@ -2,9 +2,9 @@ import {Feature} from '@cucumber/messages';
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/new-line-at-eof';
-import {FileData, RuleSubConfig} from '../../../src/types';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/new-line-at-eof.js';
+import {FileData, RuleSubConfig} from '../../../src/types.js';
 
 const runTestRequireNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is required');
 const runTestDisallowNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is not allowed');
@@ -27,7 +27,7 @@ describe('New Line at EOF Rule', function() {
     });
 
     afterEach(function () {
-      consoleErrorStub.restore(); // eslint-disable-line no-console
+      consoleErrorStub.restore();
       processExitStub.restore();
     });
 
@@ -37,7 +37,7 @@ describe('New Line at EOF Rule', function() {
       const invalidConfiguration = 'k' as RuleSubConfig<string>;
 
       rule.run({feature: featureStub, file: fileStub}, invalidConfiguration);
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) { // eslint-disable-line no-console
+      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
         return args[0];
       });
 

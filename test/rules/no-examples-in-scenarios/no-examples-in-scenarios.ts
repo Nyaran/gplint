@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/no-examples-in-scenarios';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/no-examples-in-scenarios.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'Cannot use "Examples" in a "Scenario", use a "Scenario Outline" instead');
 
 describe('No Examples in Scenarios', function() {

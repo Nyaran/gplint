@@ -1,6 +1,6 @@
-import * as allowAllCase from './allow-all-case';
+import * as allowAllCase from './allow-all-case.js';
 
-import * as rule from '../../../src/rules/allow-all-caps';
+import * as rule from '../../../src/rules/allow-all-caps.js';
 
 describe('allow-all-caps', () => {
   allowAllCase.tests({

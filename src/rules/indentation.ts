@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleSubConfig, RuleError} from '../types';
+import * as gherkinUtils from './utils/gherkin.js';
+import {GherkinData, RuleSubConfig, RuleError} from '../types.js';
 import {Location, Step, Tag} from '@cucumber/messages';
 
 export const name = 'indentation';

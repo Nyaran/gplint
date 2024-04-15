@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/keywords-in-logical-order';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/keywords-in-logical-order.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Step "<%= keyword %> <%= text %>" should not appear after step using keyword <%= priorKeyword %>');
 const runTestDetectMissingKeyword = ruleTestBase.createRuleTest(rule, 'The scenario "<%= scenario %>" does not have the following keywords: <%= missingKeywords %>');

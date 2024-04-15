@@ -1,5 +1,5 @@
-import * as ruleTestBase from '../rule-test-base';
-import * as rule from '../../../src/rules/max-tags-lines';
+import * as ruleTestBase from '../rule-test-base.js';
+import * as rule from '../../../src/rules/max-tags-lines.js';
 const runTest = ruleTestBase.createRuleTest(rule,
   'Number of line tags for "<%= keyword %>" exceeds the maximum: <%= tagsLinesCount %>/<%= maxLines %>');
 

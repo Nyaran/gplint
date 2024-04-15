@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types';
+import {GherkinData, RuleError} from '../types.js';
 import {Location} from '@cucumber/messages';
 
 export const name = 'no-unused-variables';

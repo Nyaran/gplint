@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import _ from 'lodash';
-import * as linter from '../../src/linter';
-import {Rule, RuleSubConfig} from '../../src/types';
+import * as linter from '../../src/linter.js';
+import {Rule, RuleSubConfig} from '../../src/types.js';
 
 interface RuleErrorTemplate {
   messageElements?: { [key: string]: string | number | (string | number)[] }

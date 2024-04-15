@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as glob from 'glob';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as logger from './logger';
+import fs from 'fs';
+import path from 'path';
+import * as logger from './logger.js';
 
 export const defaultIgnoreFileName = '.gplintignore';
 const defaultIgnoredFiles = 'node_modules/**'; // Ignore node_modules by default
@@ -26,7 +26,7 @@ export function getFeatureFiles(args: string[], ignoreArg?: string[]): string[] 
         if (fs.statSync(pattern).isDirectory()) {
           fixedPattern = path.join(pattern, '**/*.feature');
         }
-      } catch(e) {
+      } catch (e) {
         // Don't show the fs callstack, we will print a custom error message bellow instead
       }
     }

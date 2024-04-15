@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Scenario} from '@cucumber/messages';
-import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, GherkinTaggable, RuleError} from '../types';
+import * as gherkinUtils from './utils/gherkin.js';
+import {GherkinData, GherkinTaggable, RuleError} from '../types.js';
 
 export const name = 'no-superfluous-tags';
 

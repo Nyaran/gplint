@@ -1,15 +1,18 @@
+import { fileURLToPath } from 'node:url';
 import * as path from 'path';
 import {expect} from 'chai';
-import * as linter from '../../src/linter';
+import * as linter from '../../src/linter.js';
 
 describe('rulesdir CLI option', function() {
   it('loads additional rules from specified directories', async function() {
+    this.timeout(15_000); // TODO Check why needs a lot of time sometimes
+    const cwd = path.dirname(fileURLToPath(import.meta.url));
     const additionalRulesDirs = [
-      path.join(__dirname, 'rules'), // absolute path
+      path.join(cwd, 'rules'), // absolute path
       path.join('test', 'rulesdir', 'other_rules') // relative path from root
     ];
-    const featureFile = path.join(__dirname, 'simple.feature');
-    return linter.lintInit([ featureFile ], path.join(__dirname, '.gplintrc'), additionalRulesDirs)
+    const featureFile = path.join(cwd, 'simple.feature');
+    return linter.lintInit([ featureFile ], path.join(cwd, '.gplintrc'), additionalRulesDirs)
       .then((results) => {
         expect(results).to.deep.equal([
           {
