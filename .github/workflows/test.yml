@@ -23,7 +23,7 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
-        node-version: [18, 20, 21]
+        node-version: [18, 20, 22]
         architecture:
           - x64
     name: Node ${{ matrix.node-version }} - ${{ matrix.architecture }} on ${{ matrix.os }}
@@ -43,10 +43,11 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run the tests
-        run: npm test
+        run: npm run test:unit:codecov
 
       # Report Coverage
       - name: Report coverage
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/

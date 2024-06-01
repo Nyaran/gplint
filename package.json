@@ -47,7 +47,9 @@
     "lint": "eslint --max-warnings 0 ./src ./test",
     "test": "run-s -c -n lint test:unit:cov",
     "test:unit": "cross-env NODE_ENV=test mocha --recursive",
-    "test:unit:cov": "c8 npm run test:unit"
+    "test:unit:cov": "npm run :test:unit:cov --reporter=text",
+    "test:unit:codecov": "npm run :test:unit:cov --reporter=lcov",
+    ":test:unit:cov": "c8 --reporter=$npm_config_reporter npm run test:unit"
   },
   "types": "./build/index.d.ts",
   "dependencies": {
