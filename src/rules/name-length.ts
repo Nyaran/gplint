@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
 import {Background, Location, Scenario} from '@cucumber/messages';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'name-length';
 
@@ -41,10 +42,14 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
   // Check Feature name length
   test(feature.name, feature.location, mergedConfiguration, 'Feature', errors);
 
-  feature.children.forEach(child => {
-    if (child.rule) {
-      test(child.rule.name, child.rule.location, mergedConfiguration, 'Rule', errors);
-    } else if (child.background) {
+  const {children, rules} = featureSpread(feature);
+
+  rules.forEach(rule => {
+    test(rule.name, rule.location, mergedConfiguration, 'Rule', errors);
+  });
+
+  children.forEach(child => {
+    if (child.background) {
       testSteps(child.background, mergedConfiguration, errors);
     } else {
       test(child.scenario.name, child.scenario.location, mergedConfiguration, 'Scenario', errors);

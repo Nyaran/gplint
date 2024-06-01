@@ -1,5 +1,6 @@
 import * as ruleTestBase from '../rule-test-base.js';
 import * as rule from '../../../src/rules/file-name.js';
+import { AssertionError, expect } from 'chai';
 const runTest = ruleTestBase.createRuleTest(rule, 'File names should be written in <%= style %> e.g. "<%= corrected %>"');
 
 describe('File Name Rule', function() {
@@ -62,6 +63,13 @@ describe('File Name Rule', function() {
       return runTest('file-name/camelCaseACRON.feature', {
         'style': 'camelCase',
         'allowAcronyms': true
+      }, []);
+    });
+
+    it('doesn\'t raise errors when there are no violations with acronyms enabled (first word)', () => {
+      return runTest('file-name/ACRONCamelCase.feature', {
+        'style': 'camelCase',
+        'allowAcronyms': true,
       }, []);
     });
 
@@ -248,5 +256,19 @@ describe('File Name Rule', function() {
         column: 0,
       }]);
     });
+  });
+
+  it('when set up unhandled style', async () => {
+    try {
+      await runTest('file-name/camelCase.feature', {
+        'style': 'unhandled'
+      }, []);
+      expect(true, 'Method doesn\'t throw an error').to.be.false;
+    } catch (e) {
+      if (e instanceof AssertionError) {
+        throw e; // eslint-disable-line @typescript-eslint/only-throw-error
+      }
+      expect(e.message).to.be.equals('Style "unhandled" not supported for file-name rule');
+    }
   });
 });

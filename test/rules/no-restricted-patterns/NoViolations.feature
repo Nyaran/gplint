@@ -11,6 +11,7 @@ This is a good description
   When another allowed step is used
   Then no errors should be reported
 
+Rule: Allowed rule text
 Scenario Outline: Allowed steps only
 This is a good description
   Given I use one allowed step

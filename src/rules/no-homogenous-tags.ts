@@ -14,6 +14,8 @@ export function run({feature}: GherkinData): RuleError[] {
   // should be applied on a feature level
   const childrenTags = [] as string[][];
 
+  // TODO Support Rule (should take into account scenarios inside rule for tags)
+
   feature.children.forEach(child => {
     if (child.scenario) {
       const scenario = child.scenario;

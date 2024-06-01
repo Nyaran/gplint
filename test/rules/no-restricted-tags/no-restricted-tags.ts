@@ -35,33 +35,43 @@ describe('No Restricted Tags Rule', function() {
       column: 22,
     },
     {
-      messageElements: {tag: '@badTag', nodeType:'Scenario Outline'},
+      messageElements: {tag: '@badTag', nodeType:'Rule'},
       line: 11,
+      column: 10,
+    },
+    {
+      messageElements: {tag: '@anotherBadTag', nodeType:'Rule'},
+      line: 11,
+      column: 18,
+    },
+    {
+      messageElements: {tag: '@badTag', nodeType:'Scenario Outline'},
+      line: 13,
       column: 14,
     },
     {
       messageElements: {tag: '@anotherBadTag', nodeType:'Scenario Outline'},
-      line: 11,
+      line: 13,
       column: 22,
     },
     {
       messageElements: {tag: '@badTag', nodeType:'Examples'},
-      line: 14,
+      line: 16,
       column: 14,
     },
     {
       messageElements: {tag: '@anotherBadTag', nodeType:'Examples'},
-      line: 14,
+      line: 16,
       column: 22,
     },
     {
       messageElements: {tag: '@badTag', nodeType:'Examples'},
-      line: 19,
+      line: 21,
       column: 14,
     },
     {
       messageElements: {tag: '@anotherBadTag', nodeType:'Examples'},
-      line: 19,
+      line: 21,
       column: 22,
     }]);
   });

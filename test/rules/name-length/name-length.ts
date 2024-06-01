@@ -26,12 +26,16 @@ describe('Name length rule', function() {
       line: 7,
       column: 3,
     },{
-      messageElements: {element: 'Scenario', length: 98},
+      messageElements: {element: 'Rule', length: 86},
       line: 9,
       column: 1,
     },{
-      messageElements: {element: 'Step', length: 108},
+      messageElements: {element: 'Scenario', length: 98},
       line: 10,
+      column: 1,
+    },{
+      messageElements: {element: 'Step', length: 108},
+      line: 11,
       column: 3,
     }]);
   });

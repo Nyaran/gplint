@@ -5,32 +5,31 @@ import {GherkinKeyworded, GherkinNode, GherkinTaggable} from '../../types.js';
 
 // We use the node's keyword to determine the node's type
 // because it's the only way to distinguish a scenario with a scenario outline
-export function getNodeType(node: GherkinNode, language: string): string {
-  const key = getLanguageInsensitiveKeyword(node as GherkinTaggable, language).toLowerCase();
-  const stepKeys = [
-    'given',
-    'when',
-    'then',
-    'and',
-    'but',
-  ];
+export function getNodeType(node: GherkinKeyworded, language: string): string {
+  const key = getLanguageInsensitiveKeyword(node as GherkinTaggable, language);
 
-  if (key === 'feature') {
-    return 'Feature';
-  } else if (key === 'rule') {
-    return 'Rule';
-  } else if (key === 'background') {
-    return 'Background';
-  } else if (key === 'scenario') {
-    return 'Scenario';
-  } else if (key === 'scenariooutline') {
-    return 'Scenario Outline';
-  } else if (key === 'examples') {
-    return 'Examples';
-  } else if (stepKeys.includes(key)) {
-    return 'Step';
+  switch (key?.toLowerCase()) {
+    case 'feature':
+      return 'Feature';
+    case 'rule':
+      return 'Rule';
+    case 'background':
+      return 'Background';
+    case 'scenario':
+      return 'Scenario';
+    case 'scenariooutline':
+      return 'Scenario Outline';
+    case 'examples':
+      return 'Examples';
+    case 'given':
+    case 'when':
+    case 'then':
+    case 'and':
+    case 'but':
+      return 'Step';
+    default:
+      throw new Error(`Unknown Gherkin node name. "${node.keyword}", was resolved as ${key}`);
   }
-  return '';
 }
 
 export function getLanguageInsensitiveKeyword(node: GherkinKeyworded, language = ''): string {
@@ -60,4 +59,26 @@ export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamples
   }
 
   return node;
+}
+
+/**
+ * Returns object with two properties, rules, containing all the Rules, and children, containing all the scenarios and
+ * background (even those inside a Rule)
+ * @param node
+ */
+export function featureSpread(node: Feature) {
+  const children = [];
+  const rules = [];
+  for (const child of node.children) {
+    if (child.rule) {
+      rules.push(child.rule);
+      children.push(...child.rule.children);
+    } else {
+      children.push(child);
+    }
+  }
+  return {
+    children,
+    rules,
+  };
 }

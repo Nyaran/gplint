@@ -1,5 +1,6 @@
 import {GherkinData, RuleError} from '../types.js';
 import {Location} from '@cucumber/messages';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-unused-variables';
 
@@ -13,7 +14,7 @@ export function run({feature}: GherkinData): RuleError[] {
   const errors = [] as RuleError[];
   const stepVariableRegex = /<((?! )[^>]+(?<! ))>/gu;
 
-  feature.children.forEach(child => {
+  featureSpread(feature).children.forEach(child => {
     if (!child.scenario) {
       // Variables are a feature of Scenarios (as of Gherkin 9?) and Scenario Outlines only
       return;

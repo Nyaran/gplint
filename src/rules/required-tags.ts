@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Feature, Pickle, Rule as CucumberRule} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
-import {GherkinData, GherkinNode, GherkinTaggable, RuleError, RuleSubConfig} from '../types.js';
+import { GherkinData, GherkinKeyworded, GherkinNode, GherkinTaggable, RuleError, RuleSubConfig } from '../types.js';
 
 export const name = 'required-tags';
 export const availableConfigs = {
@@ -99,7 +99,7 @@ export function run({feature, pickles}: GherkinData, configuration: RuleSubConfi
 }
 
 function createError(item: GherkinNode, requiredTags: string | string[], lang: string) {
-  const type = gherkinUtils.getNodeType(item, lang);
+  const type = gherkinUtils.getNodeType(item as GherkinKeyworded, lang);
 
   return {
     message: `The tag(s) [${requiredTags}] should be present for ${type}.`,

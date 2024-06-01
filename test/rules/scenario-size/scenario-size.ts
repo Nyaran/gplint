@@ -9,7 +9,7 @@ describe('Scenario size Rule', function() {
   it('Violations for scenario-size', function() {
     return runTest('scenario-size/ExampleFeature.feature', {'steps-length': {
       'Background': 2,
-      'Scenario': 3
+      'Scenario': 3,
     }}, [{
       line: 3,
       column: 1,
@@ -33,6 +33,15 @@ describe('Scenario size Rule', function() {
       column: 1,
       messageElements: {
         type: 'Scenario Outline',
+        actual: 5,
+        expected: 3
+      }
+    },
+    {
+      line: 28,
+      column: 1,
+      messageElements: {
+        type: 'Scenario',
         actual: 5,
         expected: 3
       }

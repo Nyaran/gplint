@@ -27,13 +27,10 @@ const checkers = {
 } as Record<string, (filename: string, allowAcronyms?: boolean) => string>;
 
 export function run({file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
-  if (!file) {
-    return [];
-  }
   const {style, allowAcronyms} = _.merge(availableConfigs, configuration);
   const filename = path.basename(file.relativePath, '.feature');
   if (!checkers[style]) {
-    throw new Error('style "' + style + '" not supported for file-name rule');
+    throw new Error(`Style "${style}" not supported for file-name rule`);
   }
   const expected = checkers[style](filename, allowAcronyms);
   if (filename === expected) {

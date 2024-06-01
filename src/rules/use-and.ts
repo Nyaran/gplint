@@ -1,6 +1,7 @@
 import * as gherkinUtils from './utils/gherkin.js';
 import {Background, Scenario, Step} from '@cucumber/messages';
 import {GherkinData, RuleError} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'use-and';
 
@@ -11,8 +12,8 @@ export function run({feature}: GherkinData): RuleError[] {
 
   const errors = [] as RuleError[];
 
-  feature.children.forEach(child => {
-    const node = child.rule || child.background || child.scenario;
+  featureSpread(feature).children.forEach(child => {
+    const node = child.background || child.scenario;
     let previousKeyword = undefined as string;
     if ((node as Background | Scenario).steps) {
       (node as Background | Scenario).steps.forEach(step => {

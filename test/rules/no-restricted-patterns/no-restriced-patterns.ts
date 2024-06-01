@@ -56,6 +56,42 @@ describe('No Restricted Patterns Rule', function() {
     ]);
   });
 
+  it('detects errors in Rule name, descriptions or Global config', function() {
+    const configuration = {
+      'Rule': [
+        '^.*disallowed.*$'
+      ],
+      'Global': [
+        '^a restricted global pattern$',
+        'a bad description'
+      ]
+    };
+
+    return runTest('no-restricted-patterns/RuleViolations.feature', configuration, [
+      {
+        messageElements: {
+          string: 'Disallowed exact and partial matching',
+          pattern: '^.*disallowed.*$',
+          nodeType:'Rule',
+          property: 'name'
+        },
+        line: 3,
+        column: 3,
+      },
+      {
+        messageElements: {
+          pattern: 'a bad description',
+          string: 'A bad description',
+          nodeType:'Rule',
+          property: 'description'
+        },
+        line: 3,
+        column: 3,
+      },
+
+    ]);
+  });
+
   it('detects errors in Background descriptions and steps that match the Background or Global config', function() {
     const configuration = {
       'Background': [

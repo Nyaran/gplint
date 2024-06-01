@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import {Examples, Feature, Scenario, Tag} from '@cucumber/messages';
+import { Examples, Feature, Rule, Scenario, Tag } from '@cucumber/messages';
 import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'allowed-tags';
 
@@ -20,7 +21,13 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 
   checkTags(feature, allowedTags, allowedPatterns, errors);
 
-  feature.children.forEach(child => {
+  const {children, rules} = featureSpread(feature);
+
+  rules.forEach(rule => {
+    checkTags(rule, allowedTags, allowedPatterns, errors);
+  });
+
+  children.forEach(child => {
     if (child.scenario) {
       checkTags(child.scenario, allowedTags, allowedPatterns, errors);
 
@@ -39,8 +46,8 @@ function getAllowedPatterns(configuration: RuleSubConfig<typeof availableConfigs
   return (configuration.patterns || []).map((pattern) => new RegExp(pattern));
 }
 
-function checkTags(node: Feature | Scenario | Examples, allowedTags: string[], allowedPatterns: RegExp[], errors: RuleError[]) {
-  (node.tags || [])
+function checkTags(node: Feature | Rule | Scenario | Examples, allowedTags: string[], allowedPatterns: RegExp[], errors: RuleError[]) {
+  node.tags
     .filter(tag => !isAllowed(tag, allowedTags, allowedPatterns))
     .forEach(tag => {
       errors.push(createError(node, tag));
@@ -52,7 +59,7 @@ function isAllowed(tag: Tag, allowedTags: string[], allowedPatterns:RegExp[]) {
     || allowedPatterns.some((pattern) => pattern.test(tag.name));
 }
 
-function createError(node: Feature | Scenario | Examples, tag: Tag): RuleError {
+function createError(node: Feature | Rule | Scenario | Examples, tag: Tag): RuleError {
   return {
     message: 'Not allowed tag ' + tag.name + ' on ' + node.keyword,
     rule   : name,

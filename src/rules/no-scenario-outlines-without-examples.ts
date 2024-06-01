@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleError} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-scenario-outlines-without-examples';
 
@@ -10,7 +11,7 @@ export function run({feature}: GherkinData): RuleError[] {
   }
 
   const errors = [] as RuleError[];
-  feature.children.forEach(child => {
+  featureSpread(feature).children.forEach(child => {
     if (child.scenario) {
       const scenario = child.scenario;
       const nodeType = gherkinUtils.getNodeType(scenario, feature.language);

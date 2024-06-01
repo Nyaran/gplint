@@ -1,6 +1,7 @@
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleSubConfig, RuleError , GherkinKeyworded} from '../types.js';
 import {Background, Examples, Feature, Rule, Scenario, Step, StepKeywordType} from '@cucumber/messages';
+import { featureSpread } from './utils/gherkin.js';
 
 interface IConfiguration<T> {
   Global: T[]
@@ -26,6 +27,7 @@ export const availableConfigs = {
   'ScenarioOutline': [] as string[],
   'Background': [] as string[],
   'Feature': [] as string[],
+  'Rule': [] as string[],
   'Step': [] as string[],
   'Given': [] as string[],
   'When': [] as string[],
@@ -43,8 +45,14 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
   // Check the feature itself
   checkNameAndDescription(feature, restrictedPatterns, language, errors);
 
+  const {children, rules} = featureSpread(feature);
+
+  rules.forEach(rule => {
+    checkNameAndDescription(rule, restrictedPatterns, language, errors);
+  });
+
   // Check the feature children
-  feature.children.forEach(child => {
+  children.forEach(child => {
     const node = child.background || child.scenario;
     checkNameAndDescription(node, restrictedPatterns, language, errors);
 
@@ -52,7 +60,6 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
     node.steps.forEach((step, index) => {
       checkStepNode(step, node.steps[index], restrictedPatterns, language, errors);
       checkStepNode(step, node, restrictedPatterns, language, errors);
-
     });
   });
   return errors.filter((obj, index, self) =>
@@ -107,10 +114,6 @@ function checkStepNode(node: Step, parentNode: Background | Scenario | Step, res
 }
 
 function check(node: GherkinKeyworded , property: string, pattern: RegExp, language: string, errors: RuleError[]) {
-  if (!Object.prototype.hasOwnProperty.call(node, property)) {
-    return;
-  }
-
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore IDK how to handle types for this...
   let strings = [node[property]];

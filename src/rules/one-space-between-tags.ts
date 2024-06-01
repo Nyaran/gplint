@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import {GherkinData, RuleError} from '../types.js';
-import {Examples, Feature, Scenario} from '@cucumber/messages';
+import { GherkinData, GherkinTaggable, RuleError } from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'one-space-between-tags';
 
@@ -12,7 +12,13 @@ export function run({feature}: GherkinData): RuleError[] {
 
   testTags(feature, errors);
 
-  feature.children.forEach(child => {
+  const {children, rules} = featureSpread(feature);
+
+  rules.forEach(rule => {
+    testTags(rule, errors);
+  });
+
+  children.forEach(child => {
     if (child.scenario) {
       testTags(child.scenario, errors);
 
@@ -25,7 +31,7 @@ export function run({feature}: GherkinData): RuleError[] {
   return errors;
 }
 
-function testTags(node: Feature | Scenario | Examples, errors: RuleError[]) {
+function testTags(node: GherkinTaggable, errors: RuleError[]) {
   _(node.tags)
     .groupBy('location.line')
     .sortBy('location.column')

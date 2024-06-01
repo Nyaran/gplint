@@ -28,10 +28,15 @@ describe('One Space Between Tags Rule', function() {
       {
         line: 13,
         column: 1,
+        messageElements: {left: '@ruletag1', right: '@ruletag2'}
+      },
+      {
+        line: 15,
+        column: 1,
         messageElements: {left: '@scenariotag5', right: '@scenariotag6'}
       },
       {
-        line: 16,
+        line: 18,
         column: 1,
         messageElements: {left: '@examplestag1', right: '@examplestag2'}
       }

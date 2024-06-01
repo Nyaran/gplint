@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {Tag} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleSubConfig, RuleError, GherkinTaggable} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-restricted-tags';
 export const availableConfigs = {
@@ -21,7 +22,13 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 
   checkTags(feature, language, forbiddenTags, forbiddenPatterns, errors);
 
-  feature.children.forEach(child => {
+  const {children, rules} = featureSpread(feature);
+
+  rules.forEach(rule => {
+    checkTags(rule, language, forbiddenTags, forbiddenPatterns, errors);
+  });
+
+  children.forEach(child => {
     // backgrounds don't have tags
     if (child.scenario) {
       checkTags(child.scenario, language, forbiddenTags, forbiddenPatterns, errors);

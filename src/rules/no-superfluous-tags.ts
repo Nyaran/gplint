@@ -12,6 +12,8 @@ export function run({feature}: GherkinData): RuleError[] {
 
   const errors = [] as RuleError[];
 
+  // TODO Support Rule (should take into account scenarios inside rule for tags)
+
   feature.children.forEach(child => {
     const node = child.rule || child.background || child.scenario;
     if (child.background == null) {

@@ -10,10 +10,20 @@ describe('No Partially Commented Tag Lines Rule', function() {
   it('detects errors for features, scenarios, and scenario outlines', function() {
     return runTest('no-partially-commented-tag-lines/Violations.feature', {}, [
       // Currently Gherkin parser is unable to detect comments on tag line: https://github.com/cucumber/common/issues/1505
-      //{ messageElements: {}, line: 1, column: 1 },
-      //{ messageElements: {}, line: 7, column: 1 },
-      //{ messageElements: {}, line: 12, column: 1 },
-      { messageElements: {}, line: 15, column: 3 },
+      { messageElements: {}, line: 16, column: 3 },
+    ]);
+  });
+
+  it('detects errors for features, scenarios, and scenario outlines, not allowing comments separated with a space', function() {
+    return runTest('no-partially-commented-tag-lines/Violations.feature', {
+      allowSeparated: false,
+    }, [
+      // Currently Gherkin parser is unable to detect comments on tag line: https://github.com/cucumber/common/issues/1505
+      { messageElements: {}, line: 1, column: 1 },
+      { messageElements: {}, line: 7, column: 1 },
+      { messageElements: {}, line: 11, column: 1 },
+      { messageElements: {}, line: 13, column: 1 },
+      { messageElements: {}, line: 16, column: 3 },
     ]);
   });
 });

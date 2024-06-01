@@ -8,6 +8,8 @@ Background:
 Scenario: This is a Scenario with three duplicate tags
   Then this is a then step
 
+@ruletag @ruletag1
+Rule:
 @scenariotag @scenariotag1
 Scenario Outline: This is a Scenario Outline with two duplicate tags
   Then this is a then step <foo>
