@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import * as linter from '../../src/linter.js';
-import {RuleError} from '../../src/index.js';
+import { RuleError, RuleErrorLevel } from '../../src/index.js';
 
 async function linterTest(feature: string, expected: RuleError[]) {
   const actual = await linter.lint([feature], {});
@@ -100,7 +100,7 @@ describe('Linter', function() {
         column: 0,
         level: 2,
       }
-    ];
+    ] as RuleErrorLevel[];
 
     return linter.lint([feature])
       .then((actual) => {

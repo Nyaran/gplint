@@ -26,7 +26,7 @@ program
   .parse(process.argv);
 
 const options = program.opts();
-const additionalRulesDirs = options.rulesdir;
+const additionalRulesDirs = options.rulesdir as string[] | undefined;
 const files = featureFinder.getFeatureFiles(program.args, options.ignore);
 
 linter.lintInit(files, options.config, additionalRulesDirs)
@@ -34,7 +34,7 @@ linter.lintInit(files, options.config, additionalRulesDirs)
     await printResults(results, options.format);
     process.exit(getExitCode(results, options));
   })
-  .catch(e => {
+  .catch((e: unknown) => {
     console.error('Error running gplint', e);
   });
 

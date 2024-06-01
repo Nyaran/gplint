@@ -3,8 +3,7 @@ import mockFs from 'mock-fs';
 import * as sinon from 'sinon';
 
 import * as featureFinder from '../../src/feature-finder.js';
-import os from "os";
-import path from "node:path";
+import path from 'node:path';
 
 describe('Feature finder', function() {
   beforeEach(function() {

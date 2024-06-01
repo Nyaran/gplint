@@ -40,7 +40,7 @@ function getAllowedPatterns(configuration: RuleSubConfig<typeof availableConfigs
 }
 
 function checkTags(node: Feature | Scenario | Examples, allowedTags: string[], allowedPatterns: RegExp[], errors: RuleError[]) {
-  return (node.tags || [])
+  (node.tags || [])
     .filter(tag => !isAllowed(tag, allowedTags, allowedPatterns))
     .forEach(tag => {
       errors.push(createError(node, tag));

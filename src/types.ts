@@ -11,9 +11,7 @@ import {
   Background,
 } from '@cucumber/messages';
 
-export interface Rules {
-  [key: string]: Rule
-}
+export type Rules = Record<string, Rule>;
 
 export interface Rule {
   name: string
@@ -21,9 +19,7 @@ export interface Rule {
   run: (gherkinData: GherkinData, config: RuleSubConfig<unknown>) => RuleError[]
 }
 
-export interface RulesConfig {
-  [key: string]: RuleConfig
-}
+export type RulesConfig = Record<string, RuleConfig>;
 
 export type RuleConfig = string | number | RuleConfigArray;
 export type RuleConfigArray = [string | number , ...RuleSubConfig<any>[]] // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -36,8 +32,10 @@ export interface RuleError extends Location {
 }
 
 export interface RuleErrorLevel extends RuleError {
-  level: number
+  level: ErrorLevels
 }
+
+export type ErrorLevels = 0 | 1 | 2;
 
 export type GherkinError = Partial<ParseError>
 

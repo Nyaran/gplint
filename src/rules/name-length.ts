@@ -15,7 +15,7 @@ type Configuration = RuleSubConfig<typeof availableConfigs>;
 
 function test(stepText: string, location: Location, configuration: Configuration, type: keyof Configuration, errors: RuleError[]) {
   if (stepText && (stepText.length > configuration[type])) {
-    errors.push({message: type + ' name is too long. Length of ' + stepText.length + ' is longer than the maximum allowed: ' + configuration[type],
+    errors.push({message: `${type} name is too long. Length of ${stepText.length} is longer than the maximum allowed: ${configuration[type]}`,
       rule   : name,
       line   : location.line,
       column : location.column,

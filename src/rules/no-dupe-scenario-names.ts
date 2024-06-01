@@ -19,11 +19,9 @@ type Locations = [
   }
 ];
 
-let scenarios = {} as {
-  [key: string]: {
-    locations: Locations
-  }
-};
+let scenarios = {} as Record<string, {
+  locations: Locations
+}>;
 
 export function run({feature, pickles, file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
   if (!feature) {
@@ -76,7 +74,7 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
 function getFileLinePairsAsStr(objects: Locations) {
   const strings = [] as string[];
   objects.forEach(object => {
-    strings.push(object.file + ':' + object.line);
+    strings.push(`${object.file}:${object.line}`);
   });
   return strings.join(', ');
 }

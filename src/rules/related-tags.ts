@@ -8,7 +8,7 @@ export const availableConfigs = {
   tags: {}
 };
 
-type IRelatedTags<T> = {[key: string]: T}
+type IRelatedTags<T> = Record<string, T>
 type RelatedTagsRaw = IRelatedTags<string[]>
 type RelatedTagsExpression = (string|RegExp)[];
 type RelatedTags = IRelatedTags<RelatedTagsExpression>
@@ -55,7 +55,7 @@ function parseTags(tags = {} as RelatedTagsRaw): RelatedTags {
 function checkTags(node: GherkinTaggable, tags: RelatedTags, errors: RuleError[]) {
   const plainNodeTags = node.tags.map(t => t.name);
 
-  return node.tags
+  node.tags
     .filter(tag => Object.prototype.hasOwnProperty.call(tags, tag.name)
       ? !tags[tag.name].some(relatedTag => checkRelatedTag(relatedTag, plainNodeTags))
       : false)

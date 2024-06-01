@@ -6,6 +6,7 @@ import * as glob from 'glob';
 import _ from 'lodash';
 
 import {
+  ErrorLevels,
   FileData,
   Rule,
   RuleConfig,
@@ -24,7 +25,7 @@ const LEVELS = [
 ];
 
 export async function getAllRules(additionalRulesDirs?: string[]): Promise<Rules> {
-  if (additionalRulesDirs?.length > 0) {
+  if ((additionalRulesDirs?.length ?? 0) > 0) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (process[Symbol.for('ts-node.register.instance')] == null) { // Check if ts-node was registered previously
@@ -45,7 +46,7 @@ export async function getAllRules(additionalRulesDirs?: string[]): Promise<Rules
       windowsPathsNoEscape: true,
       ignore: '**/*.d.?(c|m)ts'
     })) {
-      const rule = await import(pathToFileURL(file).toString());
+      const rule = await import(pathToFileURL(file).toString()) as Rule;
       rules[rule.name] = rule;
     }
   }
@@ -60,7 +61,7 @@ export async function doesRuleExist(rule: string, additionalRulesDirs?: string[]
   return (await getRule(rule, additionalRulesDirs)) !== undefined;
 }
 
-export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
+export function getRuleLevel(ruleConfig: RuleConfig, rule: string): ErrorLevels {
   const level = Array.isArray(ruleConfig) ? ruleConfig[0] : ruleConfig;
 
   if (level === 'on') { // 'on' is deprecated, but still supported for backward compatibility, means error level.
@@ -82,10 +83,10 @@ export function getRuleLevel(ruleConfig: RuleConfig, rule: string): number {
     throw new Error(`Unknown level ${level} for ${rule}.`);
   }
 
-  return levelNum;
+  return levelNum as ErrorLevels;
 }
 
-export async function runAllEnabledRules(feature: Feature, pickles: Pickle[], file: FileData, configuration: RulesConfig, additionalRulesDirs?: string[]): Promise<RuleError[]> {
+export async function runAllEnabledRules(feature?: Feature, pickles?: Pickle[], file?: FileData, configuration: RulesConfig = {}, additionalRulesDirs?: string[]): Promise<RuleError[]> {
   let errors = [] as RuleErrorLevel[];
   const rules = await getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
@@ -93,7 +94,7 @@ export async function runAllEnabledRules(feature: Feature, pickles: Pickle[], fi
     const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
 
     if (ruleLevel > 0) {
-      const ruleConfig = Array.isArray(configuration[rule.name]) ? (configuration[rule.name] as RuleConfigArray)[1] : {} as RuleSubConfig<unknown>;
+      const ruleConfig = (Array.isArray(configuration[rule.name]) ? (configuration[rule.name] as RuleConfigArray)[1] : {} as RuleSubConfig<unknown>) as RuleConfig;
       const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
 
       if (error?.length > 0) {

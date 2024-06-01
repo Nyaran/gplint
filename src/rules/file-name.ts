@@ -24,7 +24,7 @@ const checkers = {
   },
   'kebab-case': filename => _.kebabCase(filename),
   'snake_case': filename => _.snakeCase(filename)
-} as {[key: string]: (filename: string, allowAcronyms?: boolean) => string};
+} as Record<string, (filename: string, allowAcronyms?: boolean) => string>;
 
 export function run({file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
   if (!file) {

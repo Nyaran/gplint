@@ -3,7 +3,7 @@ import {Location} from '@cucumber/messages';
 
 export const name = 'no-unused-variables';
 
-type VariablesLocation = {[key: string]: Location}
+type VariablesLocation = Record<string, Location>
 
 export function run({feature}: GherkinData): RuleError[] {
   if(!feature) {
@@ -33,7 +33,7 @@ export function run({feature}: GherkinData): RuleError[] {
 
     // Collect all the entries of the examples table
     examples.forEach(example => {
-      if (example.tableHeader && example.tableHeader.cells) {
+      if (example?.tableHeader?.cells) {
         example.tableHeader.cells.forEach(cell => {
           if (cell.value) {
             examplesVariables[cell.value] = cell.location;

@@ -1,4 +1,3 @@
-import {Feature} from '@cucumber/messages';
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
@@ -8,6 +7,12 @@ import {FileData, RuleSubConfig} from '../../../src/types.js';
 
 const runTestRequireNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is required');
 const runTestDisallowNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is not allowed');
+
+declare module 'mocha' {
+  export interface Context {
+    sinon: sinon.SinonSandbox;
+  }
+}
 
 describe('New Line at EOF Rule', function() {
   beforeEach(function() {
@@ -32,14 +37,11 @@ describe('New Line at EOF Rule', function() {
     });
 
     it('raises an error if invalid configuration is used', function() {
-      const featureStub = undefined as Feature; // not used by the rule
       const fileStub = {relativePath: './foo.feature', lines: []} as FileData;
       const invalidConfiguration = 'k' as RuleSubConfig<string>;
 
-      rule.run({feature: featureStub, file: fileStub}, invalidConfiguration);
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
-        return args[0];
-      });
+      rule.run({feature: undefined, file: fileStub}, invalidConfiguration);
+      const consoleErrorArgs = consoleErrorStub.args.map((args: string[]) => args[0]);
 
       const errorMsg = 'new-line-at-eof requires an extra configuration value.\nAvailable configurations: yes, no\nFor syntax please look at the documentation.';
       expect(consoleErrorArgs[0]).to.include(errorMsg);

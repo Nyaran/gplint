@@ -4,17 +4,16 @@ import stripAnsi from 'strip-ansi';
 import table from 'text-table';
 import {ErrorsByFile, RuleErrorLevel} from '../types.js';
 
-const LEVELS_CONFIG = [
-  undefined,
-  {name: 'warning', color: chalk.yellow},
-  {name: 'error', color: chalk.red},
-];
+const LEVELS_CONFIG = {
+  1: {name: 'warning', color: chalk.yellow},
+  2: {name: 'error', color: chalk.red},
+};
 
 function stylizeError(error: RuleErrorLevel, maxLineLength: number): string[] {
   const errorLocation = getLocationString(error);
   const errorLocationPadded = errorLocation.padEnd(maxLineLength);
   const errorLocationStylized = chalk.gray(errorLocationPadded);
-  const level = LEVELS_CONFIG[error.level];
+  const level = LEVELS_CONFIG[error.level as 1 | 2];
 
   const errorRuleStylized = chalk.gray(error.rule);
 

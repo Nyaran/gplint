@@ -44,9 +44,11 @@ export function run({feature, pickles}: GherkinData, configuration: RuleSubConfi
   if (mergedConfig.global.length > 0) {
     pickles
       .filter(pickle => !(mergedConfig.ignoreUntagged && pickle.tags.length === 0))
-      .forEach(pickle => mergedConfig.global
-        .filter(requiredTag => checkTagNotPresent(requiredTag, pickle))
-        .forEach(missTag => errors.push(createError(gherkinUtils.getNodeForPickle(feature, pickle, true), missTag, pickle.language))));
+      .forEach(pickle => {
+        mergedConfig.global
+          .filter(requiredTag => checkTagNotPresent(requiredTag, pickle))
+          .forEach(missTag => errors.push(createError(gherkinUtils.getNodeForPickle(feature, pickle, true), missTag, pickle.language)));
+      });
   }
 
   function checkRequiredTags(item: GherkinTaggable, requiredTags: string[], extraRequiredTags: string[] = [], useLegacyCheck = false) {

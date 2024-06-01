@@ -1,6 +1,6 @@
 import fs from 'fs';
 import _ from 'lodash';
-import {Feature, ParseError, Pickle} from '@cucumber/messages';
+import {Feature, ParseError, Pickle, Envelope} from '@cucumber/messages';
 import {GherkinStreams} from '@cucumber/gherkin-streams';
 
 import * as logger from './logger.js';
@@ -31,7 +31,7 @@ export async function readAndParseFile(filePath: string): Promise<GherkinData> {
 
     const stream = GherkinStreams.fromPaths([filePath], options);
 
-    stream.on('data', envelope => {
+    stream.on('data', (envelope: Envelope) => {
       if (envelope.parseError) {
         parsingErrors.push(envelope.parseError);
       } else {
@@ -77,7 +77,7 @@ export async function lintInit(files: string[], configPath?: string, additionalR
 export async function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
   const results = [] as ErrorsByFile[];
   return Promise.all(files.map(async (f) => {
-    let perFileErrors = [] as RuleError[];
+    let perFileErrors = [] as RuleError[] | Error;
 
     return readAndParseFile(f)
       .then(
@@ -86,7 +86,7 @@ export async function lint(files: string[], configuration?: RulesConfig, additio
           perFileErrors = await rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
         },
         // Handle Promise.reject
-        (parsingErrors) => {
+        (parsingErrors: Error) => {
           perFileErrors = parsingErrors;
         })
       .finally(() => {
@@ -116,19 +116,19 @@ function processFatalErrors(errors: GherkinError[]): RuleError[] {
 function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
   const errorMsgs = [] as RuleErrorLevel[];
   let index = 0;
-  if (errors[0].message.includes('got \'Background') &&
-    errors[1].message.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
+  if (errors[0].message?.includes('got \'Background') &&
+    errors[1].message?.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
     errorMsgs.push({
       message: 'Tags on Backgrounds are disallowed',
       rule: 'no-tags-on-backgrounds',
-      line: parseInt(errors[0].message.match(/\((\d+):.*/)[1]),
+      line: parseInt(errors[0].message?.match(/\((\d+):.*/)?.[1] ?? '0'),
       column: 0,
       level: 2, // Force error
     });
 
     index = 2;
     for (let i = 2; i < errors.length; i++) {
-      if (errors[i].message.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
+      if (errors[i].message?.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
         index = i + 1;
       } else {
         break;
@@ -139,7 +139,7 @@ function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
 }
 
 function getFormattedFatalError(error: RuleError|ParseError): RuleErrorLevel {
-  const errorLine = parseInt(error.message.match(/\((\d+):.*/)[1]);
+  const errorLine = parseInt(error.message?.match(/\((\d+):.*/)?.[1] ?? '0');
   let errorMsg;
   let rule;
   if (error.message.includes('got \'Background')) {

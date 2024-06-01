@@ -2,7 +2,7 @@ import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleSubConfig, RuleError , GherkinKeyworded} from '../types.js';
 import {Background, Examples, Feature, Rule, Scenario, Step, StepKeywordType} from '@cucumber/messages';
 
-type IConfiguration<T> = {
+interface IConfiguration<T> {
   Global: T[]
   Scenario: T[]
   ScenarioOutline: T[]
@@ -12,7 +12,7 @@ type IConfiguration<T> = {
   Given: T[]
   When: T[]
   Then: T[]
-};
+}
 
 const keywords = ['Given', 'When', 'Then'];
 let previousKeyword: string;

@@ -49,7 +49,7 @@ export function getFeatureFiles(args: string[], ignoreArg?: string[]): string[] 
   return _.uniq(files);
 }
 
-export function getIgnorePatterns(ignoreArg: string[]): string | string[] {
+export function getIgnorePatterns(ignoreArg?: string[]): string | string[] {
   if (ignoreArg) {
     return ignoreArg;
   } else if (fs.existsSync(defaultIgnoreFileName)) {

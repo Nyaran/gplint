@@ -1,5 +1,5 @@
 import * as rules from './rules.js';
-import {RuleConfig, RulesConfig, RuleSubConfig} from './types.js';
+import { Rule, RuleConfig, RulesConfig, RuleSubConfig } from './types.js';
 
 export async function verifyConfigurationFile(config: RulesConfig, additionalRulesDirs?: string[]): Promise<string[]> {
   const errors = [];
@@ -13,7 +13,7 @@ export async function verifyConfigurationFile(config: RulesConfig, additionalRul
   return errors;
 }
 
-async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, additionalRulesDirs: string[], errors: string[]): Promise<void> {
+async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, additionalRulesDirs: string[] | undefined, errors: string[]): Promise<void> {
   const enablingSettings = ['off', '0', 'warn', '1', 'error', 'on', '2'];
   const genericErrorMsg = `Invalid rule configuration for "${rule}" -`;
 
@@ -33,7 +33,7 @@ async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, add
       isValidSubConfig = (availableConfigs: unknown, subConfig: string): boolean => (ruleObj.availableConfigs as string[]).includes(subConfig);
       await testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
-      isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig<unknown>): boolean => Object.prototype.hasOwnProperty.call(ruleObj.availableConfigs, subConfig);
+      isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig<string>): boolean => Object.hasOwn(ruleObj.availableConfigs, subConfig);
       for (const subConfig in ruleConfig[1]) {
         await testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }
@@ -45,7 +45,7 @@ async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, add
   }
 }
 
-async function testSubconfig(genericErrorMsg: string, rule: string, subConfig: RuleSubConfig<unknown>, isValidSubConfig: (availableConfigs: unknown, subConfig: RuleSubConfig<unknown> | string) => boolean, additionalRulesDirs: string[], errors: string[]): Promise<void> {
+async function testSubconfig(genericErrorMsg: string, rule: string, subConfig: RuleSubConfig<unknown>, isValidSubConfig: (availableConfigs: Rule['availableConfigs'], subConfig: RuleSubConfig<unknown>) => boolean, additionalRulesDirs: string[] | undefined, errors: string[]): Promise<void> {
   const ruleObj = await rules.getRule(rule, additionalRulesDirs);
   if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
     errors.push(`${genericErrorMsg} The rule does not have the specified configuration option "${subConfig as string}"`);

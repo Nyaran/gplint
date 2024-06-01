@@ -19,7 +19,7 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
     const keywordList = ['given', 'when', 'then'];
 
     let maxKeywordPosition = undefined as number;
-    const existsKeyword: { [key: string]: boolean } = {
+    const existsKeyword: Record<string, boolean> = {
       given: false,
       when: false,
       then: false

@@ -11,7 +11,7 @@ function custom() {
   ];
 }
 
-module.exports = {
+module.exports = { // eslint-disable-line no-undef
   name: rule,
   run: custom,
   availableConfigs: []

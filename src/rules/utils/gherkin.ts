@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as Gherkin from '@cucumber/gherkin';
-import {Feature, Pickle, Scenario} from '@cucumber/messages';
+import { Examples, Feature, Pickle, Scenario, TableRow } from '@cucumber/messages';
 import {GherkinKeyworded, GherkinNode, GherkinTaggable} from '../../types.js';
 
 // We use the node's keyword to determine the node's type
@@ -33,25 +33,25 @@ export function getNodeType(node: GherkinNode, language: string): string {
   return '';
 }
 
-export function getLanguageInsensitiveKeyword(node: GherkinKeyworded, language: string): string {
+export function getLanguageInsensitiveKeyword(node: GherkinKeyworded, language = ''): string {
   const languageMapping = Gherkin.dialects[language];
 
-  return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));
+  return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword))!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 }
 
-export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamplesLevel = false): GherkinNode {
-  let node: GherkinNode = feature;
+export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamplesLevel = false): GherkinNode | Examples | TableRow | undefined {
+  let node: GherkinNode | Examples | TableRow | undefined = feature;
 
   for (const astNodeId of pickle.astNodeIds) {
     if (Object.prototype.hasOwnProperty.call(node, 'children')) {
       const scenarios = feature.children
         .filter(child => child.rule)
-        .flatMap(child => child.rule.children)
+        .flatMap(child => child.rule!.children) // eslint-disable-line @typescript-eslint/no-non-null-assertion
         .filter(child => child.scenario)
         .concat(feature.children
           .filter(child => child.scenario))
         .map(child => child.scenario);
-      node = scenarios.find(t => t.id === astNodeId);
+      node = scenarios.find(t => t?.id === astNodeId);
     } else if (Object.prototype.hasOwnProperty.call(node, 'examples')) {
       node = forceExamplesLevel
         ? (node as unknown as Scenario).examples.find(e => e.tableBody.find(t => t.id === astNodeId))

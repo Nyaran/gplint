@@ -1,7 +1,7 @@
 import {GherkinData, RuleError} from '../types.js';
 
 export const name = 'no-dupe-feature-names';
-const features = {} as {[key: string]: {files: string[]}};
+const features = {} as Record<string, {files: string[]}>;
 
 export function run({feature, file}: GherkinData): RuleError[] {
   if (!feature) {

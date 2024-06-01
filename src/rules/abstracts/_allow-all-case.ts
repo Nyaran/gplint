@@ -25,15 +25,15 @@ const Levels = {
 
 export const availableConfigs = {
   [Levels.Global]: false as boolean,
-  [Levels.Description]: undefined as boolean,
-  [Levels.Feature]: undefined as boolean,
-  [Levels.Rule]: undefined as boolean,
-  [Levels.Background]: undefined as boolean,
-  [Levels.Scenario]: undefined as boolean,
-  [Levels.Step]: undefined as boolean,
-  [Levels.Example]: undefined as boolean,
-  [Levels.ExampleHeader]: undefined as boolean,
-  [Levels.ExampleBody]: undefined as boolean,
+  [Levels.Description]: undefined as boolean | undefined,
+  [Levels.Feature]: undefined as boolean | undefined,
+  [Levels.Rule]: undefined as boolean | undefined,
+  [Levels.Background]: undefined as boolean | undefined,
+  [Levels.Scenario]: undefined as boolean | undefined,
+  [Levels.Step]: undefined as boolean | undefined,
+  [Levels.Example]: undefined as boolean | undefined,
+  [Levels.ExampleHeader]: undefined as boolean | undefined,
+  [Levels.ExampleBody]: undefined as boolean | undefined,
 };
 
 export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>, {rule, caseMethod, errorMsg}: {rule: string, caseMethod: () => string, errorMsg: string}): RuleError[] {
@@ -46,7 +46,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
   const errors = [] as RuleError[];
 
   function check(levelName: string, text: string, location: Location) {
-    const config = configOrGlobal(mergedConfig[levelName], mergedConfig.Global);
+    const config = configOrGlobal(mergedConfig[levelName], mergedConfig[Levels.Global]);
 
     const isValid = config || text === '' || caseMethod.call(text) !== text;
 
@@ -66,7 +66,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 
     for (const child of container.children) {
       /* istanbul ignore else */
-      if ((child as FeatureChild).rule != null) {
+      if (Object.hasOwn(child, 'rule')) {
         scenarioContainerIter(Levels.Rule, (child as FeatureChild).rule);
       } else if (child.background != null) {
         stepsContainerIter(Levels.Background, child.background);
@@ -92,8 +92,14 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
       check(Levels.Example, example.name, example.location);
       check(Levels.Description, example.description, example.location);
 
-      example.tableHeader?.cells.forEach(c => check(Levels.ExampleHeader, c.value, c.location));
-      example.tableBody.forEach(row => row.cells.forEach(c => check(Levels.ExampleBody, c.value, c.location)));
+      example.tableHeader?.cells.forEach(c => {
+        check(Levels.ExampleHeader, c.value, c.location);
+      });
+      example.tableBody.forEach(row => {
+        row.cells.forEach(c => {
+          check(Levels.ExampleBody, c.value, c.location);
+        });
+      });
     }
   }
 

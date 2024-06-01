@@ -32,7 +32,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 
   if (count > maxScenarios) {
     errors.push({
-      message: 'Number of scenarios exceeds maximum: ' + count + '/' + maxScenarios,
+      message: `Number of scenarios exceeds maximum: ${count}/${maxScenarios}`,
       rule: name,
       line: 0,
       column: 0

@@ -4,7 +4,7 @@ import * as linter from '../../src/linter.js';
 import {Rule, RuleSubConfig} from '../../src/types.js';
 
 interface RuleErrorTemplate {
-  messageElements?: { [key: string]: string | number | (string | number)[] }
+  messageElements?: Record<string, string | number | (string | number)[]>
   line: number
   column: number
 }

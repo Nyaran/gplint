@@ -11,7 +11,7 @@ export function run(gherkinData: GherkinData, configuration: RuleSubConfig<typeo
     configuration,
     {
       rule: name,
-      caseMethod: String.prototype.toUpperCase,
+      caseMethod: String.prototype.toUpperCase, // eslint-disable-line @typescript-eslint/unbound-method
       errorMsg: 'with all caps are not allowed',
     }
   );

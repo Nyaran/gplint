@@ -20,13 +20,13 @@ describe('Max Scenarios per File rule', function () {
       });
   });
 
-  it('considers a scenario outline with many examples to be one scenario when "countOutlineExamples" is on', function () {
-    runTest('max-scenarios-per-file/TooManyScenarios.feature', { maxScenarios: 10, countOutlineExamples: false }, [{ messageElements: { variable: 11 }, line: 0, column: 0 }]);
-    runTest('max-scenarios-per-file/TooManyExamples.feature', { maxScenarios: 10, countOutlineExamples: false }, []);
+  it('considers a scenario outline with many examples to be one scenario when "countOutlineExamples" is on', async function () {
+    await runTest('max-scenarios-per-file/TooManyScenarios.feature', { maxScenarios: 10, countOutlineExamples: false }, [{ messageElements: { variable: 11 }, line: 0, column: 0 }]);
+    await runTest('max-scenarios-per-file/TooManyExamples.feature', { maxScenarios: 10, countOutlineExamples: false }, []);
   });
 
-  it('considers a scenario outline with many examples to be one scenario when "countOutlineExamples" is false', function () {
-    runTest('max-scenarios-per-file/TooManyScenarios.feature', { maxScenarios: 10, countOutlineExamples: false }, [{ messageElements: { variable: 11 }, line: 0, column: 0 }]);
-    runTest('max-scenarios-per-file/TooManyExamples.feature', { maxScenarios: 10, countOutlineExamples: false }, []);
+  it('considers a scenario outline with many examples to be one scenario when "countOutlineExamples" is false', async function () {
+    await runTest('max-scenarios-per-file/TooManyScenarios.feature', { maxScenarios: 10, countOutlineExamples: false }, [{ messageElements: { variable: 11 }, line: 0, column: 0 }]);
+    await runTest('max-scenarios-per-file/TooManyExamples.feature', { maxScenarios: 10, countOutlineExamples: false }, []);
   });
 });

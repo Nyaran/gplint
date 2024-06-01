@@ -32,13 +32,13 @@ type ConfigurationKey = keyof Configuration;
 function mergeConfiguration(configuration: Configuration): Configuration {
   const mergedConfiguration = _.merge({}, defaultConfig, configuration);
   if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'feature tag')) {
-    mergedConfiguration['feature tag'] = mergedConfiguration['Feature'];
+    mergedConfiguration['feature tag'] = mergedConfiguration.Feature;
   }
   if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'scenario tag')) {
-    mergedConfiguration['scenario tag'] = mergedConfiguration['Scenario'];
+    mergedConfiguration['scenario tag'] = mergedConfiguration.Scenario;
   }
   if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'examples tag')) {
-    mergedConfiguration['examples tag'] = mergedConfiguration['Examples'];
+    mergedConfiguration['examples tag'] = mergedConfiguration.Examples;
   }
   return mergedConfiguration;
 }
@@ -54,11 +54,10 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
   function validate(parsedLocation: Location, type: ConfigurationKey) {
     // location.column is 1 index based so, when we compare with the expected
     // indentation we need to subtract 1
-    if (parsedLocation.column - 1 !== mergedConfiguration[type]) {
+    const parsedLocColumn = parsedLocation.column ?? 1;
+    if (parsedLocColumn - 1 !== mergedConfiguration[type]) {
       errors.push({
-        message: 'Wrong indentation for "' + type +
-                            '", expected indentation level of ' + mergedConfiguration[type] +
-                            ', but got ' + (parsedLocation.column - 1),
+        message: `Wrong indentation for "${type}", expected indentation level of ${mergedConfiguration[type]}, but got ${parsedLocColumn - 1}`,
         rule   : name,
         line   : parsedLocation.line,
         column : parsedLocation.column,
@@ -67,7 +66,7 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
   }
 
   function validateStep(step: Step) {
-    let stepType = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
+    let stepType = gherkinUtils.getLanguageInsensitiveKeyword(step, feature?.language);
     stepType = stepType in configuration ? stepType : 'Step';
     validate(step.location, stepType as ConfigurationKey);
   }
@@ -75,7 +74,9 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
   function validateTags(tags: readonly Tag[], type: ConfigurationKey) {
     _(tags).groupBy('location.line').forEach(tagLocationGroup => {
       const firstTag = _(tagLocationGroup).sortBy('location.column').head();
-      validate(firstTag.location, type);
+      if (firstTag) {
+        validate(firstTag.location, type);
+      }
     });
   }
 

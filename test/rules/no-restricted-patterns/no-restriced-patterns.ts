@@ -1,6 +1,7 @@
 import * as ruleTestBase from '../rule-test-base.js';
 import * as rule from '../../../src/rules/no-restricted-patterns.js';
-const runTest = ruleTestBase.createRuleTest(rule, '<%= nodeType %> <%= property %>: "<%= string %>" matches restricted pattern "/<%= pattern %>/i"');
+import { Rule } from '../../../src/index.js';
+const runTest = ruleTestBase.createRuleTest(rule as unknown as Rule, '<%= nodeType %> <%= property %>: "<%= string %>" matches restricted pattern "/<%= pattern %>/i"');
 
 describe('No Restricted Patterns Rule', function() {
   it('doesn\'t raise errors when there are no violations', function() {

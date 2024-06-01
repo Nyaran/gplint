@@ -14,7 +14,7 @@ export function run({feature}: GherkinData): RuleError[] {
     if (child.scenario) {
       const scenario = child.scenario;
       const nodeType = gherkinUtils.getNodeType(scenario, feature.language);
-      if (nodeType === 'Scenario Outline' &&  (!_.find(scenario.examples, 'tableBody') || !_.find(scenario.examples, 'tableBody')['tableBody'].length)) {
+      if (nodeType === 'Scenario Outline' &&  (!_.find(scenario.examples, 'tableBody')?.tableBody.length)) {
         errors.push({
           message: 'Scenario Outline does not have any Examples',
           rule   : name,
