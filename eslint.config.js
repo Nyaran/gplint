@@ -33,7 +33,6 @@ export default tseslint.config(
     // Temporary disabled rules
     rules: {
       '@typescript-eslint/prefer-nullish-coalescing': 'off', // 14 (requires "strictNullChecks", implies 69 build errors)
-      '@typescript-eslint/prefer-promise-reject-errors': 'off', // 2
       '@typescript-eslint/restrict-template-expressions': 'off', // 22
       '@typescript-eslint/no-unsafe-argument': 'off', // 4
       '@typescript-eslint/no-unnecessary-condition': 'off', // 209

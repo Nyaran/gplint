@@ -26,6 +26,8 @@ export type RuleConfigArray = [string | number , ...RuleSubConfig<any>[]] // esl
 
 export type RuleSubConfig<T> = T;
 
+export type ErrorLevels = 0 | 1 | 2;
+
 export interface RuleError extends Location {
   message: string
   rule: string
@@ -34,8 +36,6 @@ export interface RuleError extends Location {
 export interface RuleErrorLevel extends RuleError {
   level: ErrorLevels
 }
-
-export type ErrorLevels = 0 | 1 | 2;
 
 export type GherkinError = Partial<ParseError>
 

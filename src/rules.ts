@@ -11,12 +11,12 @@ import {
   Rule,
   RuleConfig,
   RuleConfigArray,
-  RuleError,
   RuleErrorLevel,
   Rules,
   RulesConfig,
   RuleSubConfig,
 } from './types.js';
+import { RuleErrors } from './errors.js';
 
 const LEVELS = [
   'off',
@@ -86,7 +86,7 @@ export function getRuleLevel(ruleConfig: RuleConfig, rule: string): ErrorLevels 
   return levelNum as ErrorLevels;
 }
 
-export async function runAllEnabledRules(feature?: Feature, pickles?: Pickle[], file?: FileData, configuration: RulesConfig = {}, additionalRulesDirs?: string[]): Promise<RuleError[]> {
+export async function runAllEnabledRules(feature?: Feature, pickles?: Pickle[], file?: FileData, configuration: RulesConfig = {}, additionalRulesDirs?: string[]): Promise<RuleErrors> {
   let errors = [] as RuleErrorLevel[];
   const rules = await getAllRules(additionalRulesDirs);
   Object.keys(rules).forEach(ruleName => {
@@ -103,7 +103,7 @@ export async function runAllEnabledRules(feature?: Feature, pickles?: Pickle[], 
       }
     }
   });
-  return errors;
+  return new RuleErrors(errors);
 }
 
 async function loadRegister(): Promise<void> {

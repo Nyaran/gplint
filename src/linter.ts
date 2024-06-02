@@ -15,6 +15,7 @@ import {
   RulesConfig,
 } from './types.js';
 import * as configParser from './config-parser.js';
+import { RuleErrors } from './errors.js';
 
 export async function readAndParseFile(filePath: string): Promise<GherkinData> {
   let feature: Feature;
@@ -49,7 +50,7 @@ export async function readAndParseFile(filePath: string): Promise<GherkinData> {
 
     stream.on('error', data => {
       logger.error(`Gherkin emitted an error while parsing ${filePath}: ${data}`);
-      reject(processFatalErrors([{message: data.message}]));
+      reject(new RuleErrors(processFatalErrors([{message: data.message}])));
     });
 
     stream.on('end', () => {
@@ -57,7 +58,7 @@ export async function readAndParseFile(filePath: string): Promise<GherkinData> {
         // Process all errors/attachments at once, because a tag on a background will
         // generate multiple error events, and it would be confusing to print a message for each
         // one of them, when they are all caused by a single cause
-        reject(processFatalErrors(parsingErrors));
+        reject(new RuleErrors(processFatalErrors(parsingErrors)));
       } else {
         const file = {
           relativePath: filePath,
@@ -77,7 +78,7 @@ export async function lintInit(files: string[], configPath?: string, additionalR
 export async function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
   const results = [] as ErrorsByFile[];
   return Promise.all(files.map(async (f) => {
-    let perFileErrors = [] as RuleError[] | Error;
+    let perFileErrors: RuleErrors;
 
     return readAndParseFile(f)
       .then(
@@ -86,13 +87,13 @@ export async function lint(files: string[], configuration?: RulesConfig, additio
           perFileErrors = await rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
         },
         // Handle Promise.reject
-        (parsingErrors: Error) => {
+        (parsingErrors: RuleErrors) => {
           perFileErrors = parsingErrors;
         })
       .finally(() => {
         const fileErrors = {
           filePath: fs.realpathSync(f),
-          errors: _.sortBy(perFileErrors, 'line')
+          errors: _.sortBy(perFileErrors.getErrors(), 'line')
         } as ErrorsByFile;
 
         results.push(fileErrors);
