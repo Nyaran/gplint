@@ -65,7 +65,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
     check(Levels.Description, container.description, container.location);
 
     for (const child of container.children) {
-      /* istanbul ignore else */
+      /* c8 ignore else */
       if (Object.hasOwn(child, 'rule')) {
         scenarioContainerIter(Levels.Rule, (child as FeatureChild).rule);
       } else if (child.background != null) {

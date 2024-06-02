@@ -1,11 +1,12 @@
 {
-  "extends": "@istanbuljs/nyc-config-typescript",
   "all": true,
   "report-dir": "./coverage",
   "include": [
     "src/**"
   ],
   "exclude": [
+    "src/index.ts",
+    "src/types.ts",
     "src/version.ts"
   ]
 }

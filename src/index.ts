@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { OptionValues, program } from 'commander';
 
 import * as linter from './linter.js';
