@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { getNodeType } from '../../src/rules/utils/gherkin.js';
-import { GherkinKeyworded } from '../../src/index.js';
+import { GherkinKeyworded } from '../../src/types.js';
 
 describe('Test for getNodeType function', () => {
   Object.entries({

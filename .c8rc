@@ -4,7 +4,8 @@
     "src/**"
   ],
   "exclude": [
-    "src/index.ts",
+    "src/cli/**/*.ts",
+    "src/formatters/*.ts",
     "src/types.ts",
     "src/version.ts"
   ],
