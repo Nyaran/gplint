@@ -43,7 +43,7 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run the tests
-        run: npm run test:unit:codecov
+        run: npm test
 
       # Report Coverage
       - name: Report coverage
