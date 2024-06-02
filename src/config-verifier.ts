@@ -30,16 +30,16 @@ async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, add
     let isValidSubConfig;
 
     if (typeof (ruleConfig[1]) === 'string') {
-      isValidSubConfig = (availableConfigs: unknown, subConfig: string): boolean => (ruleObj.availableConfigs as string[]).includes(subConfig);
+      isValidSubConfig = (availableConfigs: unknown, subConfig: string): boolean => (ruleObj?.availableConfigs as string[]).includes(subConfig);
       await testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
     } else {
-      isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig<string>): boolean => Object.hasOwn(ruleObj.availableConfigs, subConfig);
+      isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig<string>): boolean => ruleObj?.availableConfigs != null && Object.hasOwn(ruleObj.availableConfigs, subConfig);
       for (const subConfig in ruleConfig[1]) {
         await testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
       }
     }
   } else {
-    if (!enablingSettings.includes(ruleConfig.toString())) {
+    if (ruleConfig != null && !enablingSettings.includes(ruleConfig.toString())) {
       errors.push(`${genericErrorMsg} The config should be ${enablingSettings.join('/')}.`);
     }
   }
@@ -47,7 +47,7 @@ async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, add
 
 async function testSubconfig(genericErrorMsg: string, rule: string, subConfig: RuleSubConfig<unknown>, isValidSubConfig: (availableConfigs: Rule['availableConfigs'], subConfig: RuleSubConfig<unknown>) => boolean, additionalRulesDirs: string[] | undefined, errors: string[]): Promise<void> {
   const ruleObj = await rules.getRule(rule, additionalRulesDirs);
-  if (!isValidSubConfig(ruleObj.availableConfigs, subConfig)) {
+  if (!isValidSubConfig(ruleObj?.availableConfigs, subConfig)) {
     errors.push(`${genericErrorMsg} The rule does not have the specified configuration option "${subConfig as string}"`);
   }
 }

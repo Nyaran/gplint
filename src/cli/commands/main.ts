@@ -9,10 +9,10 @@ export const describe = 'gplint main command';
 export const builder = {};
 
 interface CliArgs extends CommandModule {
-  config?: string
-  format?: string
+  config: string
+  format: string
   ignore?: string[]
-  maxWarnings?: number
+  maxWarnings: number
   rulesdir?: string[]
   _?: string[]
 }
@@ -22,14 +22,13 @@ export async function handler(argv: ArgumentsCamelCase<CliArgs>): Promise<void> 
 
   const files = featureFinder.getFeatureFiles(argv._, argv.ignore);
 
-  await linter.lintInit(files, argv.config, additionalRulesDirs)
-    .then(async (results) => {
-      await printResults(results, argv.format);
-      process.exit(getExitCode(results, argv));
-    })
-    .catch((e: unknown) => {
-      console.error('Error running gplint', e);
-    });
+  try {
+    const results = await linter.lintInit(files, argv.config, additionalRulesDirs);
+    await printResults(results, argv.format);
+    process.exit(getExitCode(results, argv));
+  } catch (e) {
+    console.error('Error running gplint', e);
+  }
 }
 
 function getExitCode(results: ErrorsByFile[], {maxWarnings}: CliArgs): number {
@@ -64,15 +63,19 @@ function countErrors(results: ErrorsByFile[]): { warnCount: number, errorCount: 
 
 async function printResults(results: ErrorsByFile[], format: string): Promise<void> {
   let formatter;
-  if (format === 'json') {
-    formatter = await import('../../formatters/json.js');
-  } else if (format === 'xunit') {
-    formatter = await import('../../formatters/xunit.js');
-  } else if (!format || format === 'stylish') {
-    formatter = await import('../../formatters/stylish.js');
-  } else {
-    logger.boldError('Unsupported format. The supported formats are json, xunit and stylish.');
-    process.exit(1);
+  switch (format) {
+    case 'json':
+      formatter = await import('../../formatters/json.js');
+      break;
+    case 'xunit':
+      formatter = await import('../../formatters/xunit.js');
+      break;
+    case 'stylish':
+      formatter = await import('../../formatters/stylish.js');
+      break;
+    default:
+      logger.boldError('Unsupported format. The supported formats are json, xunit and stylish.');
+      process.exit(1);
   }
   console.log(formatter.print(results));
 }
