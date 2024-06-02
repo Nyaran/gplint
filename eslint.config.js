@@ -34,7 +34,7 @@ export default tseslint.config(
     // Temporary disabled rules
     rules: {
       '@typescript-eslint/prefer-nullish-coalescing': 'off', // requires strictNullChecks
-      '@typescript-eslint/no-unnecessary-condition': 'off', // 209
+      '@typescript-eslint/no-unnecessary-condition': 'off', // requires strictNullChecks
     }
   },
 );

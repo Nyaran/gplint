@@ -15,20 +15,20 @@ export function run({feature}: GherkinData): RuleError[] {
   featureSpread(feature).children.forEach(child => {
     const node = child.background ?? child.scenario;
     let previousKeyword = undefined as string;
-    if (node.steps) {
-      node.steps.forEach(step => {
-        const keyword = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
 
-        if (keyword === 'and') {
-          return;
-        }
-        if (keyword === previousKeyword) {
-          errors.push(createError(step));
-        }
+    node.steps.forEach(step => {
+      const keyword = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
 
-        previousKeyword = keyword;
-      });
-    }
+      if (keyword === 'and') {
+        return;
+      }
+      if (keyword === previousKeyword) {
+        errors.push(createError(step));
+      }
+
+      previousKeyword = keyword;
+    });
+
   });
   return errors;
 }

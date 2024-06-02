@@ -8,12 +8,6 @@ import {FileData, RuleSubConfig} from '../../../src/types.js';
 const runTestRequireNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is required');
 const runTestDisallowNewLine = ruleTestBase.createRuleTest(rule, 'New line at EOF(end of file) is not allowed');
 
-declare module 'mocha' {
-  export interface Context {
-    sinon: sinon.SinonSandbox;
-  }
-}
-
 describe('New Line at EOF Rule', function() {
   beforeEach(function() {
     if (this.sinon == null) {

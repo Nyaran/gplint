@@ -15,9 +15,11 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
     return [];
   }
 
+  const mergedConfiguration = _.merge({}, availableConfigs, configuration);
+
   const errors = [] as RuleError[];
-  const allowedTags = configuration.tags;
-  const allowedPatterns = getAllowedPatterns(configuration);
+  const allowedTags = mergedConfiguration.tags;
+  const allowedPatterns = getAllowedPatterns(mergedConfiguration);
 
   checkTags(feature, allowedTags, allowedPatterns, errors);
 
@@ -41,7 +43,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 }
 
 function getAllowedPatterns(configuration: RuleSubConfig<typeof availableConfigs>): RegExp[] {
-  return (configuration.patterns || []).map((pattern) => new RegExp(pattern));
+  return configuration.patterns.map((pattern) => new RegExp(pattern));
 }
 
 function checkTags(node: Feature | Rule | Scenario | Examples, allowedTags: string[], allowedPatterns: RegExp[], errors: RuleError[]) {
