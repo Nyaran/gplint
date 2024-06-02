@@ -31,11 +31,9 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
     if (child.scenario) {
       checkTags(child.scenario, allowedTags, allowedPatterns, errors);
 
-      if (child.scenario.examples) {
-        child.scenario.examples.forEach(example => {
-          checkTags(example, allowedTags, allowedPatterns, errors);
-        });
-      }
+      child.scenario.examples.forEach(example => {
+        checkTags(example, allowedTags, allowedPatterns, errors);
+      });
     }
   });
 

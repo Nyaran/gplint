@@ -38,7 +38,7 @@ function testTags(node: GherkinTaggable, errors: RuleError[]) {
     .forEach(tags => {
       _.range(tags.length - 1)
         .map(i => {
-          if (tags[i].location.column + tags[i].name.length < tags[i + 1].location.column - 1) {
+          if ((tags[i].location.column ?? 0) + tags[i].name.length < (tags[i + 1].location.column ?? 0) - 1) {
             errors.push({
               line: tags[i].location.line,
               column: tags[i].location.column,

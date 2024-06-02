@@ -49,7 +49,7 @@ export async function readAndParseFile(filePath: string): Promise<GherkinData> {
     });
 
     stream.on('error', data => {
-      logger.error(`Gherkin emitted an error while parsing ${filePath}: ${data}`);
+      logger.error(`Gherkin emitted an error while parsing ${filePath}: ${data.message}`);
       reject(new RuleErrors(processFatalErrors([{message: data.message}])));
     });
 
@@ -122,7 +122,7 @@ function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
     errorMsgs.push({
       message: 'Tags on Backgrounds are disallowed',
       rule: 'no-tags-on-backgrounds',
-      line: parseInt(errors[0].message?.match(/\((\d+):.*/)?.[1] ?? '0'),
+      line: parseInt(errors[0].message.match(/\((\d+):.*/)?.[1] ?? '0'),
       column: 0,
       level: 2, // Force error
     });
@@ -140,7 +140,7 @@ function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
 }
 
 function getFormattedFatalError(error: RuleError|ParseError): RuleErrorLevel {
-  const errorLine = parseInt(error.message?.match(/\((\d+):.*/)?.[1] ?? '0');
+  const errorLine = parseInt(error.message.match(/\((\d+):.*/)?.[1] ?? '0');
   let errorMsg;
   let rule;
   if (error.message.includes('got \'Background')) {

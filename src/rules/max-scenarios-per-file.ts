@@ -20,13 +20,9 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
   feature.children.forEach(child => {
     if (child.background) {
       count = count - 1;
-    } else if (child.scenario.examples.length  && mergedConfiguration.countOutlineExamples) {
-      count = count - 1;
-      child.scenario.examples.forEach(example => {
-        if (example.tableBody) {
-          count = count + example.tableBody.length;
-        }
-      });
+    } else if (child.scenario.examples.length && mergedConfiguration.countOutlineExamples) {
+      count = child.scenario.examples
+        .reduce((accumulator, example) => accumulator + example.tableBody.length, count - 1);
     }
   });
 

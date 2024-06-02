@@ -4,15 +4,15 @@ import {Background, Examples, Feature, Rule, Scenario, Step, StepKeywordType} fr
 import { featureSpread } from './utils/gherkin.js';
 
 interface IConfiguration<T> {
-  Global: T[]
-  Scenario: T[]
-  ScenarioOutline: T[]
-  Background: T[]
-  Feature: T[]
-  Step: T[]
-  Given: T[]
-  When: T[]
-  Then: T[]
+  Global?: T[]
+  Scenario?: T[]
+  ScenarioOutline?: T[]
+  Background?: T[]
+  Feature?: T[]
+  Step?: T[]
+  Given?: T[]
+  When?: T[]
+  Then?: T[]
 }
 
 const keywords = ['Given', 'When', 'Then'];
@@ -53,7 +53,7 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 
   // Check the feature children
   children.forEach(child => {
-    const node = child.background || child.scenario;
+    const node = child.background ?? child.scenario;
     checkNameAndDescription(node, restrictedPatterns, language, errors);
 
     // And all the steps of each child
@@ -69,14 +69,14 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 
 function getRestrictedPatterns(configuration: Configuration): ConfigurationPatterns {
   // Patterns applied to everything; feature, scenarios, etc.
-  const globalPatterns = (configuration.Global || []).map(pattern => new RegExp(pattern, 'i'));
+  const globalPatterns = (configuration.Global ?? []).map(pattern => new RegExp(pattern, 'i'));
   //pattern to apply on all steps
-  const stepPatterns = (configuration.Step || []).map(pattern => new RegExp(pattern, 'i'));
+  const stepPatterns = (configuration.Step ?? []).map(pattern => new RegExp(pattern, 'i'));
   const restrictedPatterns = {} as ConfigurationPatterns;
 
   Object.keys(availableConfigs).forEach((key: keyof Configuration) => {
     const resolvedKey = key.toLowerCase().replace(/ /g, '') as keyof Configuration;
-    const resolvedConfig = (configuration[key] || []);
+    const resolvedConfig = (configuration[key] ?? []);
     restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
     if (keywords.map(item => item.toLowerCase()).includes(resolvedKey.toLowerCase())) {
       restrictedPatterns[resolvedKey] = restrictedPatterns[resolvedKey].concat(stepPatterns);

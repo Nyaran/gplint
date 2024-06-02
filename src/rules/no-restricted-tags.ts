@@ -6,8 +6,8 @@ import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-restricted-tags';
 export const availableConfigs = {
-  'tags': [] as string[],
-  'patterns': [] as string[],
+  tags: [] as string[],
+  patterns: [] as string[],
 };
 
 export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
@@ -16,7 +16,8 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
   }
 
   const forbiddenTags = configuration.tags;
-  const forbiddenPatterns = getForbiddenPatterns(configuration);
+  const mergedConfiguration = _.merge(availableConfigs, configuration);
+  const forbiddenPatterns = getForbiddenPatterns(mergedConfiguration);
   const language = feature.language;
   const errors = [] as RuleError[];
 
@@ -42,11 +43,9 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
   return errors;
 }
 
-
 function getForbiddenPatterns(configuration: RuleSubConfig<typeof availableConfigs>) {
-  return (configuration.patterns || []).map((pattern) => new RegExp(pattern));
+  return configuration.patterns.map((pattern) => new RegExp(pattern));
 }
-
 
 function checkTags(node: GherkinTaggable, language: string, forbiddenTags: string[], forbiddenPatterns: RegExp[], errors: RuleError[]) {
   const nodeType = gherkinUtils.getNodeType(node, language);
@@ -62,9 +61,7 @@ function checkTags(node: GherkinTaggable, language: string, forbiddenTags: strin
   });
 }
 
-
 function isForbidden(tag: Tag, forbiddenTags: string[], forbiddenPatterns: RegExp[]) {
   return _.includes(forbiddenTags, tag.name)
     || forbiddenPatterns.some((pattern) => pattern.test(tag.name));
 }
-

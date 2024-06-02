@@ -52,7 +52,7 @@ export function run({feature, file}: GherkinData, configuration: RuleSubConfig<t
 
   for (const {scenario, background} of feature.children) {
     if (mergedConfig.steps) {
-      const tableSteps = (scenario || background).steps.filter(step => step.dataTable != null);
+      const tableSteps = (scenario ?? background).steps.filter(step => step.dataTable != null);
 
       for (const step of tableSteps) {
         _checkRows(step.dataTable.rows);

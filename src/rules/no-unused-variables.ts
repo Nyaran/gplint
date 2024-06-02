@@ -34,7 +34,7 @@ export function run({feature}: GherkinData): RuleError[] {
 
     // Collect all the entries of the examples table
     examples.forEach(example => {
-      if (example?.tableHeader?.cells) {
+      if (example.tableHeader?.cells) {
         example.tableHeader.cells.forEach(cell => {
           if (cell.value) {
             examplesVariables[cell.value] = cell.location;
@@ -50,7 +50,7 @@ export function run({feature}: GherkinData): RuleError[] {
     while ((match = stepVariableRegex.exec(child.scenario.name)) != null) {
       scenarioVariables[match[1]] = {
         line: child.scenario.location.line,
-        column: child.scenario.keyword.length + 2 + child.scenario.location.column + match.index // If multiple spaces (or any) are separating the keyword, the column is wrong
+        column: child.scenario.keyword.length + 2 + (child.scenario.location.column ?? 0) + match.index // If multiple spaces (or any) are separating the keyword, the column is wrong
       };
     }
 
@@ -71,7 +71,7 @@ export function run({feature}: GherkinData): RuleError[] {
               while ((match = stepVariableRegex.exec(cell.value)) != null) {
                 scenarioVariables[match[1]] = {
                   line: cell.location.line,
-                  column: cell.location.column + match.index
+                  column: (cell.location.column ?? 0) + match.index
                 };
               }
             }
@@ -90,14 +90,14 @@ export function run({feature}: GherkinData): RuleError[] {
       while ((match = stepVariableRegex.exec(step.text)) != null) {
         scenarioVariables[match[1]] = {
           line: step.location.line, // Matches the docstring line, not the matching line
-          column: step.keyword.length + step.location.column + match.index // If multiple spaces (or any) are separating the keyword, the column is wrong
+          column: step.keyword.length + (step.location.column ?? 0) + match.index // If multiple spaces (or any) are separating the keyword, the column is wrong
         };
       }
     });
 
 
     for (const exampleVariable in examplesVariables) {
-      if (!scenarioVariables[exampleVariable]) {
+      if (!Object.hasOwn(scenarioVariables, exampleVariable)) {
         errors.push({
           message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
           rule   : name,
@@ -108,12 +108,12 @@ export function run({feature}: GherkinData): RuleError[] {
     }
 
     for (const scenarioVariable in scenarioVariables) {
-      if (!examplesVariables[scenarioVariable]) {
+      if (!Object.hasOwn(examplesVariables, scenarioVariable)) {
         errors.push({
           message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',
-          rule   : name,
-          line   : scenarioVariables[scenarioVariable].line,
-          column : scenarioVariables[scenarioVariable].column,
+          rule: name,
+          line: scenarioVariables[scenarioVariable].line,
+          column: scenarioVariables[scenarioVariable].column,
         });
       }
     }

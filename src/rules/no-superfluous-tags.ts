@@ -15,12 +15,12 @@ export function run({feature}: GherkinData): RuleError[] {
   // TODO Support Rule (should take into account scenarios inside rule for tags)
 
   feature.children.forEach(child => {
-    const node = child.rule || child.background || child.scenario;
+    const node = child.rule ?? child.background ?? child.scenario;
     if (child.background == null) {
       checkTags(node as GherkinTaggable, feature, feature.language, errors);
     }
 
-    if ((node as Scenario).examples) {
+    if (node.keyword === 'Scenario Outline') {
       (node as Scenario).examples.forEach(example => {
         checkTags(example, feature, feature.language, errors);
         checkTags(example, node as GherkinTaggable, feature.language, errors);

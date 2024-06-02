@@ -15,7 +15,7 @@ const checkers = {
   'camelCase': (filename, allowAcronyms) => {
     if (allowAcronyms) {
       const words = _.words(filename);
-      const firstWord = words.shift();
+      const firstWord: string = words.shift();
       return (/^[A-Z]+$/.test(firstWord) ? firstWord : _.lowerFirst(firstWord))
         + words.map(word => _.upperFirst(word)).join('');
     } else {
@@ -29,7 +29,7 @@ const checkers = {
 export function run({file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
   const {style, allowAcronyms} = _.merge(availableConfigs, configuration);
   const filename = path.basename(file.relativePath, '.feature');
-  if (!checkers[style]) {
+  if (!Object.hasOwn(checkers, style)) {
     throw new Error(`Style "${style}" not supported for file-name rule`);
   }
   const expected = checkers[style](filename, allowAcronyms);

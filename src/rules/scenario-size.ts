@@ -24,7 +24,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
   const errors = [] as RuleError[];
 
   featureSpread(feature).children.forEach((child) => {
-    const node = child.background || child.scenario;
+    const node = child.background ?? child.scenario;
     const nodeType = gherkinUtils.getNodeType(node, feature.language);
     const configKey = child.background ? 'Background' : 'Scenario';
     const maxSize = configuration['steps-length'][configKey];

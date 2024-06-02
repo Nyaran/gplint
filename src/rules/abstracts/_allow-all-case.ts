@@ -109,5 +109,5 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 }
 
 function configOrGlobal(config: undefined | boolean, globalCfg: boolean) {
-  return config == null ? globalCfg : config;
+  return config ?? globalCfg;
 }

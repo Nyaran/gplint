@@ -37,7 +37,7 @@ export async function getAllRules(additionalRulesDirs?: string[]): Promise<Rules
   const cwd = path.dirname(fileURLToPath(import.meta.url));
   const rulesDirs = [
     path.join(cwd, 'rules')
-  ].concat(additionalRulesDirs || []);
+  ].concat(additionalRulesDirs ?? []);
 
   for (let rulesDir of rulesDirs) {
     rulesDir = path.resolve(rulesDir);
@@ -53,7 +53,7 @@ export async function getAllRules(additionalRulesDirs?: string[]): Promise<Rules
   return rules;
 }
 
-export async function getRule(rule: string, additionalRulesDirs?: string[]): Promise<Rule> {
+export async function getRule(rule: string, additionalRulesDirs?: string[]): Promise<Rule | undefined> {
   return (await getAllRules(additionalRulesDirs))[rule];
 }
 
@@ -97,7 +97,7 @@ export async function runAllEnabledRules(feature?: Feature, pickles?: Pickle[], 
       const ruleConfig = (Array.isArray(configuration[rule.name]) ? (configuration[rule.name] as RuleConfigArray)[1] : {} as RuleSubConfig<unknown>) as RuleConfig;
       const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
 
-      if (error?.length > 0) {
+      if (error.length > 0) {
         error.forEach(e => (e.level = ruleLevel));
         errors = errors.concat(error);
       }

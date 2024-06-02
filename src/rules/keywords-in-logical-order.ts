@@ -15,7 +15,7 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
   const detectMissingKeywords = mergedConfiguration.detectMissingKeywords;
   const errors = [] as RuleError[];
   feature.children.forEach((child) => {
-    const node = child.background || child.scenario;
+    const node = child.background ?? child.scenario;
     const keywordList = ['given', 'when', 'then'];
 
     let maxKeywordPosition = undefined as number;
@@ -38,7 +38,7 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
 
       if (keywordPosition < maxKeywordPosition) {
         const maxKeyword = keywordList[maxKeywordPosition];
-        errors.push(createError(step, maxKeyword, null));
+        errors.push(createError(maxKeyword, step, undefined));
       }
       existsKeyword[keywordList[keywordPosition]] = true;
       maxKeywordPosition =
@@ -51,19 +51,21 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
           keys.push(key);
         }
       });
-      errors.push(createError(null, keys.join(', '), child.scenario));
+      errors.push(createError(keys.join(', '), undefined, child.scenario));
     }
   });
 
   return errors;
 }
 
-function createError(step: Step, keyword: string, scenario: Scenario) {
+type ExclusiveParams = [Step, undefined] | [undefined, Scenario]
+
+function createError(keyword: string, ...[step, scenario]: ExclusiveParams) {
   let message, node;
-  if (scenario) {
+  if (scenario != null) {
     message = 'The scenario "' + scenario.name + '" does not have the following keywords: ' + keyword;
-    node=scenario;
-  } else if (step) {
+    node = scenario;
+  } else {
     message = 'Step "' +
       step.keyword +
       step.text +

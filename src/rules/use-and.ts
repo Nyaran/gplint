@@ -13,7 +13,7 @@ export function run({feature}: GherkinData): RuleError[] {
   const errors = [] as RuleError[];
 
   featureSpread(feature).children.forEach(child => {
-    const node = child.background || child.scenario;
+    const node = child.background ?? child.scenario;
     let previousKeyword = undefined as string;
     if (node.steps) {
       node.steps.forEach(step => {

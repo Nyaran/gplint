@@ -46,7 +46,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
           checkTagsLines(scenario, mergedConfig.scenario);
         }
 
-        if (mergedConfig.example > -1 && scenario.examples != null) {
+        if (mergedConfig.example > -1) {
           for (const example of scenario.examples) {
             checkTagsLines(example, mergedConfig.example);
           }

@@ -24,17 +24,16 @@ export default tseslint.config(
       'semi': ['error', 'always'],
       'brace-style': ['error', '1tbs'],
       'space-before-blocks': ['error', 'always'],
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['error'],
-      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/restrict-template-expressions': ['error', {
+        allowNumber: true,
+        allowArray: true,
+      }],
     }
   },
   {
     // Temporary disabled rules
     rules: {
-      '@typescript-eslint/prefer-nullish-coalescing': 'off', // 14 (requires "strictNullChecks", implies 69 build errors)
-      '@typescript-eslint/restrict-template-expressions': 'off', // 22
-      '@typescript-eslint/no-unsafe-argument': 'off', // 4
+      '@typescript-eslint/prefer-nullish-coalescing': 'off', // requires strictNullChecks
       '@typescript-eslint/no-unnecessary-condition': 'off', // 209
     }
   },
