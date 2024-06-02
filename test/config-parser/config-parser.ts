@@ -31,9 +31,7 @@ describe('Configuration parser', function () {
       const configFilePath = './non/existing/path';
       await configParser.getConfiguration(configFilePath);
 
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
-        return args[0];
-      });
+      const consoleErrorArgs = consoleErrorStub.args.map((args) => args[0] as string);
       expect(consoleErrorArgs[0]).to.include(`Could not find config file "${configFilePath}" in the working directory`);
       expect(processExitStub.args[0][0]).to.equal(1);
     });
@@ -42,9 +40,7 @@ describe('Configuration parser', function () {
       mockFs({});
       await configParser.getConfiguration();
 
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
-        return args[0];
-      });
+      const consoleErrorArgs = consoleErrorStub.args.map((args) => args[0] as string);
 
       expect(consoleErrorArgs[0]).to.include('Could not find config file ".gplintrc" in the working directory');
       expect(processExitStub.args[0][0]).to.equal(1);
@@ -54,9 +50,7 @@ describe('Configuration parser', function () {
       const configFilePath = 'test/config-parser/bad_config.gplintrc';
       await configParser.getConfiguration(configFilePath);
 
-      const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
-        return args[0];
-      });
+      const consoleErrorArgs = consoleErrorStub.args.map((args) => args[0] as string);
 
       expect(consoleErrorArgs[0]).to.include('Error(s) in configuration file:');
       expect(processExitStub.args[0][0]).to.equal(1);

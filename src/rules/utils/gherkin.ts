@@ -35,7 +35,7 @@ export function getNodeType(node: GherkinKeyworded, language: string): string {
 export function getLanguageInsensitiveKeyword(node: GherkinKeyworded, language = ''): string {
   const languageMapping = Gherkin.dialects[language];
 
-  return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword))!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  return _.findKey(languageMapping, values => values instanceof Array && values.includes(node.keyword));
 }
 
 export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamplesLevel = false): GherkinNode | Examples | TableRow | undefined {
@@ -45,7 +45,7 @@ export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamples
     if (Object.prototype.hasOwnProperty.call(node, 'children')) {
       const scenarios = feature.children
         .filter(child => child.rule)
-        .flatMap(child => child.rule!.children) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+        .flatMap(child => child.rule.children) // eslint-disable-line @typescript-eslint/no-non-null-assertion
         .filter(child => child.scenario)
         .concat(feature.children
           .filter(child => child.scenario))

@@ -116,7 +116,7 @@ function checkStepNode(node: Step, parentNode: Background | Scenario | Step, res
 function check(node: GherkinKeyworded , property: string, pattern: RegExp, language: string, errors: RuleError[]) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore IDK how to handle types for this...
-  let strings = [node[property]];
+  let strings = [node[property]] as string[];
 
   const type = gherkinUtils.getNodeType(node, language);
 

@@ -102,9 +102,7 @@ describe('Feature finder', function() {
 
   it('prints an error message and exits with code 1 when a bad file pattern is used', function() {
     featureFinder.getFeatureFiles(['badpattern**']);
-    const consoleErrorArgs = consoleErrorStub.args.map(function (args) {
-      return args[0];
-    });
+    const consoleErrorArgs = consoleErrorStub.args.map((args) => args[0] as string);
     expect(consoleErrorArgs[0]).to.include('Invalid format of the feature file path/pattern:');
     expect(processExitStub.args[0][0]).to.equal(1);
   });

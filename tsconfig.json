@@ -19,7 +19,8 @@
     "allowJs": true,
     "checkJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strictNullChecks": false
   },
   "ts-node": {
     "esm": true,

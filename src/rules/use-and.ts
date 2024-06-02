@@ -1,5 +1,5 @@
 import * as gherkinUtils from './utils/gherkin.js';
-import {Background, Scenario, Step} from '@cucumber/messages';
+import {Step} from '@cucumber/messages';
 import {GherkinData, RuleError} from '../types.js';
 import { featureSpread } from './utils/gherkin.js';
 
@@ -15,8 +15,8 @@ export function run({feature}: GherkinData): RuleError[] {
   featureSpread(feature).children.forEach(child => {
     const node = child.background || child.scenario;
     let previousKeyword = undefined as string;
-    if ((node as Background | Scenario).steps) {
-      (node as Background | Scenario).steps.forEach(step => {
+    if (node.steps) {
+      node.steps.forEach(step => {
         const keyword = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
 
         if (keyword === 'and') {

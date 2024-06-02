@@ -268,7 +268,7 @@ describe('File Name Rule', function() {
       if (e instanceof AssertionError) {
         throw e; // eslint-disable-line @typescript-eslint/only-throw-error
       }
-      expect(e.message).to.be.equals('Style "unhandled" not supported for file-name rule');
+      expect((e as Error).message).to.be.equals('Style "unhandled" not supported for file-name rule');
     }
   });
 });

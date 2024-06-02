@@ -2,7 +2,6 @@ import _ from 'lodash';
 import * as gherkinUtils from './utils/gherkin.js';
 
 import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
-import { Background, Scenario } from '@cucumber/messages';
 import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'scenario-size';
@@ -29,7 +28,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
     const nodeType = gherkinUtils.getNodeType(node, feature.language);
     const configKey = child.background ? 'Background' : 'Scenario';
     const maxSize = configuration['steps-length'][configKey];
-    const steps = (node as Background | Scenario).steps;
+    const steps = node.steps;
 
     if (maxSize && steps.length > maxSize) {
       errors.push({
