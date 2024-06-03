@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {GherkinData, GherkinTaggable, RuleError} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-duplicate-tags';
 
@@ -11,7 +12,14 @@ export function run({feature}: GherkinData): RuleError[] {
   const errors = [] as RuleError[];
 
   verifyTags(feature, errors);
-  feature.children.forEach(child => {
+
+  const {children, rules} = featureSpread(feature);
+
+  rules.forEach(rule => {
+    verifyTags(rule, errors);
+  });
+
+  children.forEach(child => {
     if (child.scenario) {
       verifyTags(child.scenario, errors);
       child.scenario.examples.forEach(example => {

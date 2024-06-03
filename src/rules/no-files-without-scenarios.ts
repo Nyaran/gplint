@@ -1,4 +1,5 @@
 import {GherkinData, RuleError} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-files-without-scenarios';
 
@@ -7,7 +8,10 @@ export function run({feature}: GherkinData): RuleError[] {
     return [];
   }
   const errors = [] as RuleError[];
-  if (!feature.children.some(child => child.scenario != null)) {
+
+  const {children} = featureSpread(feature);
+
+  if (!children.some(child => child.scenario != null)) {
     errors.push({
       message: 'Feature file does not have any Scenarios',
       rule   : name,

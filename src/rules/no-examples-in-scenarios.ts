@@ -1,5 +1,6 @@
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleError} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-examples-in-scenarios';
 
@@ -8,7 +9,10 @@ export function run({feature}: GherkinData): RuleError[] {
     return [];
   }
   const errors = [] as RuleError[];
-  feature.children.forEach((child) => {
+
+  const {children} = featureSpread(feature);
+
+  children.forEach((child) => {
     if (child.scenario) {
       const nodeType = gherkinUtils.getNodeType(child.scenario, feature.language);
 

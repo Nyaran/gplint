@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import {GherkinData, RuleSubConfig, RuleError} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'max-scenarios-per-file';
 
@@ -15,9 +16,12 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
   const errors = [] as RuleError[];
   const mergedConfiguration = _.merge({}, availableConfigs, configuration);
   const maxScenarios = mergedConfiguration.maxScenarios;
-  let count = feature.children.length;
 
-  feature.children.forEach(child => {
+  const {children} = featureSpread(feature);
+
+  let count = children.length;
+
+  children.forEach(child => {
     if (child.background) {
       count = count - 1;
     } else if (child.scenario.examples.length && mergedConfiguration.countOutlineExamples) {

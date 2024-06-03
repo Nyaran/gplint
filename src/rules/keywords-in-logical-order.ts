@@ -2,6 +2,7 @@ import * as gherkinUtils from './utils/gherkin.js';
 import _ from 'lodash';
 import { GherkinData, RuleSubConfig, RuleError } from '../types.js';
 import { Step, Scenario } from '@cucumber/messages';
+import { featureSpread } from './utils/gherkin.js';
 export const name = 'keywords-in-logical-order';
 export const availableConfigs = {
   'detectMissingKeywords': false
@@ -14,11 +15,14 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
   const mergedConfiguration = _.merge({}, availableConfigs, configuration);
   const detectMissingKeywords = mergedConfiguration.detectMissingKeywords;
   const errors = [] as RuleError[];
-  feature.children.forEach((child) => {
+
+  const {children} = featureSpread(feature);
+
+  children.forEach(child => {
     const node = child.background ?? child.scenario;
     const keywordList = ['given', 'when', 'then'];
 
-    let maxKeywordPosition = undefined as number;
+    let maxKeywordPosition = 0;
     const existsKeyword: Record<string, boolean> = {
       given: false,
       when: false,

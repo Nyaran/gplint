@@ -1,5 +1,6 @@
 import {GherkinData, RuleError} from '../types.js';
 import {Background} from '@cucumber/messages';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-empty-background';
 
@@ -10,7 +11,9 @@ export function run({feature}: GherkinData): RuleError[] {
 
   const errors = [] as RuleError[];
 
-  feature.children.forEach(child => {
+  const {children} = featureSpread(feature);
+
+  children.forEach(child => {
     if (child.background) {
       if (child.background.steps.length === 0) {
         errors.push(createError(child.background));

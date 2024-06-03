@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {GherkinData, GherkinTaggable, RuleError, RuleSubConfig} from '../types.js';
 import {Tag} from '@cucumber/messages';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'related-tags';
 
@@ -26,7 +27,13 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 
   checkTags(feature, tags, errors);
 
-  for (const child of feature.children) {
+  const {children, rules} = featureSpread(feature);
+
+  rules.forEach(rule => {
+    checkTags(rule, tags, errors);
+  });
+
+  for (const child of children) {
     if (child.scenario) {
       checkTags(child.scenario, tags, errors);
 

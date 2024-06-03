@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {GherkinData, RuleSubConfig, RuleError} from '../types.js';
 import {TableCell, TableRow} from '@cucumber/messages';
+import { featureSpread } from './utils/gherkin.js';
 
 const TABLE_SEPARATOR = '|';
 const TABLE_SPLITTER = /(?<!\\)\|/;
@@ -52,7 +53,9 @@ export function run({feature, file}: GherkinData, configuration: RuleSubConfig<t
 
   const errors = [] as RuleError[];
 
-  for (const {scenario, background} of feature.children) {
+  const {children} = featureSpread(feature);
+
+  for (const {scenario, background} of children) {
     if (mergedConfig.steps) {
       const tableSteps = (scenario ?? background).steps.filter(step => step.dataTable != null);
 

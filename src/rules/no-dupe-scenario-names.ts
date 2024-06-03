@@ -2,13 +2,16 @@ import _ from 'lodash';
 import {Pickle, Scenario} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-dupe-scenario-names';
 export const availableConfigs = [
   'anywhere',
   'in-feature',
+  // TODO 'in-rule',
   'anywhere-compile',
-  'in-feature-compile'
+  'in-feature-compile',
+  // TODO 'in-rule-compile',
 ];
 
 type Locations = [
@@ -35,7 +38,9 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
     scenarios = {};
   }
 
-  const items = compile ? pickles : feature.children.filter(child => child.scenario).map(child => child.scenario);
+  const {children} = featureSpread(feature);
+
+  const items = compile ? pickles : children.filter(child => child.scenario).map(child => child.scenario);
 
   items.forEach(scenario => {
     const scenarioName = scenario.name;
