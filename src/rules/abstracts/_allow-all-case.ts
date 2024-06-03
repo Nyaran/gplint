@@ -6,7 +6,7 @@ import {
   Feature,
   FeatureChild,
   Location,
-  Rule as CucumberRule,
+  Rule,
   Scenario
 } from '@cucumber/messages';
 
@@ -60,14 +60,14 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
     }
   }
 
-  function scenarioContainerIter(levelName: string, container: Feature | CucumberRule) {
+  function scenarioContainerIter(levelName: string, container: Feature | Rule) {
     check(levelName, container.name, container.location);
     check(Levels.Description, container.description, container.location);
 
     for (const child of container.children) {
       /* c8 ignore else */
       if (Object.hasOwn(child, 'rule')) {
-        scenarioContainerIter(Levels.Rule, (child as FeatureChild).rule);
+        scenarioContainerIter(Levels.Rule, (child as FeatureChild).rule!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
       } else if (child.background != null) {
         stepsContainerIter(Levels.Background, child.background);
       } else if (child.scenario != null) {
@@ -108,6 +108,6 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
   return errors;
 }
 
-function configOrGlobal(config: undefined | boolean, globalCfg: boolean) {
+function configOrGlobal(config?: boolean, globalCfg?: boolean) {
   return config ?? globalCfg;
 }

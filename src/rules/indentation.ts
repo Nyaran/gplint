@@ -61,7 +61,7 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
   function validate(parsedLocation: Location, type: ConfigurationKey, modifier = 0) {
     // location.column is 1 index based so, when we compare with the expected
     // indentation we need to subtract 1
-    const parsedLocColumn = parsedLocation.column;
+    const parsedLocColumn = parsedLocation.column ?? 0;
     const expectedIndentation = mergedConfiguration[type] as number + modifier;
     if (parsedLocColumn - 1 !== expectedIndentation) {
       errors.push({
@@ -75,7 +75,7 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 
   function validateStep(step: Step, modifier = 0) {
     let stepType = gherkinUtils.getLanguageInsensitiveKeyword(step, feature?.language);
-    stepType = stepType in configuration ? stepType : 'Step';
+    stepType = stepType != null && stepType in configuration ? stepType : 'Step';
     validate(step.location, stepType as ConfigurationKey, modifier);
   }
 
@@ -94,7 +94,7 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
       child.background.steps.forEach(step => {
         validateStep(step, modifier);
       });
-    } else {
+    } else if (child.scenario) {
       validate(child.scenario.location, 'Scenario', modifier);
       validateTags(child.scenario.tags, 'scenario tag', modifier);
       child.scenario.steps.forEach(step => {

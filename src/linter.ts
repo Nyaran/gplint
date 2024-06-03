@@ -36,7 +36,7 @@ export async function readAndParseFile(filePath: string): Promise<GherkinData> {
       if (envelope.parseError) {
         parsingErrors.push(envelope.parseError);
       } else {
-        if (envelope.gherkinDocument) {
+        if (envelope.gherkinDocument?.feature) {
           feature = envelope.gherkinDocument.feature;
         }
         if (envelope.pickle) {

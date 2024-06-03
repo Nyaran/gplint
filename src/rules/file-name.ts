@@ -15,7 +15,7 @@ const checkers = {
   'camelCase': (filename, allowAcronyms) => {
     if (allowAcronyms) {
       const words = _.words(filename);
-      const firstWord: string = words.shift();
+      const firstWord = words.shift()!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
       return (/^[A-Z]+$/.test(firstWord) ? firstWord : _.lowerFirst(firstWord))
         + words.map(word => _.upperFirst(word)).join('');
     } else {
@@ -27,6 +27,10 @@ const checkers = {
 } as Record<string, (filename: string, allowAcronyms?: boolean) => string>;
 
 export function run({file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
+  if (file == null) {
+    return [];
+  }
+
   const {style, allowAcronyms} = _.merge(availableConfigs, configuration);
   const filename = path.basename(file.relativePath, '.feature');
   if (!Object.hasOwn(checkers, style)) {
