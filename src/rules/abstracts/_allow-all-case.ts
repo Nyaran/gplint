@@ -67,7 +67,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
     for (const child of container.children) {
       /* c8 ignore else */
       if (Object.hasOwn(child, 'rule')) {
-        scenarioContainerIter(Levels.Rule, (child as FeatureChild).rule!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
+        scenarioContainerIter(Levels.Rule, (child as FeatureChild).rule);
       } else if (child.background != null) {
         stepsContainerIter(Levels.Background, child.background);
       } else if (child.scenario != null) {

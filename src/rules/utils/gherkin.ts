@@ -45,7 +45,7 @@ export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamples
     if (Object.prototype.hasOwnProperty.call(node, 'children')) {
       const scenarios = feature.children
         .filter(child => child.rule)
-        .flatMap(child => child.rule!.children) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+        .flatMap(child => child.rule.children)
         .filter(child => child.scenario)
         .concat(feature.children
           .filter(child => child.scenario))

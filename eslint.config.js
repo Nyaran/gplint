@@ -28,11 +28,6 @@ export default tseslint.config(
         allowNumber: true,
         allowArray: true,
       }],
-    }
-  },
-  {
-    // Temporary disabled rules
-    rules: {
       '@typescript-eslint/prefer-nullish-coalescing': 'off', // requires strictNullChecks
       '@typescript-eslint/no-unnecessary-condition': 'off', // requires strictNullChecks
     }
