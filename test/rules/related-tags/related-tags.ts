@@ -9,6 +9,7 @@ describe('Rule: related-tags', function () {
       return runTest('related-tags/NoViolations.feature', {
         tags: {
           '@featureTag': ['@relatedTagFeature'],
+          '@ruletag': ['@relatedTagRule'],
           '@scenarioTag': ['@relatedTagScenario'],
           '@examplesTag': ['@relatedTagExample'],
         }
@@ -19,6 +20,7 @@ describe('Rule: related-tags', function () {
       return runTest('related-tags/NoViolations.feature', {
         tags: {
           '@featureTag': ['@relatedTagFeature', '@extraRelatedTag'],
+          '@ruleTag': ['@relatedTagRule', '@extraRelatedTag'],
           '@scenarioTag': ['@relatedTagScenario', '@extraRelatedTag'],
           '@examplesTag': ['@relatedTagExample', '@extraRelatedTag'],
         }
@@ -29,6 +31,7 @@ describe('Rule: related-tags', function () {
       return runTest('related-tags/NoViolations.feature', {
         tags: {
           '@featureTag': ['/^@relatedTag.+$/'],
+          '@ruleTag': ['/^@relatedTag.+$/'],
           '@scenarioTag': ['/^@relatedTag.+$/'],
           '@examplesTag': ['/^@relatedTag.+$/'],
         }
@@ -41,6 +44,7 @@ describe('Rule: related-tags', function () {
       return runTest('related-tags/Violations.feature', {
         tags: {
           '@featureTag': ['@relatedTagFeature'],
+          '@ruleTag': ['@relatedTagRule'],
           '@scenarioTag': ['@relatedTagScenario'],
           '@examplesTag': ['@relatedTagExample'],
         }
@@ -65,6 +69,16 @@ describe('Rule: related-tags', function () {
           column: 5,
           messageElements: {mainTag: '@examplesTag', relatedTags: ['@relatedTagExample']}
         },
+        {
+          line: 26,
+          column: 3,
+          messageElements: {mainTag: '@ruleTag', relatedTags: ['@relatedTagRule']}
+        },
+        {
+          line: 28,
+          column: 5,
+          messageElements: {mainTag: '@scenarioTag', relatedTags: ['@relatedTagScenario']}
+        },
       ]);
     });
 
@@ -72,6 +86,7 @@ describe('Rule: related-tags', function () {
       return runTest('related-tags/Violations.feature', {
         tags: {
           '@featureTag': ['@relatedTagFeature', '@extraRelatedTag'],
+          '@ruleTag': ['@relatedTagRule', '@extraRelatedTag'],
           '@scenarioTag': ['@relatedTagScenario', '@extraRelatedTag'],
           '@examplesTag': ['@relatedTagExample', '@extraRelatedTag'],
         }
@@ -96,6 +111,16 @@ describe('Rule: related-tags', function () {
           column: 5,
           messageElements: {mainTag: '@examplesTag', relatedTags: ['@relatedTagExample', '@extraRelatedTag']}
         },
+        {
+          line: 26,
+          column: 3,
+          messageElements: {mainTag: '@ruleTag', relatedTags: ['@relatedTagRule', '@extraRelatedTag']}
+        },
+        {
+          line: 28,
+          column: 5,
+          messageElements: {mainTag: '@scenarioTag', relatedTags: ['@relatedTagScenario', '@extraRelatedTag']}
+        },
       ]);
     });
 
@@ -103,6 +128,7 @@ describe('Rule: related-tags', function () {
       return runTest('related-tags/Violations.feature', {
         tags: {
           '@featureTag': ['/^@relatedTag.+$/'],
+          '@ruleTag': ['/^@relatedTag.+$/'],
           '@scenarioTag': ['/^@relatedTag.+$/'],
           '@examplesTag': ['/^@relatedTag.+$/'],
         }
@@ -126,6 +152,16 @@ describe('Rule: related-tags', function () {
           line: 18,
           column: 5,
           messageElements: {mainTag: '@examplesTag', relatedTags: ['/^@relatedTag.+$/']}
+        },
+        {
+          line: 26,
+          column: 3,
+          messageElements: {mainTag: '@ruleTag', relatedTags: ['/^@relatedTag.+$/']}
+        },
+        {
+          line: 28,
+          column: 5,
+          messageElements: {mainTag: '@scenarioTag', relatedTags: ['/^@relatedTag.+$/']}
         },
       ]);
     });

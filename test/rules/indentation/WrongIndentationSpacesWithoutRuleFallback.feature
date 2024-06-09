@@ -2,7 +2,7 @@
 Feature: Test for indentation - spaces
 
   @ruletag
-  Rule:
+  Rule: This is a rule
    Background:
 Given I have a Feature file with indentation all over the place
        @scenarioTag4

@@ -22,3 +22,9 @@ Feature: Feature without related tags
 
   Scenario: This is a Scenario without tags
     Then this is a then step
+
+  @ruleTag
+  Rule: This is a rule
+    @scenarioTag
+    Scenario: This is a Scenario without related tags
+      Then this is a then step

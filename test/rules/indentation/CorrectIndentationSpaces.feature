@@ -21,7 +21,7 @@ Feature: Test for indentation - spaces
       | har | har |
 
   @ruletag
-  Rule:
+  Rule: This is a rule
 
     Background:
       Given Background in ruel have a great indentation too

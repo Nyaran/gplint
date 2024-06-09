@@ -9,7 +9,7 @@ Scenario: This is a Scenario
   Then this is a step
 
 @tag
-Rule:
+Rule: This is a rule
 @tag
 Scenario Outline: This is a Scenario outline
   Then this is a step

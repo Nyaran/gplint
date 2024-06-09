@@ -27,10 +27,6 @@ const checkers = {
 } as Record<string, (filename: string, allowAcronyms?: boolean) => string>;
 
 export function run({file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
-  if (file == null) {
-    return [];
-  }
-
   const {style, allowAcronyms} = _.merge(availableConfigs, configuration);
   const filename = path.basename(file.relativePath, '.feature');
   if (!Object.hasOwn(checkers, style)) {

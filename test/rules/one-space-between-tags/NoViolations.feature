@@ -11,7 +11,7 @@ Scenario: This is a Scenario with good tag spacing
   Then this is a then step
 
 @ruletag1 @ruletag2
-Rule:
+Rule: This is a rule
 @scenariotag5 @scenariotag6
 Scenario Outline: This is a Scenario Outline with good tag spacing
   Then this is a then step <foo>

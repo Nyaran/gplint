@@ -13,7 +13,7 @@ Feature: Test for indentation - spaces
        Then I should not see an indentation error
 
   @ruletag
-  Rule:
+  Rule: This is a rule
     Background:
        Given I have a Feature file with great indentation
 

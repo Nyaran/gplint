@@ -8,25 +8,37 @@ describe('No Duplicate Tags Rule', function() {
   });
 
   it('detects errors for features, scenarios, and scenario outlines', function() {
-    return runTest('no-duplicate-tags/Violations.feature', {}, [{
-      messageElements: {tags: '@featuretag'},
-      line: 1,
-      column: 13,
-    },
-    {
-      messageElements: {tags: '@scenariotag'},
-      line: 7,
-      column: 14,
-    },
-    {
-      messageElements: {tags: '@scenariooutlinetag'},
-      line: 11,
-      column: 21,
-    },
-    {
-      messageElements: {tags: '@examplestag'},
-      line: 14,
-      column: 14,
-    }]);
+    return runTest('no-duplicate-tags/Violations.feature', {}, [
+      {
+        messageElements: { tags: '@featuretag' },
+        line: 1,
+        column: 13,
+      },
+      {
+        messageElements: { tags: '@scenariotag' },
+        line: 7,
+        column: 16,
+      },
+      {
+        messageElements: { tags: '@scenariooutlinetag' },
+        line: 11,
+        column: 23,
+      },
+      {
+        messageElements: { tags: '@examplestag' },
+        line: 15,
+        column: 18,
+      },
+      {
+        messageElements: { tags: '@ruletag' },
+        line: 20,
+        column: 12,
+      },
+      {
+        messageElements: { tags: '@scenariotag' },
+        line: 23,
+        column: 16,
+      },
+    ]);
   });
 });

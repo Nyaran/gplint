@@ -21,7 +21,7 @@ Feature: Test for indentation
       | har | har |
 
     @ruletag
-  Rule:
+  Rule: This is a rule
     Background:
       Given I have a Feature file with great indentation
 
