@@ -64,11 +64,6 @@ export async function doesRuleExist(rule: string, additionalRulesDirs?: string[]
 export function getRuleLevel(ruleConfig: RuleConfig, rule: string): ErrorLevels {
   const level = Array.isArray(ruleConfig) ? ruleConfig[0] : ruleConfig;
 
-  if (level === 'on') { // 'on' is deprecated, but still supported for backward compatibility, means error level.
-    console.warn('Level "on" is deprecated, please replace it with "error" or "warn" on your .gplintrc file.');
-    return 2;
-  }
-
   if (level == null) {
     return 0;
   }

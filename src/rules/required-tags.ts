@@ -6,7 +6,6 @@ import { GherkinData, GherkinKeyworded, GherkinNode, GherkinTaggable, RuleError,
 export const name = 'required-tags';
 export const availableConfigs = {
   ignoreUntagged: true,
-  tags: [] as string[], // Deprecated
   global: [] as string[],
   feature: [] as string[],
   rule: [] as string[],
@@ -16,16 +15,12 @@ export const availableConfigs = {
   extendExample: false,
 };
 
-function checkTagNotPresent(requiredTag: string | string[], {tags}: GherkinTaggable | Pickle, useLegacyCheck = false) {
+function checkTagNotPresent(requiredTag: string | string[], {tags}: GherkinTaggable | Pickle) {
   return _.castArray(requiredTag).every(rt =>
     !tags.some(tag => {
       const regexpMatch = /^@?\/(?<exp>.*)\/$/.exec(rt);
 
-      if (useLegacyCheck) {
-        return RegExp(rt).test(tag.name);
-      } else {
-        return regexpMatch ? RegExp(regexpMatch.groups.exp).test(tag.name) : rt === tag.name;
-      }
+      return regexpMatch ? RegExp(regexpMatch.groups.exp).test(tag.name) : rt === tag.name;
     }));
 }
 
@@ -37,10 +32,6 @@ export function run({feature, pickles}: GherkinData, configuration: RuleSubConfi
   const mergedConfig = _.merge({}, availableConfigs, configuration);
 
   const errors = [] as RuleError[];
-  const legacyTagsCheck = mergedConfig.tags.length > 0 && mergedConfig.scenario.length === 0;
-  if (legacyTagsCheck) {
-    mergedConfig.scenario = mergedConfig.tags;
-  }
 
   if (mergedConfig.global.length > 0) {
     pickles
@@ -52,7 +43,7 @@ export function run({feature, pickles}: GherkinData, configuration: RuleSubConfi
       });
   }
 
-  function checkRequiredTags(item: GherkinTaggable, requiredTags: string[], extraRequiredTags: string[] = [], useLegacyCheck = false) {
+  function checkRequiredTags(item: GherkinTaggable, requiredTags: string[], extraRequiredTags: string[] = []) {
     if (mergedConfig.ignoreUntagged && item.tags.length === 0) {
       return;
     }
@@ -60,7 +51,7 @@ export function run({feature, pickles}: GherkinData, configuration: RuleSubConfi
     const allRequiredTags = requiredTags.concat(extraRequiredTags);
 
     allRequiredTags
-      .filter(requiredTag => checkTagNotPresent(requiredTag, item, useLegacyCheck))
+      .filter(requiredTag => checkTagNotPresent(requiredTag, item))
       .forEach(missTag => errors.push(createError(item, missTag, feature.language)));
   }
 
@@ -83,7 +74,7 @@ export function run({feature, pickles}: GherkinData, configuration: RuleSubConfi
           scenarioExtendedTags.push(...mergedConfig.example);
         }
 
-        checkRequiredTags(scenario, mergedConfig.scenario, scenarioExtendedTags, legacyTagsCheck);
+        checkRequiredTags(scenario, mergedConfig.scenario, scenarioExtendedTags);
 
         if (scenario.examples.length !== 0) {
           for (const example of scenario.examples) {

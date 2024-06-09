@@ -387,8 +387,6 @@ Example configuration with default values:
 * `example` (array): the array of tag patterns that must match - defaults to `[]`
 * `extendRule` (boolean): When Scenario is not contained inside Rule, extends required `rule` tags to `scenario` - defaults to `false`
 * `extendExample` (boolean): When Scenario is not a Scenario Outline, extends required `example` tags to `scenario` - defaults to `false`
-* `tags` (array): (Deprecated, use `scenario`) the array of tag patterns that must match - defaults to `[]`. This rule
-perform the checks using always a RegExp.
 
 \* All levels allows to define a sub-array to mark only one of the members of array as required.
 
