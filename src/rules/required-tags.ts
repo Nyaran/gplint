@@ -19,7 +19,8 @@ export const availableConfigs = {
 function checkTagNotPresent(requiredTag: string | string[], {tags}: GherkinTaggable | Pickle, useLegacyCheck = false) {
   return _.castArray(requiredTag).every(rt =>
     !tags.some(tag => {
-      const regexpMatch = rt.match(/^@?\/(?<exp>.*)\/$/);
+      const regexpMatch = /^@?\/(?<exp>.*)\/$/.exec(rt);
+
       if (useLegacyCheck) {
         return RegExp(rt).test(tag.name);
       } else {

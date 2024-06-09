@@ -67,10 +67,10 @@
     "@eslint/js": "9.4.0",
     "@types/chai": "4.3.16",
     "@types/eslint__js": "8.42.3",
-    "@types/lodash": "4.17.4",
+    "@types/lodash": "4.17.5",
     "@types/mocha": "10.0.6",
     "@types/mock-fs": "4.13.4",
-    "@types/node": "20.13.0",
+    "@types/node": "20.14.2",
     "@types/sinon": "17.0.3",
     "@types/text-table": "0.2.5",
     "@types/yargs": "17.0.32",
@@ -78,13 +78,15 @@
     "chai": "5.1.1",
     "coveralls": "3.1.1",
     "cross-env": "7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "9.4.0",
+    "eslint-plugin-chai-friendly": "1.0.0",
     "mocha": "10.4.0",
     "mock-fs": "5.2.0",
     "npm-run-all": "4.1.5",
+    "rimraf": "5.0.7",
     "sinon": "18.0.0",
     "typescript": "5.4.5",
-    "typescript-eslint": "7.11.0"
+    "typescript-eslint": "8.0.0-alpha.26"
   },
   "engines": {
     "node": ">=18.0.0"

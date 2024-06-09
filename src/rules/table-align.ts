@@ -15,7 +15,6 @@ export const availableConfigs = {
 export function run({feature, file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
   function _checkRows(rows: readonly TableRow[]) {
     // row could be null on missing tables
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (rows.length === 0 || rows.some(row => row == null)) {
       return;
     }

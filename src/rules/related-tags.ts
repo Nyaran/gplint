@@ -51,7 +51,7 @@ function parseTags(tags = {} as RelatedTagsRaw): RelatedTags {
 
   for (const [tag, relatedTags] of Object.entries(tags)) {
     parsedTags[tag] = relatedTags.map(rt => {
-      const match = rt.match(REGEXP_EXPRESSION);
+      const match = REGEXP_EXPRESSION.exec(rt);
       return match == null ? rt : new RegExp(match.groups.pattern, match.groups.flags);
     });
   }

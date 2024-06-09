@@ -1,4 +1,5 @@
 import eslint from '@eslint/js';
+import pluginChaiFriendly from 'eslint-plugin-chai-friendly';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -32,4 +33,12 @@ export default tseslint.config(
       '@typescript-eslint/no-unnecessary-condition': 'off', // requires strictNullChecks
     }
   },
+  {
+    plugins: {'chai-friendly': pluginChaiFriendly},
+    rules: {
+      'no-unused-expressions': 'off', // disable original rule
+      '@typescript-eslint/no-unused-expressions': 'off', // disable original rule
+      'chai-friendly/no-unused-expressions': 'error'
+    },
+  }
 );

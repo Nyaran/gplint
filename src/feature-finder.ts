@@ -17,16 +17,16 @@ export function getFeatureFiles(args: string[], ignoreArg?: string[]): string[] 
     let fixedPattern;
     if (pattern === '.') {
       fixedPattern = '**/*.feature';
-    } else if (pattern.match(/.*\/\*\*/)) {
+    } else if (/.*\/\*\*/.exec(pattern)) {
       fixedPattern = pattern + '/**.feature';
-    } else if (pattern.match(/.*\.feature/)) {
+    } else if (/.*\.feature/.exec(pattern)) {
       fixedPattern = pattern;
     } else {
       try {
         if (fs.statSync(pattern).isDirectory()) {
           fixedPattern = path.join(pattern, '**/*.feature');
         }
-      } catch (e) {
+      } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars
         // Don't show the fs callstack, we will print a custom error message bellow instead
       }
     }
