@@ -132,6 +132,8 @@ function getFormattedTaggedBackgroundError(errors: GherkinError[]): Errors {
       if (errors[i].message?.includes('expected: #TagLine, #RuleLine, #Comment, #Empty')) {
         index = i + 1;
       } else {
+        /* c8 ignore next 3 */
+        // IDK if this could happen, but let's keep this to be safe
         break;
       }
     }
@@ -156,6 +158,8 @@ function getFormattedFatalError(error: RuleError|ParseError): RuleErrorLevel {
     errorMsg = 'Steps should begin with "Given", "When", "Then", "And" or "But". Multiline steps are disallowed';
     rule = 'no-multiline-steps';
   } else {
+    /* c8 ignore next 4 */
+    // IDK if this could happen, but let's keep this to be safe
     errorMsg = error.message;
     rule = 'unexpected-error';
   }

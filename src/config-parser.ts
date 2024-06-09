@@ -23,8 +23,9 @@ export async function getConfiguration(configPath: string = defaultConfigFileNam
     if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
       logger.boldError(`Could not find config file "${configPath}" in the working directory.
 To use a custom name/path provide the config file using the "-c" arg.`);
-      return process.exit(1);
+    } else {
+      logger.boldError(`Unable to parse file, be sure its in JSON format. ${(e as Error).message}`);
     }
-    throw e;
+    return process.exit(1);
   }
 }

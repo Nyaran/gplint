@@ -114,6 +114,7 @@ async function loadRegister(): Promise<void> {
         allowJs: true
       }
     });
+    /* c8 ignore next 3 */
   } catch (err) { // eslint-disable-line @typescript-eslint/no-unused-vars
     /* empty */
   }

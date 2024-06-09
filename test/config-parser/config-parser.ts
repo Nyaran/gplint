@@ -55,6 +55,16 @@ describe('Configuration parser', function () {
       expect(consoleErrorArgs[0]).to.include('Error(s) in configuration file:');
       expect(processExitStub.args[0][0]).to.equal(1);
     });
+
+    it('configuration file with invalid syntax is used', async function () {
+      const configFilePath = 'test/config-parser/syntax-invalid.gplintrc';
+      await configParser.getConfiguration(configFilePath);
+
+      const consoleErrorArgs = consoleErrorStub.args.map((args) => args[0] as string);
+
+      expect(consoleErrorArgs[0]).to.include('Unable to parse file, be sure its in JSON format.');
+      expect(processExitStub.args[0][0]).to.equal(1);
+    });
   });
 
   describe('doesn\'t exit with exit code 1 when', function () {
