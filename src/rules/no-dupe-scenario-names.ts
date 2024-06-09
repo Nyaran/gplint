@@ -38,6 +38,10 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
     scenarios = {};
   }
 
+  function loopScenarios() {
+
+  }
+
   const {children} = featureSpread(feature);
 
   const items = compile ? pickles : children.filter(child => child.scenario).map(child => child.scenario);
