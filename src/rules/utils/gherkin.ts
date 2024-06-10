@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as Gherkin from '@cucumber/gherkin';
-import { Examples, Feature, Pickle, Scenario, TableRow } from '@cucumber/messages';
+import { Examples, Feature, Pickle, Rule, Scenario, TableRow } from '@cucumber/messages';
 import {GherkinKeyworded, GherkinNode, GherkinTaggable} from '../../types.js';
 
 // We use the node's keyword to determine the node's type
@@ -59,6 +59,12 @@ export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamples
   }
 
   return node;
+}
+
+export function getPicklesForNode(node: Feature | Rule, pickles: Pickle[]): Pickle[] {
+  const scenarioIds = node.children.filter(n => n.scenario).map(s => s.scenario.id);
+
+  return pickles.filter(pickle => pickle.astNodeIds.find(id => scenarioIds.includes(id)));
 }
 
 /**

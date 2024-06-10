@@ -2,16 +2,16 @@ import _ from 'lodash';
 import {Pickle, Scenario} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
-import { featureSpread } from './utils/gherkin.js';
+import { featureSpread, getPicklesForNode } from './utils/gherkin.js';
 
 export const name = 'no-dupe-scenario-names';
 export const availableConfigs = [
   'anywhere',
   'in-feature',
-  // TODO 'in-rule',
+  'in-rule',
   'anywhere-compile',
   'in-feature-compile',
-  // TODO 'in-rule-compile',
+  'in-rule-compile',
 ];
 
 type Locations = [
@@ -22,7 +22,7 @@ type Locations = [
   }
 ];
 
-let scenarios = {} as Record<string, {
+let scenariosStore = {} as Record<string, {
   locations: Locations
 }>;
 
@@ -33,49 +33,63 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
 
   const errors = [] as RuleError[];
 
-  const compile = _.isString(configuration) && configuration && configuration.endsWith('-compile');
-  if(_.isString(configuration) && configuration.startsWith('in-feature')) {
-    scenarios = {};
+  const scope = configuration && _.isString(configuration) ? configuration : 'anywhere';
+  const compile = scope.endsWith('-compile');
+
+  function loopScenarios(scenarios: (Scenario | Pickle)[]) {
+    scenarios.forEach(scenario => {
+      const scenarioName = scenario.name;
+      const scenarioLocation = (compile ? gherkinUtils.getNodeForPickle(feature, scenario as Pickle) : scenario as Scenario).location;
+      if (Object.prototype.hasOwnProperty.call(scenariosStore, scenarioName)) {
+        const dupes = getFileLinePairsAsStr(scenariosStore[scenarioName].locations);
+
+        scenariosStore[scenarioName].locations.push({
+          file: file.relativePath,
+          line: scenarioLocation.line,
+          column: scenarioLocation.column,
+        });
+
+        errors.push({
+          message: 'Scenario name is already used in: ' + dupes,
+          rule: name,
+          line: scenarioLocation.line,
+          column: scenarioLocation.column,
+        });
+      } else {
+        scenariosStore[scenarioName] = {
+          locations: [
+            {
+              file: file.relativePath,
+              line: scenarioLocation.line,
+              column: scenarioLocation.column,
+            }
+          ]
+        };
+      }
+    });
   }
 
-  function loopScenarios() {
+  // TODO compile use pickles
+  if (scope.startsWith('in-rule')) {
+    const {rules} = featureSpread(feature);
 
-  }
+    for (const node of [feature, ...rules]) { // Append feature level to rules array, to check un-ruled scenarios
+      scenariosStore = {};
 
-  const {children} = featureSpread(feature);
-
-  const items = compile ? pickles : children.filter(child => child.scenario).map(child => child.scenario);
-
-  items.forEach(scenario => {
-    const scenarioName = scenario.name;
-    const scenarioLocation = (compile ? gherkinUtils.getNodeForPickle(feature, scenario as Pickle) : scenario as Scenario).location;
-    if (Object.prototype.hasOwnProperty.call(scenarios, scenarioName)) {
-      const dupes = getFileLinePairsAsStr(scenarios[scenarioName].locations);
-
-      scenarios[scenarioName].locations.push({
-        file: file.relativePath,
-        line: scenarioLocation.line,
-        column: scenarioLocation.column,
-      });
-
-      errors.push({
-        message: 'Scenario name is already used in: ' + dupes,
-        rule: name,
-        line: scenarioLocation.line,
-        column: scenarioLocation.column,
-      });
-    } else {
-      scenarios[scenarioName] = {
-        locations: [
-          {
-            file: file.relativePath,
-            line: scenarioLocation.line,
-            column: scenarioLocation.column,
-          }
-        ]
-      };
+      const scenarios = compile ?
+        getPicklesForNode(node, pickles) :
+        node.children.filter(child => child.scenario).map(child => child.scenario);
+      loopScenarios(scenarios);
     }
-  });
+  } else {
+    if (scope.startsWith('in-feature')) {
+      scenariosStore = {};
+    }
+    const {children} = featureSpread(feature);
+
+    const scenarios = compile ? pickles : children.filter(child => child.scenario).map(child => child.scenario);
+    loopScenarios(scenarios);
+  }
 
   return errors;
 }
