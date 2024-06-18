@@ -7,16 +7,25 @@ export default tseslint.config(
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   {
+    files: ['**/*.js'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
     languageOptions: {
       parserOptions: {
         project: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
-  },
-  {
-    files: ['**/*.js'],
-    ...tseslint.configs.disableTypeChecked,
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'bin',
+    ],
+    linterOptions: {
+      noInlineConfig: false,
+      reportUnusedDisableDirectives: "error"
+    }
   },
   {
     rules: {
