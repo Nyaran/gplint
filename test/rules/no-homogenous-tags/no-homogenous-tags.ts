@@ -11,23 +11,32 @@ describe('No Homogenous Tags Rule', function() {
   it('detects errors for scenarios, and scenario outlines', function() {
     return runTest('no-homogenous-tags/Violations.feature', {}, [
       {
-        line: 1,
-        column: 1,
+        line: 11,
+        column: 3,
         messageElements: {
-          intro: 'All Scenarios on this Feature',
-          tags: '@tag1, @tag2',
-          nodeType: 'Feature'
+          intro: 'All Examples of a Scenario Outline',
+          tags: '@tagExampleRepeatA',
+          nodeType: 'Scenario Outline'
         }
       },
       {
-        line: 11,
+        line: 25,
+        column: 3,
+        messageElements: {
+          intro: 'All Scenarios on this Rule',
+          tags: '@tagScenarioRuleRepeatA, @tagScenarioRuleRepeatB',
+          nodeType: 'Rule'
+        }
+      },
+      {
+        line: 1,
         column: 1,
         messageElements: {
-          intro: 'All Examples of a Scenario Outline',
-          tags: '@tag5',
-          nodeType: 'Scenario Outline'
+          intro: 'All Scenarios and Rules on this Feature',
+          tags: '@tagScenarioRepeatA, @tagScenarioRepeatB',
+          nodeType: 'Feature'
         }
-      }
+      },
     ]);
   });
 });

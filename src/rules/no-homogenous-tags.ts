@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {GherkinData,  RuleError} from '../types.js';
-import {Examples, Feature, Scenario} from '@cucumber/messages';
+import { Examples, Feature, Rule, Scenario } from '@cucumber/messages';
 
 export const name = 'no-homogenous-tags';
 
@@ -10,13 +10,31 @@ export function run({feature}: GherkinData): RuleError[] {
   }
   const errors = [] as RuleError[];
 
-  // Tags that exist in every scenario and scenario outline
-  // should be applied on a feature level
+  checkHomogenousContainer(feature, errors, ['Feature', 'Scenarios and Rules']);
+
+  return errors;
+}
+
+function getTagNames(node: Feature | Rule | Scenario | Examples): string[] {
+  return _.map(node.tags, tag => tag.name);
+}
+
+/**
+ * Tags that exist in every scenario and scenario outline
+ * should be applied on a feature/rule level
+ * @param container
+ * @param errors
+ * @param errorMessage
+ */
+function checkHomogenousContainer(container: Feature | Rule, errors: RuleError[], [containerName, childrenName]: [string, string]) {
   const childrenTags = [] as string[][];
 
-  // TODO Support Rule (should take into account scenarios inside rule for tags)
+  if (container.children.length < 2) {
+    // Feature/Rule with only one child, skipping
+    return;
+  }
 
-  feature.children.forEach(child => {
+  container.children.forEach(child => {
     if (child.scenario) {
       const scenario = child.scenario;
 
@@ -38,24 +56,20 @@ export function run({feature}: GherkinData): RuleError[] {
           column: scenario.location.column,
         });
       }
+    } else if (child.rule) {
+      const rule =  child.rule;
+      childrenTags.push(getTagNames(rule));
+      checkHomogenousContainer(rule, errors, ['Rule', 'Scenarios']);
     }
   });
 
   const homogenousTags = _.intersection(...childrenTags);
   if (homogenousTags.length) {
     errors.push({
-      message: 'All Scenarios on this Feature have the same tag(s), ' +
-        'they should be defined on the Feature instead: ' +
-        homogenousTags.join(', '),
+      message: `All ${childrenName} on this ${containerName} have the same tag(s), they should be defined on the ${containerName} instead: ${homogenousTags.join(', ')}`,
       rule   : name,
-      line   : feature.location.line,
-      column : feature.location.column,
+      line   : container.location.line,
+      column : container.location.column,
     });
   }
-
-  return errors;
-}
-
-function getTagNames(node: Feature | Scenario | Examples): string[] {
-  return _.map(node.tags, tag => tag.name);
 }
