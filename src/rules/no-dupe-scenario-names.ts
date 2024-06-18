@@ -69,7 +69,6 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
     });
   }
 
-  // TODO compile use pickles
   if (scope.startsWith('in-rule')) {
     const {rules} = featureSpread(feature);
 
