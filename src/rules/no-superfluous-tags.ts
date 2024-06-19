@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {Scenario} from '@cucumber/messages';
+import { Feature, Rule } from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, GherkinTaggable, RuleError} from '../types.js';
 
@@ -12,35 +12,43 @@ export function run({feature}: GherkinData): RuleError[] {
 
   const errors = [] as RuleError[];
 
-  // TODO Support Rule (should take into account scenarios inside rule for tags)
+  checkSuperfluousContainer(feature, feature.language, errors);
 
-  feature.children.forEach(child => {
-    const node = child.rule ?? child.background ?? child.scenario;
-    if (child.background == null) {
-      checkTags(node as GherkinTaggable, feature, feature.language, errors);
-    }
-
-    if (node.keyword === 'Scenario Outline') {
-      (node as Scenario).examples.forEach(example => {
-        checkTags(example, feature, feature.language, errors);
-        checkTags(example, node as GherkinTaggable, feature.language, errors);
-      });
-    }
-  });
   return errors;
 }
 
-function checkTags(child: GherkinTaggable, parent: GherkinTaggable, language: string, errors: RuleError[]) {
-  const superfluousTags = _.intersectionBy(child.tags, parent.tags, 'name');
-  const childType = gherkinUtils.getNodeType(child, language);
-  const parentType = gherkinUtils.getNodeType(parent, language);
+function checkSuperfluousContainer(container: Feature | Rule, lang: string, errors: RuleError[], parentContainer?: Feature) {
+  const containers = parentContainer ? [container, parentContainer] : [container];
 
-  superfluousTags.forEach(tag => {
-    errors.push({
-      message: `Tag duplication between ${childType} and its corresponding ${parentType}: ${tag.name}`,
-      rule: name,
-      line: tag.location.line,
-      column: tag.location.column,
-    });
+  container.children.forEach(child => {
+    if (child.scenario) {
+      checkTags(child.scenario, containers, lang, errors);
+
+      if (child.scenario.keyword === 'Scenario Outline') {
+        child.scenario.examples.forEach(example => {
+          checkTags(example, [...containers, child.scenario], lang, errors);
+        });
+      }
+    } else if (child.rule) {
+      checkTags(child.rule, containers, lang, errors);
+      checkSuperfluousContainer(child.rule, lang, errors, container as Feature);
+    }
   });
+}
+
+function checkTags(child: GherkinTaggable, parents: GherkinTaggable[], language: string, errors: RuleError[]) {
+  for (const parent of parents) {
+    const superfluousTags = _.intersectionBy(child.tags, parent.tags, 'name');
+    const childType = gherkinUtils.getNodeType(child, language);
+    const parentType = gherkinUtils.getNodeType(parent, language);
+
+    superfluousTags.forEach(tag => {
+      errors.push({
+        message: `Tag duplication between ${childType} and its corresponding ${parentType}: ${tag.name}`,
+        rule: name,
+        line: tag.location.line,
+        column: tag.location.column,
+      });
+    });
+  }
 }

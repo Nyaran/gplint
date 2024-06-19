@@ -57,7 +57,7 @@ Or check this:
 | [`no-restricted-patterns`](#no-restricted-patterns)           | A list of patterns to disallow globally, or specifically in features, backgrounds, scenarios, or scenario outlines, Steps                       |
 | [`no-restricted-tags`](#no-restricted-tags)                   | Disallow use of particular @tags                                                                                                                |
 | `no-scenario-outlines-without-examples`                       | Disallows scenario outlines without examples                                                                                                    |
-| `no-superfluous-tags`                                         | Disallows tags present on a Feature and a Scenario in that Feature                                                                              |
+| `no-superfluous-tags`                                         | Disallows tags present on a Node, its parents (E.g. Same tags in a Scenario and/or Example, and also on the Feature or Rule that contains it    |
 | `no-trailing-spaces`                                          | Disallows trailing spaces                                                                                                                       |
 | `no-unnamed-features`                                         | Disallows empty Feature name                                                                                                                    |
 | `no-unnamed-scenarios`                                        | Disallows empty Scenario name                                                                                                                   |
