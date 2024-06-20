@@ -6,13 +6,13 @@ export const name = 'allow-all-lowercase';
 export const availableConfigs = allowAllCase.availableConfigs;
 
 export function run(gherkinData: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
-  return allowAllCase.run(
-    gherkinData,
-    configuration,
-    {
-      rule: name,
-      caseMethod: String.prototype.toLowerCase, // eslint-disable-line @typescript-eslint/unbound-method
-      errorMsg: 'with all lowercase are not allowed',
-    }
-  );
+	return allowAllCase.run(
+		gherkinData,
+		configuration,
+		{
+			rule: name,
+			caseMethod: String.prototype.toLowerCase, // eslint-disable-line @typescript-eslint/unbound-method
+			errorMsg: 'with all lowercase are not allowed',
+		}
+	);
 }

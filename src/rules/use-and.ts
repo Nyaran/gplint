@@ -6,38 +6,38 @@ import { featureSpread } from './utils/gherkin.js';
 export const name = 'use-and';
 
 export function run({feature}: GherkinData): RuleError[] {
-  if (!feature) {
-    return [];
-  }
+	if (!feature) {
+		return [];
+	}
 
-  const errors = [] as RuleError[];
+	const errors = [] as RuleError[];
 
-  featureSpread(feature).children.forEach(child => {
-    const node = child.background ?? child.scenario;
-    let previousKeyword = undefined as string;
+	featureSpread(feature).children.forEach(child => {
+		const node = child.background ?? child.scenario;
+		let previousKeyword = undefined as string;
 
-    node.steps.forEach(step => {
-      const keyword = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
+		node.steps.forEach(step => {
+			const keyword = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
 
-      if (keyword === 'and') {
-        return;
-      }
-      if (keyword === previousKeyword) {
-        errors.push(createError(step));
-      }
+			if (keyword === 'and') {
+				return;
+			}
+			if (keyword === previousKeyword) {
+				errors.push(createError(step));
+			}
 
-      previousKeyword = keyword;
-    });
+			previousKeyword = keyword;
+		});
 
-  });
-  return errors;
+	});
+	return errors;
 }
 
 function createError(step: Step) {
-  return {
-    message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
-    rule   : name,
-    line   : step.location.line,
-    column : step.location.column,
-  };
+	return {
+		message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
+		rule   : name,
+		line   : step.location.line,
+		column : step.location.column,
+	};
 }
