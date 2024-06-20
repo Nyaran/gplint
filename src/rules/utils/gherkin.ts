@@ -42,7 +42,7 @@ export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamples
   let node: GherkinNode | Examples | TableRow | undefined = feature;
 
   for (const astNodeId of pickle.astNodeIds) {
-    if (Object.prototype.hasOwnProperty.call(node, 'children')) {
+    if (Object.hasOwn(node, 'children')) {
       const scenarios = feature.children
         .filter(child => child.rule)
         .flatMap(child => child.rule.children)
@@ -51,7 +51,7 @@ export function getNodeForPickle(feature: Feature, pickle: Pickle, forceExamples
           .filter(child => child.scenario))
         .map(child => child.scenario);
       node = scenarios.find(t => t?.id === astNodeId);
-    } else if (Object.prototype.hasOwnProperty.call(node, 'examples')) {
+    } else if (Object.hasOwn(node, 'examples')) {
       node = forceExamplesLevel
         ? (node as unknown as Scenario).examples.find(e => e.tableBody.find(t => t.id === astNodeId))
         : (node as unknown as Scenario).examples.flatMap(e => e.tableBody).find(t => t.id === astNodeId);

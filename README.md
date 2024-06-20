@@ -214,6 +214,16 @@ The rule can be configured like this:
       "show last response",
       "a debugging step"
     ],
+    "Examples": [
+      "poor examples name",
+      "really bad examples description"
+    ],
+    "ExampleHeader": [
+      "^.*disallowed.*$"
+    ],
+    "ExampleBody": [
+      "^.*invalid.*$"
+    ],
     "Step": [
       "bad step"
     ],

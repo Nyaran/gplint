@@ -27,7 +27,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'Feature with disallowed patterns',
           pattern: '^.*disallowed.*$',
-          nodeType:'Feature',
+          nodeType: 'Feature',
           property: 'name'
         },
         line: 1,
@@ -37,7 +37,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'A restricted global pattern',
-          nodeType:'Feature',
+          nodeType: 'Feature',
           property: 'description'
         },
         line: 1,
@@ -47,7 +47,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Feature',
+          nodeType: 'Feature',
           property: 'description'
         },
         line: 1,
@@ -72,7 +72,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'Disallowed exact and partial matching',
           pattern: '^.*disallowed.*$',
-          nodeType:'Rule',
+          nodeType: 'Rule',
           property: 'name'
         },
         line: 3,
@@ -82,7 +82,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Rule',
+          nodeType: 'Rule',
           property: 'description'
         },
         line: 3,
@@ -108,7 +108,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Background',
+          nodeType: 'Background',
           property: 'description'
         },
         line: 4,
@@ -118,7 +118,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'disallowed background step',
           pattern: '^.*disallowed.*$',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 6,
@@ -128,7 +128,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 7,
@@ -153,7 +153,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'Disallowed exact and partial matching',
           pattern: '^.*disallowed.*$',
-          nodeType:'Scenario',
+          nodeType: 'Scenario',
           property: 'name'
         },
         line: 4,
@@ -163,7 +163,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Scenario',
+          nodeType: 'Scenario',
           property: 'description'
         },
         line: 4,
@@ -173,7 +173,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'disallowed scenario step',
           pattern: '^.*disallowed.*$',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 6,
@@ -183,7 +183,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 7,
@@ -208,7 +208,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'Disallowed exact and partial matching',
           pattern: '^.*disallowed.*$',
-          nodeType:'Scenario Outline',
+          nodeType: 'Scenario Outline',
           property: 'name'
         },
         line: 4,
@@ -218,7 +218,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Scenario Outline',
+          nodeType: 'Scenario Outline',
           property: 'description'
         },
         line: 4,
@@ -228,7 +228,7 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           string: 'disallowed scenario outline step',
           pattern: '^.*disallowed.*$',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 6,
@@ -238,11 +238,82 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 7,
         column: 3
+      }
+    ]);
+  });
+
+  it('detects errors in Examples names, descriptions, header and body', function() {
+    const configuration = {
+      'Examples': [
+        '^.*disallowed.*$'
+      ],
+      'ExampleHeader': [
+        '^.*disallowed.*$'
+      ],
+      'ExampleBody': [
+        '^.*disallowed.*$'
+      ],
+      'Global': [
+        '^a restricted global pattern$',
+        'a bad description'
+      ]
+    };
+
+    return runTest('no-restricted-patterns/ExampleViolations.feature', configuration, [
+      {
+        messageElements: {
+          string: 'Disallowed exact and partial matching',
+          pattern: '^.*disallowed.*$',
+          nodeType: 'Examples',
+          property: 'name'
+        },
+        line: 8,
+        column: 5
+      },
+      {
+        messageElements: {
+          pattern: 'a bad description',
+          string: 'A bad description',
+          nodeType: 'Examples',
+          property: 'description'
+        },
+        line: 8,
+        column: 5
+      },
+      {
+        messageElements: {
+          string: 'disallowed header',
+          pattern: '^.*disallowed.*$',
+          nodeType: 'ExampleHeader',
+          property: 'value'
+        },
+        line: 15,
+        column: 19
+      },
+      {
+        messageElements: {
+          string: 'disallowed body one',
+          pattern: '^.*disallowed.*$',
+          nodeType: 'ExampleBody',
+          property: 'value'
+        },
+        line: 21,
+        column: 17
+      },
+      {
+        messageElements: {
+          string: 'disallowed body three',
+          pattern: '^.*disallowed.*$',
+          nodeType: 'ExampleBody',
+          property: 'value'
+        },
+        line: 23,
+        column: 17
       }
     ]);
   });
@@ -256,7 +327,8 @@ describe('No Restricted Patterns Rule', function() {
         'bad step when'
       ],
       'Then': [
-        'step incorrect then'
+        'step incorrect then',
+        '^.*disallowed.*$',
       ],
       'Global': [
         '^a restricted global pattern$',
@@ -269,52 +341,72 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Scenario',
+          nodeType: 'Scenario',
           property: 'description'
         },
         line: 4,
-        column: 1,
+        column: 3,
       },
       {
         messageElements: {
           string: 'a bad step given',
           pattern: '^.*bad step.*$',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 6,
-        column: 3,
+        column: 5,
       },
       {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 7,
-        column: 3,
+        column: 5,
       },
       {
         messageElements: {
           pattern: 'bad step when',
           string: 'bad step when',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 9,
-        column: 3,
+        column: 5,
       },
       {
         messageElements: {
           pattern: 'step incorrect then',
           string: 'bad step incorrect then',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 11,
-        column: 3,
-      }
+        column: 5,
+      },
+      {
+        messageElements: {
+          pattern: '^.*disallowed.*$',
+          string: 'a disallowed docstring',
+          nodeType: 'DocString',
+          property: 'content'
+        },
+        line: 13,
+        column: 5,
+      },
+      {
+        messageElements: {
+          pattern: '^.*disallowed.*$',
+          string: 'disallowed cell',
+          nodeType: 'DataTable cell',
+          property: 'value'
+        },
+        line: 17,
+        column: 24,
+      },
     ]);
   });
 
@@ -323,6 +415,7 @@ describe('No Restricted Patterns Rule', function() {
       'Step': [
         'bad step when',
         'step incorrect then',
+        '^.*disallowed.*$',
       ],
       'Global': [
         '^a restricted global pattern$',
@@ -335,31 +428,31 @@ describe('No Restricted Patterns Rule', function() {
         messageElements: {
           pattern: 'a bad description',
           string: 'A bad description',
-          nodeType:'Scenario',
+          nodeType: 'Scenario',
           property: 'description'
         },
         line: 4,
-        column: 1,
+        column: 3,
       },
       {
         messageElements: {
           pattern: '^a restricted global pattern$',
           string: 'a restricted global pattern',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 7,
-        column: 3,
+        column: 5,
       },
       {
         messageElements: {
           pattern: 'bad step when',
           string: 'bad step when',
-          nodeType:'Step',
+          nodeType: 'Step',
           property: 'text'
         },
         line: 9,
-        column: 3,
+        column: 5,
       },
       {
         messageElements: {
@@ -369,8 +462,28 @@ describe('No Restricted Patterns Rule', function() {
           property: 'text'
         },
         line: 11,
-        column: 3,
-      }
+        column: 5,
+      },
+      {
+        messageElements: {
+          pattern: '^.*disallowed.*$',
+          string: 'a disallowed docstring',
+          nodeType: 'DocString',
+          property: 'content'
+        },
+        line: 13,
+        column: 5,
+      },
+      {
+        messageElements: {
+          pattern: '^.*disallowed.*$',
+          string: 'disallowed cell',
+          nodeType: 'DataTable cell',
+          property: 'value'
+        },
+        line: 17,
+        column: 24,
+      },
     ]);
   });
 });

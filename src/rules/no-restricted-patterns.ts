@@ -1,14 +1,18 @@
 import * as gherkinUtils from './utils/gherkin.js';
 import {GherkinData, RuleSubConfig, RuleError , GherkinKeyworded} from '../types.js';
-import {Background, Examples, Feature, Rule, Scenario, Step, StepKeywordType} from '@cucumber/messages';
+import { Background, DocString, Examples, Feature, Rule, Scenario, Step, StepKeywordType, TableCell,  } from '@cucumber/messages';
 import { featureSpread } from './utils/gherkin.js';
 
 interface IConfiguration<T> {
   Global?: T[]
+  Feature?: T[]
+  Rule?: T[]
+  Background?: T[]
   Scenario?: T[]
   ScenarioOutline?: T[]
-  Background?: T[]
-  Feature?: T[]
+  Examples?: T[] // TODO
+  ExampleHeader?: T[] // TODO
+  ExampleBody?: T[] // TODO
   Step?: T[]
   Given?: T[]
   When?: T[]
@@ -19,15 +23,19 @@ const keywords = ['Given', 'When', 'Then'];
 let previousKeyword: string;
 type Configuration = RuleSubConfig<IConfiguration<string>>;
 type ConfigurationPatterns = RuleSubConfig<IConfiguration<RegExp>>;
+type ConfigurationPatternsLowerCase = Record<Lowercase<keyof ConfigurationPatterns>, ConfigurationPatterns[keyof ConfigurationPatterns]>;
 
 export const name = 'no-restricted-patterns';
 export const availableConfigs = {
   'Global': [] as string[],
-  'Scenario': [] as string[],
-  'ScenarioOutline': [] as string[],
-  'Background': [] as string[],
   'Feature': [] as string[],
   'Rule': [] as string[],
+  'Background': [] as string[],
+  'Scenario': [] as string[],
+  'ScenarioOutline': [] as string[],
+  'Examples': [] as string[],
+  'ExampleHeader': [] as string[],
+  'ExampleBody': [] as string[],
   'Step': [] as string[],
   'Given': [] as string[],
   'When': [] as string[],
@@ -61,21 +69,28 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
       checkStepNode(step, node.steps[index], restrictedPatterns, language, errors);
       checkStepNode(step, node, restrictedPatterns, language, errors);
     });
+
+    if (child.scenario?.examples) {
+      child.scenario.examples.forEach(example => {
+        checkNameAndDescription(example, restrictedPatterns, language, errors);
+        checkExampleNode(example, restrictedPatterns, language, errors);
+      });
+    }
   });
   return errors.filter((obj, index, self) =>
     index === self.findIndex((el) => el.message === obj.message)
   );
 }
 
-function getRestrictedPatterns(configuration: Configuration): ConfigurationPatterns {
+function getRestrictedPatterns(configuration: Configuration): ConfigurationPatternsLowerCase {
   // Patterns applied to everything; feature, scenarios, etc.
   const globalPatterns = (configuration.Global ?? []).map(pattern => new RegExp(pattern, 'i'));
   //pattern to apply on all steps
   const stepPatterns = (configuration.Step ?? []).map(pattern => new RegExp(pattern, 'i'));
-  const restrictedPatterns = {} as ConfigurationPatterns;
+  const restrictedPatterns = {} as ConfigurationPatternsLowerCase;
 
   Object.keys(availableConfigs).forEach((key: keyof Configuration) => {
-    const resolvedKey = key.toLowerCase().replace(/ /g, '') as keyof Configuration;
+    const resolvedKey = key.toLowerCase().replace(/ /g, '') as Lowercase<keyof Configuration>;
     const resolvedConfig = (configuration[key] ?? []);
     restrictedPatterns[resolvedKey] = resolvedConfig.map(pattern => new RegExp(pattern, 'i'));
     if (keywords.map(item => item.toLowerCase()).includes(resolvedKey.toLowerCase())) {
@@ -86,39 +101,71 @@ function getRestrictedPatterns(configuration: Configuration): ConfigurationPatte
   return restrictedPatterns;
 }
 
-function getRestrictedPatternsForNode(node: GherkinKeyworded, restrictedPatterns: ConfigurationPatterns, language: string): RegExp[] {
-  const key = gherkinUtils.getLanguageInsensitiveKeyword(node, language).toLowerCase() as keyof ConfigurationPatterns;
+function getRestrictedPatternsForNode(node: GherkinKeyworded, restrictedPatterns: ConfigurationPatternsLowerCase, language: string): RegExp[] {
+  const key = gherkinUtils.getLanguageInsensitiveKeyword(node, language).toLowerCase() as keyof ConfigurationPatternsLowerCase;
   if (keywords.map(item => item.toLowerCase()).includes(key.toLowerCase())) {
     previousKeyword = key;
   }
   if ((node as Step).keywordType === StepKeywordType.CONJUNCTION && keywords.map(item => item.toLowerCase()).includes(previousKeyword.toLowerCase())) {
-    return restrictedPatterns[previousKeyword as keyof ConfigurationPatterns];
+    return restrictedPatterns[previousKeyword as keyof ConfigurationPatternsLowerCase];
   }
   return restrictedPatterns[key];
 }
 
-function checkNameAndDescription(node: GherkinKeyworded, restrictedPatterns: ConfigurationPatterns, language: string, errors: RuleError[]) {
+function checkNameAndDescription(node: GherkinKeyworded, restrictedPatterns: ConfigurationPatternsLowerCase, language: string, errors: RuleError[]) {
   getRestrictedPatternsForNode(node, restrictedPatterns, language)
     .forEach(pattern => {
-      check(node, 'name', pattern, language, errors);
-      check(node, 'description', pattern, language, errors);
+      checkGuessType(node, 'name', pattern, language, errors);
+      checkGuessType(node, 'description', pattern, language, errors);
     });
 }
 
-function checkStepNode(node: Step, parentNode: Background | Scenario | Step, restrictedPatterns: ConfigurationPatterns, language: string, errors: RuleError[]) {
+function checkStepNode(node: Step, parentNode: Background | Scenario | Step, restrictedPatterns: ConfigurationPatternsLowerCase, language: string, errors: RuleError[]) {
   // Use the node keyword of the parent to determine which rule configuration to use
   getRestrictedPatternsForNode(parentNode, restrictedPatterns, language)
     .forEach(pattern => {
-      check(node, 'text', pattern, language, errors);
+
+      checkGuessType(node, 'text', pattern, language, errors);
+      if (node.docString != null) {
+        check(node.docString, 'DocString', 'content', pattern, language, errors);
+      }
+      if (node.dataTable != null) {
+        node.dataTable.rows.forEach(row => {
+          row.cells.forEach(cell => {
+            check(cell, 'DataTable cell', 'value', pattern, language, errors);
+          });
+        });
+        //check(node.dataTable, 'DataTable', 'content', pattern, language, errors);
+      }
     });
 }
 
-function check(node: GherkinKeyworded , property: string, pattern: RegExp, language: string, errors: RuleError[]) {
+function checkExampleNode(node: Examples, restrictedPatterns: ConfigurationPatternsLowerCase, language: string, errors: RuleError[]) {
+  restrictedPatterns.exampleheader.forEach(pattern => {
+    node.tableHeader.cells.forEach(cell => {
+      check(cell, 'ExampleHeader', 'value', pattern, language, errors);
+    });
+  });
+
+  restrictedPatterns.examplebody.forEach(pattern => {
+    node.tableBody.forEach(column => {
+      column.cells.forEach(cell => {
+        check(cell, 'ExampleBody', 'value', pattern, language, errors);
+      });
+    });
+  });
+}
+
+function checkGuessType(node: GherkinKeyworded, property: string, pattern: RegExp, language: string, errors: RuleError[]) {
+  const type = gherkinUtils.getNodeType(node, language);
+
+  check(node, type, property, pattern, language, errors);
+}
+
+function check(node: GherkinKeyworded | TableCell | DocString, type: string, property: string, pattern: RegExp, language: string, errors: RuleError[]) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore IDK how to handle types for this...
   let strings = [node[property]] as string[];
-
-  const type = gherkinUtils.getNodeType(node, language);
 
   if (property === 'description') {
     // Descriptions can be multiline, in which case the description will contain escaped

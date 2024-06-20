@@ -18,7 +18,8 @@ This is a good description
   When another allowed step is used
   Then no errors should be reported
 
-  Examples:
+  Examples: Allowed example name
+  A good description
     | example |
     | one     |
     | two     |
