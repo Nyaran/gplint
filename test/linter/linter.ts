@@ -83,7 +83,7 @@ describe('Linter', function() {
 	});
 
 	// Not working on latest gherkin as all errors has the same start text
-	it.skip('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', function() {
+	it.skip('detects additional violations that happen after the \'no-tags-on-backgrounds\' rule', async function() {
 		const feature = 'test/linter/MultipleViolations.feature';
 		const expected = [
 			{
@@ -102,10 +102,8 @@ describe('Linter', function() {
 			}
 		] as RuleErrorLevel[];
 
-		return linter.lint([feature])
-			.then((actual) => {
-				assert.deepEqual(actual[0].errors, expected);
-			});
+		const actual = await linter.lint([feature]);
+		assert.deepEqual(actual[0].errors, expected);
 	});
 
 	it('correctly parses files that have the correct Gherkin format', function() {

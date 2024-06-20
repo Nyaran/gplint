@@ -13,27 +13,27 @@ describe('Name length rule', function() {
 			messageElements: {element: 'Feature', length: 89},
 			line: 1,
 			column: 1,
-		},{
+		}, {
 			messageElements: {element: 'Step', length: 94},
 			line: 4,
 			column: 3,
-		},{
+		}, {
 			messageElements: {element: 'Scenario', length: 90},
 			line: 6,
 			column: 1,
-		},{
+		}, {
 			messageElements: {element: 'Step', length: 101},
 			line: 7,
 			column: 3,
-		},{
+		}, {
 			messageElements: {element: 'Rule', length: 86},
 			line: 9,
 			column: 1,
-		},{
+		}, {
 			messageElements: {element: 'Scenario', length: 98},
 			line: 10,
 			column: 1,
-		},{
+		}, {
 			messageElements: {element: 'Step', length: 108},
 			line: 11,
 			column: 3,

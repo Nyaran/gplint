@@ -36,7 +36,11 @@ export const availableConfigs = {
 	[Levels.ExampleBody]: undefined as boolean | undefined,
 };
 
-export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>, {rule, caseMethod, errorMsg}: {rule: string, caseMethod: () => string, errorMsg: string}): RuleError[] {
+export function run(
+	{feature}: GherkinData,
+	configuration: RuleSubConfig<typeof availableConfigs>,
+	{rule, caseMethod, errorMsg}: {rule: string, caseMethod: () => string, errorMsg: string}
+): RuleError[] {
 	if (!feature) {
 		return [];
 	}

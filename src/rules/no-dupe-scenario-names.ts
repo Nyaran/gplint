@@ -50,7 +50,7 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
 				});
 
 				errors.push({
-					message: 'Scenario name is already used in: ' + dupes,
+					message: `Scenario name is already used in: ${dupes}`,
 					rule: name,
 					line: scenarioLocation.line,
 					column: scenarioLocation.column,

@@ -36,7 +36,7 @@ function checkHomogenousContainer(container: Feature | Rule, errors: RuleError[]
 
 	container.children.forEach(child => {
 		if (child.scenario) {
-			const scenario = child.scenario;
+			const {scenario} = child;
 
 			childrenTags.push(getTagNames(scenario));
 
@@ -48,16 +48,14 @@ function checkHomogenousContainer(container: Feature | Rule, errors: RuleError[]
 			const homogenousExampleTags = _.intersection(...exampleTags);
 			if (homogenousExampleTags.length) {
 				errors.push({
-					message: 'All Examples of a Scenario Outline have the same tag(s), ' +
-						'they should be defined on the Scenario Outline instead: ' +
-						homogenousExampleTags.join(', '),
+					message: `All Examples of a Scenario Outline have the same tag(s), they should be defined on the Scenario Outline instead: ${homogenousExampleTags.join(', ')}`,
 					rule: name,
 					line: scenario.location.line,
 					column: scenario.location.column,
 				});
 			}
 		} else if (child.rule) {
-			const rule =  child.rule;
+			const {rule} = child;
 			childrenTags.push(getTagNames(rule));
 			checkHomogenousContainer(rule, errors, ['Rule', 'Scenarios']);
 		}

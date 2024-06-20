@@ -13,7 +13,7 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
 		return [];
 	}
 	const mergedConfiguration = _.merge({}, availableConfigs, configuration);
-	const detectMissingKeywords = mergedConfiguration.detectMissingKeywords;
+	const {detectMissingKeywords} = mergedConfiguration;
 	const errors = [] as RuleError[];
 
 	const {children} = featureSpread(feature);
@@ -67,14 +67,10 @@ type ExclusiveParams = [Step, undefined] | [undefined, Scenario]
 function createError(keyword: string, ...[step, scenario]: ExclusiveParams) {
 	let message, node;
 	if (scenario != null) {
-		message = 'The scenario "' + scenario.name + '" does not have the following keywords: ' + keyword;
+		message = `The scenario "${scenario.name}" does not have the following keywords: ${keyword}`;
 		node = scenario;
 	} else {
-		message = 'Step "' +
-			step.keyword +
-			step.text +
-			'" should not appear after step using keyword ' +
-			keyword;
+		message = `Step "${step.keyword}${step.text}" should not appear after step using keyword ${keyword}`;
 		node = step;
 	}
 

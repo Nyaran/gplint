@@ -133,5 +133,3 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 
 	return errors;
 }
-
-

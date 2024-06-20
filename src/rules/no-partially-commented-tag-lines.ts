@@ -63,5 +63,3 @@ export function run({file, feature}: GherkinData, configuration: RuleSubConfig<t
 
 	return errors;
 }
-
-

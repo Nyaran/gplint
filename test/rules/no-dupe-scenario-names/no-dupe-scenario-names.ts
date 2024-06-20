@@ -8,7 +8,7 @@ describe('No Duplicate Scenario Names Rule', function() {
 		await runTest('no-dupe-scenario-names/UniqueScenarioNames.feature', {}, []);
 	});
 
-	it('doesn\'t raise errors when there are no duplicate scenario names multiple files', async function () {
+	it('doesn\'t raise errors when there are no duplicate scenario names multiple files', async function() {
 		await runTest('no-dupe-scenario-names/UniqueScenarioNamesAcrossFiles1.feature', {}, []);
 		await runTest('no-dupe-scenario-names/UniqueScenarioNamesAcrossFiles2.feature', {}, []);
 	});
@@ -95,7 +95,7 @@ describe('No Duplicate Scenario Names Rule', function() {
 		]);
 	});
 
-	it('raises errors when there duplicate Scenario and Scenario Outline names in multiple files', async function () {
+	it('raises errors when there duplicate Scenario and Scenario Outline names in multiple files', async function() {
 		await runTest('no-dupe-scenario-names/DuplicateScenarioNamesAcrossFiles1.feature', {}, []);
 		await runTest('no-dupe-scenario-names/DuplicateScenarioNamesAcrossFiles2.feature', {}, [
 			{
@@ -122,12 +122,12 @@ describe('No Duplicate Scenario Names Rule', function() {
 		]);
 	});
 
-	it('doesn\'t raise errors when there are duplicate scenario names in different files', async function () {
+	it('doesn\'t raise errors when there are duplicate scenario names in different files', async function() {
 		await runTest('no-dupe-scenario-names/DuplicateScenarioNamesAcrossFiles1.feature', 'in-feature', []);
 		await runTest('no-dupe-scenario-names/DuplicateScenarioNamesAcrossFiles2.feature', 'in-feature', []);
 	});
 
-	it('doesn\'t raise errors when there are duplicate scenario names in different rules, throw in same rule', async function () {
+	it('doesn\'t raise errors when there are duplicate scenario names in different rules, throw in same rule', async function() {
 		await runTest('no-dupe-scenario-names/DuplicateScenarioNamesInRule.feature', 'in-rule', [
 			{
 				column: 3,
@@ -146,15 +146,15 @@ describe('No Duplicate Scenario Names Rule', function() {
 			column: 7,
 			line: 14,
 			messageElements: {location: 'test/rules/no-dupe-scenario-names/DuplicateScenarioNamesCompiled.feature:6'}
-		},{
+		}, {
 			column: 7,
 			line: 21,
 			messageElements: {location: 'test/rules/no-dupe-scenario-names/DuplicateScenarioNamesCompiled.feature:20'}
-		},{
+		}, {
 			column: 7,
 			line: 32,
 			messageElements: {location: 'test/rules/no-dupe-scenario-names/DuplicateScenarioNamesCompiled.feature:28'}
-		},{
+		}, {
 			column: 7,
 			line: 35,
 			messageElements: {
@@ -163,7 +163,7 @@ describe('No Duplicate Scenario Names Rule', function() {
 					'test/rules/no-dupe-scenario-names/DuplicateScenarioNamesCompiled.feature:32'
 				].join(', ')
 			}
-		},{
+		}, {
 			column: 9,
 			line: 42,
 			messageElements: {
@@ -172,7 +172,7 @@ describe('No Duplicate Scenario Names Rule', function() {
 					'test/rules/no-dupe-scenario-names/DuplicateScenarioNamesCompiled.feature:21',
 				].join(', ')
 			}
-		},{
+		}, {
 			column: 9,
 			line: 43,
 			messageElements: {
@@ -199,7 +199,7 @@ describe('No Duplicate Scenario Names Rule', function() {
 		]);
 	});
 
-	it('raises errors when there duplicate Scenario and Scenario Outline names in pickles in multiple files', async function () {
+	it('raises errors when there duplicate Scenario and Scenario Outline names in pickles in multiple files', async function() {
 		await runTest('no-dupe-scenario-names/DuplicateScenarioNamesCompiledAcrossFiles1.feature', 'anywhere-compile', [
 			{
 				column: 11,
@@ -230,7 +230,7 @@ describe('No Duplicate Scenario Names Rule', function() {
 						'test/rules/no-dupe-scenario-names/DuplicateScenarioNamesCompiledAcrossFiles2.feature:11',
 					].join(', '),
 				},
-			},{
+			}, {
 				column: 9,
 				line: 27,
 				messageElements: {
@@ -241,7 +241,7 @@ describe('No Duplicate Scenario Names Rule', function() {
 						'test/rules/no-dupe-scenario-names/DuplicateScenarioNamesCompiledAcrossFiles2.feature:14',
 					].join(', '),
 				},
-			},{
+			}, {
 				column: 9,
 				line: 30,
 				messageElements: {

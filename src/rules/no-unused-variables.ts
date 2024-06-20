@@ -20,7 +20,7 @@ export function run({feature}: GherkinData): RuleError[] {
 			return;
 		}
 
-		const examples = child.scenario.examples;
+		const {examples} = child.scenario;
 
 		if (!examples.length) {
 			// If there is no examples table, the rule doesn't apply
@@ -43,7 +43,6 @@ export function run({feature}: GherkinData): RuleError[] {
 			}
 		});
 
-
 		// Collect the variables used in the scenario outline
 
 		// Scenario names can include variables
@@ -53,7 +52,6 @@ export function run({feature}: GherkinData): RuleError[] {
 				column: child.scenario.keyword.length + 2 + (child.scenario.location.column ?? 0) + match.index // If multiple spaces (or any) are separating the keyword, the column is wrong
 			};
 		}
-
 
 		child.scenario.steps.forEach(step => {
 
@@ -95,11 +93,10 @@ export function run({feature}: GherkinData): RuleError[] {
 			}
 		});
 
-
 		for (const exampleVariable in examplesVariables) {
 			if (!Object.hasOwn(scenarioVariables, exampleVariable)) {
 				errors.push({
-					message: 'Examples table variable "' + exampleVariable + '" is not used in any step',
+					message: `Examples table variable "${exampleVariable}" is not used in any step`,
 					rule   : name,
 					line   : examplesVariables[exampleVariable].line,
 					column : examplesVariables[exampleVariable].column,
@@ -110,7 +107,7 @@ export function run({feature}: GherkinData): RuleError[] {
 		for (const scenarioVariable in scenarioVariables) {
 			if (!Object.hasOwn(examplesVariables, scenarioVariable)) {
 				errors.push({
-					message: 'Step variable "' + scenarioVariable + '" does not exist in the examples table',
+					message: `Step variable "${scenarioVariable}" does not exist in the examples table`,
 					rule: name,
 					line: scenarioVariables[scenarioVariable].line,
 					column: scenarioVariables[scenarioVariable].column,

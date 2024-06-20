@@ -11,7 +11,7 @@ export const availableConfigs = [
 export function run({file}: GherkinData, configuration: RuleSubConfig<string>): RuleError[] {
 	const errors = [] as RuleError[];
 	if (_.indexOf(availableConfigs, configuration) === -1) {
-		logger.boldError(name + ' requires an extra configuration value.\nAvailable configurations: ' + availableConfigs.join(', ') + '\nFor syntax please look at the documentation.');
+		logger.boldError(`${name} requires an extra configuration value.\nAvailable configurations: ${availableConfigs.join(', ')}\nFor syntax please look at the documentation.`);
 		process.exit(1);
 	}
 

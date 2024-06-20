@@ -1,6 +1,7 @@
+import { Background, DocString, Examples, Feature, Rule, Scenario, Step, StepKeywordType, TableCell } from '@cucumber/messages';
+
 import * as gherkinUtils from './utils/gherkin.js';
-import {GherkinData, RuleSubConfig, RuleError , GherkinKeyworded} from '../types.js';
-import { Background, DocString, Examples, Feature, Rule, Scenario, Step, StepKeywordType, TableCell,  } from '@cucumber/messages';
+import {GherkinData, RuleSubConfig, RuleError, GherkinKeyworded} from '../types.js';
 import { featureSpread } from './utils/gherkin.js';
 
 interface IConfiguration<T> {
@@ -10,9 +11,9 @@ interface IConfiguration<T> {
 	Background?: T[]
 	Scenario?: T[]
 	ScenarioOutline?: T[]
-	Examples?: T[] // TODO
-	ExampleHeader?: T[] // TODO
-	ExampleBody?: T[] // TODO
+	Examples?: T[]
+	ExampleHeader?: T[]
+	ExampleBody?: T[]
 	Step?: T[]
 	Given?: T[]
 	When?: T[]
@@ -49,7 +50,7 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 	}
 	const errors = [] as RuleError[];
 	const restrictedPatterns = getRestrictedPatterns(configuration);
-	const language = feature.language;
+	const {language} = feature;
 	// Check the feature itself
 	checkNameAndDescription(feature, restrictedPatterns, language, errors);
 
@@ -120,7 +121,13 @@ function checkNameAndDescription(node: GherkinKeyworded, restrictedPatterns: Con
 		});
 }
 
-function checkStepNode(node: Step, parentNode: Background | Scenario | Step, restrictedPatterns: ConfigurationPatternsLowerCase, language: string, errors: RuleError[]) {
+function checkStepNode(
+	node: Step,
+	parentNode: Background | Scenario | Step,
+	restrictedPatterns: ConfigurationPatternsLowerCase,
+	language: string,
+	errors: RuleError[]
+) {
 	// Use the node keyword of the parent to determine which rule configuration to use
 	getRestrictedPatternsForNode(parentNode, restrictedPatterns, language)
 		.forEach(pattern => {

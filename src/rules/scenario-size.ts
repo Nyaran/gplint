@@ -28,7 +28,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 		const nodeType = gherkinUtils.getNodeType(node, feature.language);
 		const configKey = child.background ? 'Background' : 'Scenario';
 		const maxSize = configuration['steps-length'][configKey];
-		const steps = node.steps;
+		const {steps} = node;
 
 		if (maxSize && steps.length > maxSize) {
 			errors.push({

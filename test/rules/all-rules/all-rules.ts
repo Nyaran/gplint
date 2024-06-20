@@ -20,19 +20,19 @@ describe('Malformed features do not break the linter', function() {
 		Object.keys(allRules)
 			.flatMap((rule) =>
 				[
-					it(`${rule} does not throw exceptions when processing an empty feature`, function () {
+					it(`${rule} does not throw exceptions when processing an empty feature`, function() {
 						return testRule('EmptyFeature.feature', rule);
 					}),
 
-					it(`${rule} does not throw exceptions when processing a feature with no children`, function () {
+					it(`${rule} does not throw exceptions when processing a feature with no children`, function() {
 						return testRule('ChildlessFeature.feature', rule);
 					}),
 
-					it(`${rule} does not throw exceptions when processing a feature with no steps`, function () {
+					it(`${rule} does not throw exceptions when processing a feature with no steps`, function() {
 						return testRule('SteplessFeature.feature', rule);
 					}),
 
-					it(`${rule} does not throw exceptions when processing a scenario outline with an empty examples table`, function () {
+					it(`${rule} does not throw exceptions when processing a scenario outline with an empty examples table`, function() {
 						return testRule('EmptyExamples.feature', rule);
 					}),
 				])

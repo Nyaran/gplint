@@ -3,12 +3,12 @@ import * as rule from '../../../src/rules/table-align.js';
 const runTest = ruleTestBase.createRuleTest(rule,
 	'Cell with value "<%= cellValue %>" is not aligned');
 
-describe('Table Align Rule', function () {
-	it('doesn\'t raise errors when there are no violations', function () {
+describe('Table Align Rule', function() {
+	it('doesn\'t raise errors when there are no violations', function() {
 		return runTest('table-align/aligned.feature', {}, []);
 	});
 
-	it('tables without spaces', function () {
+	it('tables without spaces', function() {
 		return runTest('table-align/no-spaces.feature', {}, [
 			// Background - First row
 			{
@@ -80,7 +80,7 @@ describe('Table Align Rule', function () {
 		]);
 	});
 
-	it('tables with crazy spacing', function () {
+	it('tables with crazy spacing', function() {
 		return runTest('table-align/crazy-spaces.feature', {}, [
 			// Background - First row
 			{
@@ -152,7 +152,7 @@ describe('Table Align Rule', function () {
 		]);
 	});
 
-	it('tables with pipe symbols', function () {
+	it('tables with pipe symbols', function() {
 		return runTest('table-align/escape.feature', {}, [
 			// 1st cell
 			{
@@ -175,8 +175,8 @@ describe('Table Align Rule', function () {
 		]);
 	});
 
-	describe('tables without spaces - config', function () {
-		it('only steps', function () {
+	describe('tables without spaces - config', function() {
+		it('only steps', function() {
 			return runTest('table-align/simple-config.feature', {examples: false}, [
 				// Step - First row
 				{
@@ -192,7 +192,7 @@ describe('Table Align Rule', function () {
 				},
 			]);
 		});
-		it('only examples', function () {
+		it('only examples', function() {
 			return runTest('table-align/simple-config.feature', {steps: false}, [
 				// Example - First row
 				{

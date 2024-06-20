@@ -12,7 +12,7 @@ export function run({feature, file}: GherkinData): RuleError[] {
 		const dupes = features[feature.name].files.join(', ');
 		features[feature.name].files.push(file.relativePath);
 		errors.push({
-			message: 'Feature name is already used in: ' + dupes,
+			message: `Feature name is already used in: ${dupes}`,
 			rule   : name,
 			line   : feature.location.line,
 			column : feature.location.column,

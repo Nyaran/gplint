@@ -35,7 +35,7 @@ export function run({feature}: GherkinData): RuleError[] {
 
 function createError(step: Step) {
 	return {
-		message: 'Step "' + step.keyword + step.text + '" should use And instead of ' + step.keyword,
+		message: `Step "${step.keyword}${step.text}" should use And instead of ${step.keyword}`,
 		rule   : name,
 		line   : step.location.line,
 		column : step.location.column,

@@ -18,9 +18,8 @@ const checkers = {
 			const firstWord = words.shift();
 			return (/^[A-Z]+$/.test(firstWord) ? firstWord : _.lowerFirst(firstWord))
 				+ words.map(word => _.upperFirst(word)).join('');
-		} else {
-			return _.camelCase(filename);
 		}
+		return _.camelCase(filename);
 	},
 	'kebab-case': filename => _.kebabCase(filename),
 	'snake_case': filename => _.snakeCase(filename)

@@ -27,8 +27,6 @@ export function run({feature}: GherkinData): RuleError[] {
 	return errors;
 }
 
-
-
 function createError(background: Background) {
 	return {
 		message: 'Backgrounds are not allowed when there is just one scenario.',

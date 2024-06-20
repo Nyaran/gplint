@@ -20,12 +20,12 @@ describe('New Line at EOF Rule', function() {
 	describe('configuration', function() {
 		let consoleErrorStub: sinon.SinonStubbedMember<typeof console.error>;
 		let processExitStub: sinon.SinonStubbedMember<typeof process.exit>;
-		beforeEach(function () {
+		beforeEach(function() {
 			consoleErrorStub = this.sinon.stub(console, 'error');
 			processExitStub = this.sinon.stub(process, 'exit');
 		});
 
-		afterEach(function () {
+		afterEach(function() {
 			consoleErrorStub.restore();
 			processExitStub.restore();
 		});

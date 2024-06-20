@@ -36,7 +36,8 @@ function verifyTags(node: GherkinTaggable, errors: RuleError[]) {
 	node.tags.forEach(tag => {
 		if (!_.includes(failedTagNames, tag.name)) {
 			if (_.includes(uniqueTagNames, tag.name)) {
-				errors.push({message: 'Duplicate tags are not allowed: ' + tag.name,
+				errors.push({
+					message: `Duplicate tags are not allowed: ${tag.name}`,
 					rule   : name,
 					line   : tag.location.line,
 					column : tag.location.column,

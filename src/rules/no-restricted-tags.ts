@@ -18,7 +18,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 	const forbiddenTags = configuration.tags;
 	const mergedConfiguration = _.merge(availableConfigs, configuration);
 	const forbiddenPatterns = getForbiddenPatterns(mergedConfiguration);
-	const language = feature.language;
+	const {language} = feature;
 	const errors = [] as RuleError[];
 
 	checkTags(feature, language, forbiddenTags, forbiddenPatterns, errors);

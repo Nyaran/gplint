@@ -44,7 +44,6 @@ export function run({feature, file}: GherkinData, configuration: RuleSubConfig<t
 		});
 	}
 
-
 	if (!feature) {
 		return [];
 	}

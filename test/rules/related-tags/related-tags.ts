@@ -3,9 +3,9 @@ import * as rule from '../../../src/rules/related-tags.js';
 
 const runTest = ruleTestBase.createRuleTest(rule, 'Missing related tag. <%= mainTag %> requires <%= relatedTags %>');
 
-describe('Rule: related-tags', function () {
+describe('Rule: related-tags', function() {
 	describe('no violations', () => {
-		it('single tag', function () {
+		it('single tag', function() {
 			return runTest('related-tags/NoViolations.feature', {
 				tags: {
 					'@featureTag': ['@relatedTagFeature'],
@@ -16,7 +16,7 @@ describe('Rule: related-tags', function () {
 			}, []);
 		});
 
-		it('multiple tags', function () {
+		it('multiple tags', function() {
 			return runTest('related-tags/NoViolations.feature', {
 				tags: {
 					'@featureTag': ['@relatedTagFeature', '@extraRelatedTag'],
@@ -27,7 +27,7 @@ describe('Rule: related-tags', function () {
 			}, []);
 		});
 
-		it('with regex', function () {
+		it('with regex', function() {
 			return runTest('related-tags/NoViolations.feature', {
 				tags: {
 					'@featureTag': ['/^@relatedTag.+$/'],
@@ -40,7 +40,7 @@ describe('Rule: related-tags', function () {
 	});
 
 	describe('throw errors', () => {
-		it('single tag', function () {
+		it('single tag', function() {
 			return runTest('related-tags/Violations.feature', {
 				tags: {
 					'@featureTag': ['@relatedTagFeature'],
@@ -82,7 +82,7 @@ describe('Rule: related-tags', function () {
 			]);
 		});
 
-		it('multiple tags', function () {
+		it('multiple tags', function() {
 			return runTest('related-tags/Violations.feature', {
 				tags: {
 					'@featureTag': ['@relatedTagFeature', '@extraRelatedTag'],
@@ -124,7 +124,7 @@ describe('Rule: related-tags', function () {
 			]);
 		});
 
-		it('with regex', function () {
+		it('with regex', function() {
 			return runTest('related-tags/Violations.feature', {
 				tags: {
 					'@featureTag': ['/^@relatedTag.+$/'],

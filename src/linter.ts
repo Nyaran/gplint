@@ -77,28 +77,28 @@ export async function lintInit(files: string[], configPath?: string, additionalR
 
 export async function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
 	const results = [] as ErrorsByFile[];
-	return Promise.all(files.map(async (f) => {
+
+	await Promise.all(files.map(async (f) => {
 		let perFileErrors: RuleErrors;
 
-		return readAndParseFile(f)
-			.then(
-				// Handle Promise.resolve
-				async ({feature, pickles, file}) => {
-					perFileErrors = await rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
-				},
-				// Handle Promise.reject
-				(parsingErrors: RuleErrors) => {
-					perFileErrors = parsingErrors;
-				})
-			.finally(() => {
-				const fileErrors = {
-					filePath: fs.realpathSync(f),
-					errors: _.sortBy(perFileErrors.getErrors(), 'line')
-				} as ErrorsByFile;
+		try {
+			const {feature, pickles, file} = await readAndParseFile(f);
+			perFileErrors = await rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
+		} catch (parsingErrors) {
+			if (parsingErrors instanceof RuleErrors) {
+				perFileErrors = parsingErrors;
+			}
+		} finally {
+			const fileErrors = {
+				filePath: fs.realpathSync(f),
+				errors: _.sortBy(perFileErrors.getErrors(), 'line')
+			} as ErrorsByFile;
 
-				results.push(fileErrors);
-			});
-	})).then(() => results);
+			results.push(fileErrors);
+		}
+	}));
+
+	return results;
 }
 
 function processFatalErrors(errors: GherkinError[]): RuleError[] {

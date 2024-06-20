@@ -81,7 +81,13 @@ export function getRuleLevel(ruleConfig: RuleConfig, rule: string): ErrorLevels 
 	return levelNum as ErrorLevels;
 }
 
-export async function runAllEnabledRules(feature?: Feature, pickles?: Pickle[], file?: FileData, configuration: RulesConfig = {}, additionalRulesDirs?: string[]): Promise<RuleErrors> {
+export async function runAllEnabledRules(
+	feature?: Feature,
+	pickles?: Pickle[],
+	file?: FileData,
+	configuration: RulesConfig = {},
+	additionalRulesDirs?: string[]
+): Promise<RuleErrors> {
 	let errors = [] as RuleErrorLevel[];
 	const rules = await getAllRules(additionalRulesDirs);
 	Object.keys(rules).forEach(ruleName => {
@@ -89,7 +95,9 @@ export async function runAllEnabledRules(feature?: Feature, pickles?: Pickle[], 
 		const ruleLevel = getRuleLevel(configuration[rule.name], rule.name);
 
 		if (ruleLevel > 0) {
-			const ruleConfig = (Array.isArray(configuration[rule.name]) ? (configuration[rule.name] as RuleConfigArray)[1] : {} as RuleSubConfig<unknown>) as RuleConfig;
+			const ruleConfig = (Array.isArray(configuration[rule.name])
+				? (configuration[rule.name] as RuleConfigArray)[1]
+				: {} as RuleSubConfig<unknown>) as RuleConfig;
 			const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
 
 			if (error.length > 0) {

@@ -2,9 +2,9 @@ import * as ruleTestBase from '../rule-test-base.js';
 import * as rule from '../../../src/rules/required-tags.js';
 const runTest = ruleTestBase.createRuleTest(rule, 'The tag(s) [<%= tags %>] should be present for <%= nodeType %>.');
 
-describe('Required Tags Rule', function () {
-	describe('no errors', function () {
-		it('specific levels', function () {
+describe('Required Tags Rule', function() {
+	describe('no errors', function() {
+		it('specific levels', function() {
 			return runTest('required-tags/NoViolations.feature', {
 				ignoreUntagged: true,
 				feature: ['@required-tag-feature', ['@required-tag-feature-subset-A']],
@@ -16,14 +16,14 @@ describe('Required Tags Rule', function () {
 			}, []);
 		});
 
-		it('global', function () {
+		it('global', function() {
 			return runTest('required-tags/NoViolationsFullTagged.feature', {
 				ignoreUntagged: true,
 				global: ['@required-global-tag-feature', '@required-global-tag-rule', '@required-global-tag-scenario', '@required-global-tag-example'],
 			}, []);
 		});
 
-		it('subset on global - Feature', function () {
+		it('subset on global - Feature', function() {
 			return runTest('required-tags/NoViolationsFullTagged.feature', {
 				ignoreUntagged: true,
 				global: [
@@ -32,7 +32,7 @@ describe('Required Tags Rule', function () {
 			}, []);
 		});
 
-		it('subset on global - Separated Examples', function () {
+		it('subset on global - Separated Examples', function() {
 			return runTest('required-tags/NoViolationsFullTagged.feature', {
 				ignoreUntagged: true,
 				global: [
@@ -41,8 +41,8 @@ describe('Required Tags Rule', function () {
 			}, []);
 		});
 
-		describe('extend', function () {
-			it('rule to scenario', function () {
+		describe('extend', function() {
+			it('rule to scenario', function() {
 				return runTest('required-tags/NoViolations.feature', {
 					ignoreUntagged: true,
 					rule: ['@required-tag-rule-on-scenario'],
@@ -51,7 +51,7 @@ describe('Required Tags Rule', function () {
 				}, []);
 			});
 
-			it('example to scenario', function () {
+			it('example to scenario', function() {
 				return runTest('required-tags/NoViolations.feature', {
 					ignoreUntagged: true,
 					example: ['@required-tag-example-on-scenario'],
@@ -62,8 +62,8 @@ describe('Required Tags Rule', function () {
 		});
 	});
 
-	describe('detect errors', function () {
-		it('global', function () {
+	describe('detect errors', function() {
+		it('global', function() {
 			return runTest('required-tags/ViolationsFullTagged.feature', {
 				ignoreUntagged: true,
 				global: [
@@ -96,7 +96,7 @@ describe('Required Tags Rule', function () {
 			}]);
 		});
 
-		it('feature', function () {
+		it('feature', function() {
 			return runTest('required-tags/Violations.feature', {
 				ignoreUntagged: true,
 				feature: ['@required-tag-feature'],
@@ -107,7 +107,7 @@ describe('Required Tags Rule', function () {
 			}]);
 		});
 
-		it('rule', function () {
+		it('rule', function() {
 			return runTest('required-tags/Violations.feature', {
 				ignoreUntagged: true,
 				rule: ['@required-tag-rule'],
@@ -118,7 +118,7 @@ describe('Required Tags Rule', function () {
 			}]);
 		});
 
-		it('scenario', function () {
+		it('scenario', function() {
 			return runTest('required-tags/Violations.feature', {
 				ignoreUntagged: true,
 				scenario: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'],
@@ -165,7 +165,7 @@ describe('Required Tags Rule', function () {
 			}]);
 		});
 
-		it('example', function () {
+		it('example', function() {
 			return runTest('required-tags/Violations.feature', {
 				ignoreUntagged: true,
 				example: ['@required-tag-example'],
@@ -188,8 +188,8 @@ describe('Required Tags Rule', function () {
 			}]);
 		});
 
-		describe('extend', function () {
-			it('rule to scenario', function () {
+		describe('extend', function() {
+			it('rule to scenario', function() {
 				return runTest('required-tags/Violations.feature', {
 					ignoreUntagged: true,
 					rule: ['@required-tag-rule-on-scenario'],
@@ -264,7 +264,7 @@ describe('Required Tags Rule', function () {
 				}]);
 			});
 
-			it('example to scenario', function () {
+			it('example to scenario', function() {
 				return runTest('required-tags/Violations.feature', {
 					ignoreUntagged: true,
 					scenario: ['@required-tag-scenario', '/@required-tag-scenario-\\d+/'],
@@ -355,7 +355,7 @@ describe('Required Tags Rule', function () {
 				}]);
 			});
 
-			it('example and rule to scenario', function () {
+			it('example and rule to scenario', function() {
 				return runTest('required-tags/Violations.feature', {
 					ignoreUntagged: true,
 					rule: ['@required-tag-rule-on-scenario'],
@@ -420,8 +420,8 @@ describe('Required Tags Rule', function () {
 			});
 		});
 
-		describe('include untagged', function () {
-			it('feature', function () {
+		describe('include untagged', function() {
+			it('feature', function() {
 				return runTest('required-tags/ViolationsUntagged.feature', {
 					ignoreUntagged: false,
 					feature: ['@required-tag-feature'],
@@ -432,7 +432,7 @@ describe('Required Tags Rule', function () {
 				}]);
 			});
 
-			it('rule', function () {
+			it('rule', function() {
 				return runTest('required-tags/ViolationsUntagged.feature', {
 					ignoreUntagged: false,
 					rule: ['@required-tag-rule'],
@@ -443,7 +443,7 @@ describe('Required Tags Rule', function () {
 				}]);
 			});
 
-			it('scenario', function () {
+			it('scenario', function() {
 				return runTest('required-tags/ViolationsUntagged.feature', {
 					ignoreUntagged: false,
 					scenario: ['@required-tag-scenario'],
@@ -466,7 +466,7 @@ describe('Required Tags Rule', function () {
 				}]);
 			});
 
-			it('example', function () {
+			it('example', function() {
 				return runTest('required-tags/ViolationsUntagged.feature', {
 					ignoreUntagged: false,
 					example: ['@required-tag-example'],
@@ -483,8 +483,8 @@ describe('Required Tags Rule', function () {
 			});
 		});
 
-		describe('subset', function () {
-			it('on scenario', function () {
+		describe('subset', function() {
+			it('on scenario', function() {
 				return runTest('required-tags/Violations.feature', {
 					ignoreUntagged: true,
 					feature: [['@required-tag-feature-subset-A']],
@@ -544,7 +544,7 @@ describe('Required Tags Rule', function () {
 				}]);
 			});
 
-			it('on global', function () {
+			it('on global', function() {
 				return runTest('required-tags/ViolationsFullTagged.feature', {
 					ignoreUntagged: true,
 					global: [
@@ -581,7 +581,7 @@ describe('Required Tags Rule', function () {
 				}]);
 			});
 
-			it('on global - present on one example but not another', function () {
+			it('on global - present on one example but not another', function() {
 				return runTest('required-tags/ViolationsFullTagged.feature', {
 					ignoreUntagged: true,
 					global: [

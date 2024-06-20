@@ -30,18 +30,17 @@ async function verifyRuleConfiguration(rule: string, ruleConfig: RuleConfig, add
 		let isValidSubConfig;
 
 		if (typeof (ruleConfig[1]) === 'string') {
-			isValidSubConfig = (availableConfigs: unknown, subConfig: string): boolean => (ruleObj?.availableConfigs as string[]).includes(subConfig);
+			isValidSubConfig = (_: unknown, subConfig: string): boolean => (ruleObj?.availableConfigs as string[]).includes(subConfig);
 			await testSubconfig(genericErrorMsg, rule, ruleConfig[1], isValidSubConfig, additionalRulesDirs, errors);
 		} else {
-			isValidSubConfig = (availableConfigs: unknown, subConfig: RuleSubConfig<string>): boolean => ruleObj?.availableConfigs != null && Object.hasOwn(ruleObj.availableConfigs, subConfig);
+			isValidSubConfig = (_: unknown, subConfig: RuleSubConfig<string>): boolean => ruleObj?.availableConfigs != null
+				&& Object.hasOwn(ruleObj.availableConfigs, subConfig);
 			for (const subConfig in ruleConfig[1]) {
 				await testSubconfig(genericErrorMsg, rule, subConfig, isValidSubConfig, additionalRulesDirs, errors);
 			}
 		}
-	} else {
-		if (ruleConfig != null && !enablingSettings.includes(ruleConfig.toString())) {
-			errors.push(`${genericErrorMsg} The config should be ${enablingSettings.join('/')}.`);
-		}
+	} else if (ruleConfig != null && !enablingSettings.includes(ruleConfig.toString())) {
+		errors.push(`${genericErrorMsg} The config should be ${enablingSettings.join('/')}.`);
 	}
 }
 

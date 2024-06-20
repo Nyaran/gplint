@@ -61,7 +61,7 @@ function isAllowed(tag: Tag, allowedTags: string[], allowedPatterns:RegExp[]) {
 
 function createError(node: Feature | Rule | Scenario | Examples, tag: Tag): RuleError {
 	return {
-		message: 'Not allowed tag ' + tag.name + ' on ' + node.keyword,
+		message: `Not allowed tag ${tag.name} on ${node.keyword}`,
 		rule   : name,
 		line   : tag.location.line,
 		column : tag.location.column,

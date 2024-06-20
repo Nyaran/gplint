@@ -12,7 +12,7 @@ interface RuleErrorTemplate {
 type RunTestFunction = (featureFile: string, configuration: RuleSubConfig<unknown>, expected: RuleErrorTemplate[]) => Promise<void> ;
 
 export function createRuleTest(rule: Rule, messageTemplate: string): RunTestFunction {
-	return function runTest(featureFile: string, configuration: RuleSubConfig<unknown>, expected: RuleErrorTemplate[]): Promise<void> {
+	return async function runTest(featureFile: string, configuration: RuleSubConfig<unknown>, expected: RuleErrorTemplate[]): Promise<void> {
 		const expectedErrors = _.map(expected, function(error: RuleErrorTemplate) {
 			return {
 				rule: rule.name,
@@ -21,9 +21,8 @@ export function createRuleTest(rule: Rule, messageTemplate: string): RunTestFunc
 				column: error.column,
 			};
 		});
-		return linter.readAndParseFile(`test/rules/${featureFile}`)
-			.then(({feature, pickles, file}) => {
-				assert.sameDeepMembers(rule.run({feature, pickles, file}, configuration), expectedErrors);
-			});
+
+		const { feature, pickles, file } = await linter.readAndParseFile(`test/rules/${featureFile}`);
+		assert.sameDeepMembers(rule.run({feature, pickles, file}, configuration), expectedErrors);
 	};
 }

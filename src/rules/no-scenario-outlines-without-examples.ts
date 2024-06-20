@@ -13,7 +13,7 @@ export function run({feature}: GherkinData): RuleError[] {
 	const errors = [] as RuleError[];
 	featureSpread(feature).children.forEach(child => {
 		if (child.scenario) {
-			const scenario = child.scenario;
+			const {scenario} = child;
 			const nodeType = gherkinUtils.getNodeType(scenario, feature.language);
 			if (nodeType === 'Scenario Outline' &&  (!_.find(scenario.examples, 'tableBody')?.tableBody.length)) {
 				errors.push({

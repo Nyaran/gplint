@@ -15,7 +15,7 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 	}
 	const errors = [] as RuleError[];
 	const mergedConfiguration = _.merge({}, availableConfigs, configuration);
-	const maxScenarios = mergedConfiguration.maxScenarios;
+	const {maxScenarios} = mergedConfiguration;
 
 	const {children} = featureSpread(feature);
 

@@ -43,8 +43,7 @@ function testTags(node: GherkinTaggable, errors: RuleError[]) {
 							line: tags[i].location.line,
 							column: tags[i].location.column,
 							rule: name,
-							message: 'There is more than one space between the tags ' +
-												tags[i].name + ' and ' + tags[i + 1].name
+							message: `There is more than one space between the tags ${tags[i].name} and ${tags[i + 1].name}`,
 						});
 					}
 				});

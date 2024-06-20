@@ -27,7 +27,7 @@ export async function handler(argv: ArgumentsCamelCase<CliArgs>): Promise<void> 
 		await printResults(results, argv.format);
 		process.exit(getExitCode(results, argv));
 	} catch (e) {
-		console.error('Error running gplint', e);
+		console.error('Error running gplint', e); // eslint-disable-line no-console
 	}
 }
 
@@ -40,7 +40,7 @@ function getExitCode(results: ErrorsByFile[], {maxWarnings}: CliArgs): number {
 		exitCode = 1;
 	} else if (maxWarnings > -1 && warnCount > maxWarnings) {
 		exitCode = 1;
-		console.log(`gplint found too many warnings (maximum: ${maxWarnings}).`);
+		console.log(`gplint found too many warnings (maximum: ${maxWarnings}).`); // eslint-disable-line no-console
 	}
 
 	return exitCode;
@@ -77,5 +77,5 @@ async function printResults(results: ErrorsByFile[], format: string): Promise<vo
 			logger.boldError('Unsupported format. The supported formats are json, xunit and stylish.');
 			process.exit(1);
 	}
-	console.log(formatter.print(results));
+	console.log(formatter.print(results)); // eslint-disable-line no-console
 }

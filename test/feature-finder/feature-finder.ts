@@ -16,7 +16,7 @@ describe('Feature finder', function() {
 
 	let consoleErrorStub: sinon.SinonStubbedMember<typeof console.error>;
 	let processExitStub: sinon.SinonStubbedMember<typeof process.exit>;
-	beforeEach(function () {
+	beforeEach(function() {
 		consoleErrorStub = this.sinon.stub(console, 'error');
 		processExitStub = this.sinon.stub(process, 'exit');
 		mockFs({
@@ -37,7 +37,7 @@ describe('Feature finder', function() {
 		});
 	});
 
-	afterEach(function () {
+	afterEach(function() {
 		consoleErrorStub.restore();
 		processExitStub.restore();
 		mockFs.restore();

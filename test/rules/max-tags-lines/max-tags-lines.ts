@@ -3,8 +3,8 @@ import * as rule from '../../../src/rules/max-tags-lines.js';
 const runTest = ruleTestBase.createRuleTest(rule,
 	'Number of line tags for "<%= keyword %>" exceeds the maximum: <%= tagsLinesCount %>/<%= maxLines %>');
 
-describe('Max Tag Lines Rule', function () {
-	it('doesn\'t raise errors when there are no violations - tagged', function () {
+describe('Max Tag Lines Rule', function() {
+	it('doesn\'t raise errors when there are no violations - tagged', function() {
 		return runTest('max-tags-lines/tagged.feature', {
 			feature: 2,
 			rule: 2,
@@ -13,11 +13,11 @@ describe('Max Tag Lines Rule', function () {
 		}, []);
 	});
 
-	it('doesn\'t raise errors when there are no violations - untagged', function () {
+	it('doesn\'t raise errors when there are no violations - untagged', function() {
 		return runTest('max-tags-lines/untagged.feature', {}, []);
 	});
 
-	it('raise errors when tags are exceeded', function () {
+	it('raise errors when tags are exceeded', function() {
 		return runTest('max-tags-lines/tagged.feature', {
 			feature: 1,
 			rule: 1,
@@ -47,7 +47,7 @@ describe('Max Tag Lines Rule', function () {
 		]);
 	});
 
-	it('raise errors when tags are exceeded - 0 lines allowed - except features', function () {
+	it('raise errors when tags are exceeded - 0 lines allowed - except features', function() {
 		return runTest('max-tags-lines/tagged.feature', {
 			feature: -1,
 			rule: 0,
@@ -87,7 +87,7 @@ describe('Max Tag Lines Rule', function () {
 		]);
 	});
 
-	it('raise errors when tags are exceeded - 0 lines allowed - except rules', function () {
+	it('raise errors when tags are exceeded - 0 lines allowed - except rules', function() {
 		return runTest('max-tags-lines/tagged.feature', {
 			feature: 0,
 			rule: -1,
@@ -127,7 +127,7 @@ describe('Max Tag Lines Rule', function () {
 		]);
 	});
 
-	it('raise errors when tags are exceeded - 0 lines allowed - except scenarios', function () {
+	it('raise errors when tags are exceeded - 0 lines allowed - except scenarios', function() {
 		return runTest('max-tags-lines/tagged.feature', {
 			feature: 0,
 			rule: 0,
@@ -157,7 +157,7 @@ describe('Max Tag Lines Rule', function () {
 		]);
 	});
 
-	it('raise errors when tags are exceeded - 0 lines allowed - except examples', function () {
+	it('raise errors when tags are exceeded - 0 lines allowed - except examples', function() {
 		return runTest('max-tags-lines/tagged.feature', {
 			feature: 0,
 			rule: 0,

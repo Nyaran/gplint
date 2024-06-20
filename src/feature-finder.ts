@@ -18,7 +18,7 @@ export function getFeatureFiles(args: string[], ignoreArg?: string[]): string[] 
 		if (pattern === '.') {
 			fixedPattern = '**/*.feature';
 		} else if (/.*\/\*\*/.exec(pattern)) {
-			fixedPattern = pattern + '/**.feature';
+			fixedPattern = `${pattern}/**.feature`;
 		} else if (/.*\.feature/.exec(pattern)) {
 			fixedPattern = pattern;
 		} else {
@@ -58,7 +58,6 @@ export function getIgnorePatterns(ignoreArg?: string[]): string | string[] {
 			.toString()
 			.split(/[\n|\r]/)
 			.filter(i => i !== ''); // remove empty strings
-	} else {
-		return defaultIgnoredFiles;
 	}
+	return defaultIgnoredFiles;
 }
