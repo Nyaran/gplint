@@ -1,13 +1,58 @@
-name: Create Release PR [Dummy]
-
+name: Create Release PR
 on:
   workflow_dispatch:
+    inputs:
+      version_increment:
+        description: 'Version Increment Type'
+        type: choice
+        required: true
+        options: [ 'major', 'minor', 'patch', 'premajor', 'preminor', 'prepatch', 'prerelease' ]
+        default: 'patch'
+      preid:
+        description: 'The "prerelease prefix" (alpha, beta, rc. ...)'
+        type: string
+        required: false
+        default: ''
+      draft:
+        description: 'Release as Draft'
+        type: boolean
+        required: false
+        default: true
+
+env:
+  GIT_USER_NAME: 'Luis Zurro de Cos'
+  GIT_USER_EMAIL: '1042532+Nyaran@users.noreply.github.com'
 
 jobs:
-  test:
-    runs-on: ubuntu-18.04
+  release:
+    runs-on: ubuntu-latest
     steps:
-      - name: Show environment v1
-        run: env | grep ^GITHUB
-      - name: Show ref v1
-        run: echo "===============> Version from $GITHUB_REF"
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Bump version
+        run: echo "NEW_VERSION=$(npm version ${{ github.event.inputs.version_increment }} --preid '${{ github.event.inputs.preid }}' --no-git-tag-version)" >> $GITHUB_ENV
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6.1.0
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_committer_name: ${{ env.GIT_USER_NAME }}
+          git_committer_email: ${{ env.GIT_USER_EMAIL }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6.1.0
+        with:
+          token: ${{ secrets.PAT }}
+          committer: ${{ env.GIT_USER_NAME }} <${{ env.GIT_USER_EMAIL }}>
+          commit-message: "Release ${{ env.NEW_VERSION }}"
+          branch: "release/${{ env.NEW_VERSION }}"
+          body: "This is a new release ${{ env.NEW_VERSION }}"
+          title: "Release ${{ env.NEW_VERSION }}"
+          base: "main"
