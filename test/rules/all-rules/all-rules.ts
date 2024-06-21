@@ -1,41 +1,55 @@
-import * as rules from '../../../src/rules';
-import * as linter from '../../../src/linter';
-import { RulesConfig} from '../../../src/types';
+import * as rules from '../../../src/rules.js';
+import * as linter from '../../../src/linter.js';
+import { Rules, RulesConfig } from '../../../src/types.js';
+import assert from 'assert';
+import { Suite } from 'mocha';
 
 // Test cases for incomplete feature files that have broken over time across multiple rules
-describe('Malformed features do not break the linter', async function() {
-  function testRule(file: string, rule: string) {
-    const configuration = {} as RulesConfig;
-    if (rule === 'new-line-at-eof') {
-      configuration[rule] = ['error', 'yes'];
-    } else if (rule === 'required-tags') {
-      configuration[rule] = ['error', {'tags': [] }];
-    } else {
-      configuration[rule] = 'error';
-    }
-    return linter.readAndParseFile(`test/rules/all-rules/${file}`)
-      .then(({feature, pickles, file}) => {
-        return rules.runAllEnabledRules(feature, pickles, file, configuration);
-      });
-  }
+describe('Malformed features do not break the linter', function() {
+	let allRules: Rules;
 
-  const allRules = await rules.getAllRules();
+	it('Should start tests for each dynamic service', function() {
+		// we need to tell mocha to register first test in this suite
+		// otherwise it will not wait execute before hook
+		assert.equal(true, true);
+	});
 
-  Object.keys(allRules).forEach((rule) => {
-    it(`${rule} does not throw exceptions when processing an empty feature`, function() {
-      return testRule('EmptyFeature.feature', rule);
-    });
+	before(async function() {
+		allRules = await rules.getAllRules();
+		const suite = this.test.parent;
+		Object.keys(allRules)
+			.flatMap((rule) =>
+				[
+					it(`${rule} does not throw exceptions when processing an empty feature`, function() {
+						return testRule('EmptyFeature.feature', rule);
+					}),
 
-    it(`${rule} does not throw exceptions when processing a feature with no children`, function() {
-      return testRule('ChildlessFeature.feature', rule);
-    });
+					it(`${rule} does not throw exceptions when processing a feature with no children`, function() {
+						return testRule('ChildlessFeature.feature', rule);
+					}),
 
-    it(`${rule} does not throw exceptions when processing a feature with no steps`, function() {
-      return testRule('SteplessFeature.feature', rule);
-    });
+					it(`${rule} does not throw exceptions when processing a feature with no steps`, function() {
+						return testRule('SteplessFeature.feature', rule);
+					}),
 
-    it(`${rule} does not throw exceptions when processing a scenario outline with an empty examples table`, function() {
-      return testRule('EmptyExamples.feature', rule);
-    });
-  });
+					it(`${rule} does not throw exceptions when processing a scenario outline with an empty examples table`, function() {
+						return testRule('EmptyExamples.feature', rule);
+					}),
+				])
+			.forEach(suite.addTest.bind(suite) as typeof Suite.prototype.addTest);
+	});
 });
+
+async function testRule(featureFile: string, rule: string) {
+	const configuration = {} as RulesConfig;
+	if (rule === 'new-line-at-eof') {
+		configuration[rule] = ['error', 'yes'];
+	} else if (rule === 'required-tags') {
+		configuration[rule] = ['error', { 'tags': [] }];
+	} else {
+		configuration[rule] = 'error';
+	}
+	const { feature, pickles, file } = await linter.readAndParseFile(`test/rules/all-rules/${featureFile}`);
+
+	return rules.runAllEnabledRules(feature, pickles, file, configuration);
+}

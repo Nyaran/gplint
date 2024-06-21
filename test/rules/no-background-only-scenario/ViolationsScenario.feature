@@ -1,9 +1,22 @@
 @featuretag
 Feature: Feature with multiple tags
 
-Background:
-  Given I have a Background
+  Background:
+    Given I have a Background
 
-@scenariotag
-Scenario: This is a Scenario with multiple tags
-  Then this is a then step
+  @scenariotag
+  Scenario: This is a Scenario with multiple tags
+    Then this is a then step
+
+  @ruletag
+  Rule: This is a rule
+
+    Background:
+      Given I have a Background
+
+    @scenariotag @scenariotag1
+    Scenario Outline: This is a Scenario Outline with two duplicate tags
+      Then this is a then step <foo>
+      Examples:
+        | foo |
+        | bar |

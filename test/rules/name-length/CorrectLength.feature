@@ -6,8 +6,11 @@ Background:
 Scenario: This is a Scenario with correct length
   Then I should not see a length error
 
+Rule: This is a Rule with correct length
 Scenario Outline: This is a Scenario Outline with correct length
   Then I should not see a length error <foo>
 Examples:
   | foo |
   | bar |
+
+

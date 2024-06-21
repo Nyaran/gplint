@@ -1,37 +1,65 @@
-import {GherkinData, GherkinTaggable, RuleError} from '../types';
+import { GherkinData, GherkinTaggable, RuleError, RuleSubConfig } from '../types.js';
+import { featureSpread } from './utils/gherkin.js';
+import _ from 'lodash';
 
 export const name = 'no-partially-commented-tag-lines';
 
-export function run({feature}: GherkinData): RuleError[] {
-  if (!feature) {
-    return [];
-  }
+export const availableConfigs = {
+	allowSeparated: true
+};
 
-  const errors = [] as RuleError[];
+export function run({file, feature}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
+	if (!feature) {
+		return [];
+	}
 
-  checkTags(feature, errors);
-  feature.children.forEach(child => {
-    if (child.scenario) {
-      checkTags(child.scenario, errors);
+	const mergedConfig = _.merge({}, availableConfigs, configuration);
 
-      child.scenario.examples.forEach(example => {
-        checkTags(example, errors);
-      });
-    }
-  });
+	function checkTags(node: GherkinTaggable) {
+		if (mergedConfig.allowSeparated) {
+			node.tags.forEach(tag => {
+				if (tag.name.indexOf('#') > 0) {
+					errors.push({
+						message: 'Partially commented tag lines not allowed',
+						rule   : name,
+						line   : tag.location.line,
+						column : tag.location.column,
+					});
+				}
+			});
+		} else {
+			_.uniqBy(node.tags.map(tag => tag), 'location.line').forEach(tag => {
+				if (file.lines[tag.location.line - 1].includes('#')) {
+					errors.push({
+						message: 'Partially commented tag lines not allowed',
+						rule   : name,
+						line   : tag.location.line,
+						column : tag.location.column,
+					});
+				}
+			});
+		}
+	}
 
-  return errors;
-}
+	const errors = [] as RuleError[];
 
-function checkTags(node: GherkinTaggable, errors: RuleError[]) {
-  node.tags.forEach(tag => {
-    if (tag.name.indexOf('#') > 0) {
-      errors.push({
-        message: 'Partially commented tag lines not allowed',
-        rule   : name,
-        line   : tag.location.line,
-        column : tag.location.column,
-      });
-    }
-  });
+	checkTags(feature);
+
+	const {children, rules} = featureSpread(feature);
+
+	rules.forEach(rule => {
+		checkTags(rule);
+	});
+
+	children.forEach(child => {
+		if (child.scenario) {
+			checkTags(child.scenario);
+
+			child.scenario.examples.forEach(example => {
+				checkTags(example);
+			});
+		}
+	});
+
+	return errors;
 }

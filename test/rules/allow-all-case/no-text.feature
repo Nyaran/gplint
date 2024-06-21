@@ -13,7 +13,7 @@ Feature:
       |  |
       |  |
 
-  Rule:
+  Rule: This is a rule
 
     Background:
       Given A background without title and description

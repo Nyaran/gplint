@@ -1,21 +1,21 @@
-import {GherkinData, RuleError} from '../types';
+import {GherkinData, RuleError} from '../types.js';
 
 export const name = 'no-trailing-spaces';
 
 export function run({file}: GherkinData): RuleError[] {
-  const errors = [] as RuleError[];
-  let lineNo = 1;
-  file.lines.forEach(line => {
-    if (/[\t ]+$/.test(line)) {
-      errors.push({message: 'Trailing spaces are not allowed',
-        rule   : name,
-        line   : lineNo,
-        column : 0,
-      });
-    }
+	const errors = [] as RuleError[];
+	let lineNo = 1;
+	file.lines.forEach(line => {
+		if (/[\t ]+$/.test(line)) {
+			errors.push({message: 'Trailing spaces are not allowed',
+				rule   : name,
+				line   : lineNo,
+				column : 0,
+			});
+		}
 
-    lineNo++;
-  });
+		lineNo++;
+	});
 
-  return errors;
+	return errors;
 }

@@ -22,3 +22,9 @@ Examples:
 
 Scenario: This is a Scenario without tags
   Then this is a then step
+
+  @ruleTag @relatedTagRule
+  Rule: This is a rule
+    @scenarioTag @relatedTagScenario
+    Scenario: This is a Scenario without related tags
+      Then this is a then step

@@ -1,33 +1,37 @@
-import {GherkinData, RuleError} from '../types';
-import {Background} from '@cucumber/messages';
+import {GherkinData, RuleError} from '../types.js';
+import { Background, Feature, Rule } from '@cucumber/messages';
 
 export const name = 'no-background-only-scenario';
 
 export function run({feature}: GherkinData): RuleError[] {
-  if (!feature) {
-    return [];
-  }
+	if (!feature) {
+		return [];
+	}
 
-  const errors = [] as RuleError[];
+	const errors = [] as RuleError[];
 
-  feature.children.forEach(child => {
-    if (child.background) {
-      if (feature.children.length <= 2) {
-        // as just one background is allowed, if there is a background in the feature,
-        // there must be at least, three elements in the feature to have, more than
-        // one scenario
-        errors.push(createError(child.background));
-      }
-    }
-  });
-  return errors;
+	function checkScenariosContainer(container : Feature | Rule) {
+		container.children.forEach(child => {
+			if (child.background) {
+				if (container.children.filter(c => c.scenario).length < 2) {
+					errors.push(createError(child.background));
+				}
+			} else if (child.rule) {
+				checkScenariosContainer(child.rule);
+			}
+		});
+	}
+
+	checkScenariosContainer(feature);
+
+	return errors;
 }
 
 function createError(background: Background) {
-  return {
-    message: 'Backgrounds are not allowed when there is just one scenario.',
-    rule   : name,
-    line   : background.location.line,
-    column : background.location.column,
-  };
+	return {
+		message: 'Backgrounds are not allowed when there is just one scenario.',
+		rule   : name,
+		line   : background.location.line,
+		column : background.location.column,
+	};
 }

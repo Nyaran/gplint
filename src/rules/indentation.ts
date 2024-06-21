@@ -1,111 +1,135 @@
 import _ from 'lodash';
-import * as gherkinUtils from './utils/gherkin';
-import {GherkinData, RuleSubConfig, RuleError} from '../types';
-import {Location, Step, Tag} from '@cucumber/messages';
+import * as gherkinUtils from './utils/gherkin.js';
+import { GherkinData, RuleSubConfig, RuleError } from '../types.js';
+import { FeatureChild, Location, RuleChild, Step, Tag } from '@cucumber/messages';
 
 export const name = 'indentation';
 const defaultConfig = {
-  'Feature': 0,
-  'Background': 0,
-  'Rule': 0,
-  'Scenario': 0,
-  'Step': 2,
-  'Examples': 0,
-  'example': 2,
-  'given': 2,
-  'when': 2,
-  'then': 2,
-  'and': 2,
-  'but': 2
+	'Feature': 0,
+	'Background': 2,
+	'Rule': 2,
+	'Scenario': 2,
+	'Step': 4,
+	'Examples': 4,
+	'example': 6,
+	'given': 4,
+	'when': 4,
+	'then': 4,
+	'and': 4,
+	'but': 4,
+	'RuleFallback': true, // If `true`, the indentation for nodes inside Rule is the sum of "Rule" and the node itself, else it uses the node directly
 };
 
 export const availableConfigs = _.merge({}, defaultConfig, {
-  // The values here are unused by the config parsing logic.
-  'feature tag': -1,
-  'scenario tag': -1,
-  'examples tag': -1
+	// The values here are unused by the config parsing logic.
+	'feature tag': -1,
+	'rule tag': -1,
+	'scenario tag': -1,
+	'examples tag': -1
 });
 
 type Configuration = RuleSubConfig<typeof availableConfigs>;
 type ConfigurationKey = keyof Configuration;
 
 function mergeConfiguration(configuration: Configuration): Configuration {
-  const mergedConfiguration = _.merge({}, defaultConfig, configuration);
-  if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'feature tag')) {
-    mergedConfiguration['feature tag'] = mergedConfiguration['Feature'];
-  }
-  if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'scenario tag')) {
-    mergedConfiguration['scenario tag'] = mergedConfiguration['Scenario'];
-  }
-  if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, 'examples tag')) {
-    mergedConfiguration['examples tag'] = mergedConfiguration['Examples'];
-  }
-  return mergedConfiguration;
+	const mergedConfiguration = _.merge({}, defaultConfig, configuration);
+
+	Object.entries({
+		'feature tag': mergedConfiguration.Feature,
+		'rule tag': mergedConfiguration.Rule,
+		'scenario tag': mergedConfiguration.Scenario,
+		'examples tag': mergedConfiguration.Examples,
+	}).forEach(([key, value]: [keyof typeof defaultConfig, number]) => {
+		if (!Object.prototype.hasOwnProperty.call(mergedConfiguration, key)) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			mergedConfiguration[key] = value;
+		}
+	});
+
+	return mergedConfiguration;
 }
 
 export function run({feature}: GherkinData, configuration: Configuration): RuleError[] {
-  if (!feature) {
-    return [];
-  }
+	if (!feature) {
+		return [];
+	}
 
-  const errors = [] as RuleError[];
-  const mergedConfiguration = mergeConfiguration(configuration);
+	const errors = [] as RuleError[];
+	const mergedConfiguration = mergeConfiguration(configuration);
 
-  function validate(parsedLocation: Location, type: ConfigurationKey) {
-    // location.column is 1 index based so, when we compare with the expected
-    // indentation we need to subtract 1
-    if (parsedLocation.column - 1 !== mergedConfiguration[type]) {
-      errors.push({
-        message: 'Wrong indentation for "' + type +
-                            '", expected indentation level of ' + mergedConfiguration[type] +
-                            ', but got ' + (parsedLocation.column - 1),
-        rule   : name,
-        line   : parsedLocation.line,
-        column : parsedLocation.column,
-      });
-    }
-  }
+	function validate(parsedLocation: Location, type: ConfigurationKey, modifier = 0) {
+		// location.column is 1 index based so, when we compare with the expected
+		// indentation we need to subtract 1
+		const parsedLocColumn = parsedLocation.column ?? 0;
+		const expectedIndentation = mergedConfiguration[type] as number + modifier;
+		if (parsedLocColumn - 1 !== expectedIndentation) {
+			errors.push({
+				message: `Wrong indentation for "${type}", expected indentation level of ${expectedIndentation}, but got ${parsedLocColumn - 1}`,
+				rule   : name,
+				line   : parsedLocation.line,
+				column : parsedLocation.column,
+			});
+		}
+	}
 
-  function validateStep(step: Step) {
-    let stepType = gherkinUtils.getLanguageInsensitiveKeyword(step, feature.language);
-    stepType = stepType in configuration ? stepType : 'Step';
-    validate(step.location, stepType as ConfigurationKey);
-  }
+	function validateStep(step: Step, modifier = 0) {
+		let stepType = gherkinUtils.getLanguageInsensitiveKeyword(step, feature?.language);
+		stepType = stepType != null && stepType in configuration ? stepType : 'Step';
+		validate(step.location, stepType as ConfigurationKey, modifier);
+	}
 
-  function validateTags(tags: readonly Tag[], type: ConfigurationKey) {
-    _(tags).groupBy('location.line').forEach(tagLocationGroup => {
-      const firstTag = _(tagLocationGroup).sortBy('location.column').head();
-      validate(firstTag.location, type);
-    });
-  }
+	function validateTags(tags: readonly Tag[], type: ConfigurationKey, modifier = 0) {
+		_(tags).groupBy('location.line').forEach(tagLocationGroup => {
+			const firstTag = _(tagLocationGroup).sortBy('location.column').head();
+			if (firstTag) {
+				validate(firstTag.location, type, modifier);
+			}
+		});
+	}
 
-  validate(feature.location, 'Feature');
-  validateTags(feature.tags, 'feature tag');
+	function validateChildren(child: FeatureChild | RuleChild, modifier = 0) {
+		if (child.background) {
+			validate(child.background.location, 'Background', modifier);
+			child.background.steps.forEach(step => {
+				validateStep(step, modifier);
+			});
+		} else if (child.scenario) {
+			validate(child.scenario.location, 'Scenario', modifier);
+			validateTags(child.scenario.tags, 'scenario tag', modifier);
+			child.scenario.steps.forEach(step => {
+				validateStep(step, modifier);
+			});
 
-  feature.children.forEach(child => {
-    if (child.rule) {
-      validate(child.rule.location, 'Rule');
-    } else if (child.background) {
-      validate(child.background.location, 'Background');
-      child.background.steps.forEach(validateStep);
-    } else {
-      validate(child.scenario.location, 'Scenario');
-      validateTags(child.scenario.tags, 'scenario tag');
-      child.scenario.steps.forEach(validateStep);
+			child.scenario.examples.forEach(example => {
+				validate(example.location, 'Examples', modifier);
+				validateTags(example.tags, 'examples tag', modifier);
 
-      child.scenario.examples.forEach(example => {
-        validate(example.location, 'Examples');
-        validateTags(example.tags, 'examples tag');
+				if (example.tableHeader) {
+					validate(example.tableHeader.location, 'example', modifier);
+					example.tableBody.forEach(row => {
+						validate(row.location, 'example', modifier);
+					});
+				}
+			});
+		}
+	}
 
-        if (example.tableHeader) {
-          validate(example.tableHeader.location, 'example');
-          example.tableBody.forEach(row => {
-            validate(row.location, 'example');
-          });
-        }
-      });
-    }
-  });
+	validate(feature.location, 'Feature');
+	validateTags(feature.tags, 'feature tag');
 
-  return errors;
+	feature.children.forEach(child => {
+		if (child.rule) {
+			validate(child.rule.location, 'Rule');
+			validateTags(child.rule.tags, 'rule tag');
+
+			child.rule.children.forEach(ruleChild => {
+				validateChildren(ruleChild, mergedConfiguration.RuleFallback ? mergedConfiguration.Rule : 0);
+			});
+		} else {
+			validateChildren(child);
+		}
+	});
+
+	return errors;
 }

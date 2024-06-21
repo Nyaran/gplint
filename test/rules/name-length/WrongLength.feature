@@ -6,6 +6,7 @@ Background:
 Scenario: This is a Scenario with incorrect length - more than 70 characters more than 70 characters
   Then I should see a length error - more than 70 characters more than 70 characters more than 70 characters
 
+Rule: This is a Rule with incorrect length - more than 70 characters more than 70 characters
 Scenario Outline: This is a Scenario Outline with incorrect length - more than 70 characters more than 70 characters
   Then I should see a length error - more than 70 characters more than 70 characters more than 70 characters  <foo>
 Examples:

@@ -1,21 +1,33 @@
 Feature: Feature with homogenous tags
 
-Background:
-  Given I have a Background
+  Background:
+    Given I have a Background
 
-@tag1 @tag2 @tag3
-Scenario: This is a Scenario with some tags
-  Then this is a then step
+  @tagScenarioRepeatA @tagScenarioRepeatB @tagScenarioRepeatNotRule @tagScenarioNoRepeatA
+  Scenario: This is a Scenario with some tags
+    Then this is a then step
 
-@tag1 @tag2 @tag4
-Scenario Outline: This is a Scenario Outline with the same tags
-  Then this is a then step <foo>
-@tag5 @tag6
-Examples:
-  | foo |
-  | bar |
+  @tagScenarioRepeatA @tagScenarioRepeatB @tagScenarioRepeatNotRule @tagScenarioNoRepeatB
+  Scenario Outline: This is a Scenario Outline with the same tags
+    Then this is a then step <foo>
 
-@tag5 @tag7
-Examples:
-  | foo |
-  | bar |
+    @tagExampleRepeatA @tagExampleNoRepeatA
+    Examples:
+      | foo |
+      | bar |
+
+    @tagExampleRepeatA @tagExampleNoRepeatB
+    Examples:
+      | foo |
+      | bar |
+
+  @tagScenarioRepeatA @tagScenarioRepeatB @tagRule
+  Rule: A rule
+
+    @tagScenarioRuleRepeatA @tagScenarioRuleRepeatB @tagScenarioRuleNoRepeatA
+    Scenario: This is a Scenario with some tags
+      Then this is a then step
+
+    @tagScenarioRuleRepeatA @tagScenarioRuleRepeatB @tagScenarioRuleNoRepeatB
+    Scenario: This is a Scenario with some tags
+      Then this is a then step

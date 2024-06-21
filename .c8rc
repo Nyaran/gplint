@@ -1,0 +1,17 @@
+{
+  "all": true,
+  "include": [
+    "src/**"
+  ],
+  "exclude": [
+    "src/cli/**/*.ts",
+    "src/formatters/*.ts",
+    "src/types.ts",
+    "src/version.ts"
+  ],
+  "report-dir": "./coverage",
+  "reporter": [
+    "text",
+    "lcov"
+  ]
+}

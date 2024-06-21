@@ -2,13 +2,14 @@
 Feature: Test for the no-partially-commented-tag-lines
 
 Background:
-  Given I have a Feature file 
+  Given I have a Feature file
 
 @tag #@commented-out-tag
-Scenario: This is a Scenario 
+Scenario: This is a Scenario
   Then this is a step
 
-
+@tag #@commented-out-tag
+Rule: This is a rule
 @tag #@commented-out-tag
 Scenario Outline: This is a Scenario Outline
   Then this is a step

@@ -23,3 +23,11 @@ Scenario Outline: This is a Scenario name
 Examples:
   | foo |
   | bar |
+
+Rule: This is Rule name
+Scenario: This is a Scenario name inside Rule
+  Then this is a then step
+  But I need more
+  And because I am testing scenario-size
+  And as many steps I get
+  When better
