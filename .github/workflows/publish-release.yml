@@ -7,7 +7,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: contains(github.ref, 'release')
+    if: startsWith(github.ref, 'release/')
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4.1.0
