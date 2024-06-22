@@ -34,6 +34,5 @@ jobs:
           draft: true
           tag_name: v${{ steps.get-version.outputs.version }}
           generate_release_notes: true
-          files: build/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
