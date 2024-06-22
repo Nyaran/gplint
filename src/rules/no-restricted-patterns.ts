@@ -18,6 +18,8 @@ interface IConfiguration<T> {
 	Given?: T[]
 	When?: T[]
 	Then?: T[]
+	DataTable?: T[]
+	DocString?: T[]
 }
 
 const keywords = ['Given', 'When', 'Then'];
@@ -40,8 +42,10 @@ export const availableConfigs = {
 	'Step': [] as string[],
 	'Given': [] as string[],
 	'When': [] as string[],
-	'Then': [] as string[]
-} as Configuration;
+	'Then': [] as string[],
+	'DataTable': [] as string[],
+	'DocString': [] as string[],
+};
 
 export function run({feature}: GherkinData, configuration: Configuration): RuleError[] {
 	previousKeyword = '';
@@ -69,6 +73,22 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 		node.steps.forEach((step, index) => {
 			checkStepNode(step, node.steps[index], restrictedPatterns, language, errors);
 			checkStepNode(step, node, restrictedPatterns, language, errors);
+
+			if (step.docString != null) {
+				restrictedPatterns.docstring.forEach(dsPattern => {
+					check(step.docString, 'DocString', 'content', dsPattern, language, errors);
+				});
+			}
+
+			if (step.dataTable != null) {
+				restrictedPatterns.datatable.forEach(dtPattern => {
+					step.dataTable.rows.forEach(row => {
+						row.cells.forEach(cell => {
+							check(cell, 'DataTable cell', 'value', dtPattern, language, errors);
+						});
+					});
+				});
+			}
 		});
 
 		if (child.scenario?.examples) {
@@ -131,19 +151,7 @@ function checkStepNode(
 	// Use the node keyword of the parent to determine which rule configuration to use
 	getRestrictedPatternsForNode(parentNode, restrictedPatterns, language)
 		.forEach(pattern => {
-
 			checkGuessType(node, 'text', pattern, language, errors);
-			if (node.docString != null) {
-				check(node.docString, 'DocString', 'content', pattern, language, errors);
-			}
-			if (node.dataTable != null) {
-				node.dataTable.rows.forEach(row => {
-					row.cells.forEach(cell => {
-						check(cell, 'DataTable cell', 'value', pattern, language, errors);
-					});
-				});
-				//check(node.dataTable, 'DataTable', 'content', pattern, language, errors);
-			}
 		});
 }
 

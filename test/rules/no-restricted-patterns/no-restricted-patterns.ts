@@ -387,26 +387,6 @@ describe('No Restricted Patterns Rule', function() {
 				line: 11,
 				column: 5,
 			},
-			{
-				messageElements: {
-					pattern: '^.*disallowed.*$',
-					string: 'a disallowed docstring',
-					nodeType: 'DocString',
-					property: 'content'
-				},
-				line: 13,
-				column: 5,
-			},
-			{
-				messageElements: {
-					pattern: '^.*disallowed.*$',
-					string: 'disallowed cell',
-					nodeType: 'DataTable cell',
-					property: 'value'
-				},
-				line: 17,
-				column: 24,
-			},
 		]);
 	});
 
@@ -464,6 +444,24 @@ describe('No Restricted Patterns Rule', function() {
 				line: 11,
 				column: 5,
 			},
+		]);
+	});
+
+	it('docstring', function() {
+		const configuration = {
+			'DocString': [
+				'^.*disallowed.*$',
+			],
+			'DataTable': [
+				'^.*invalid.*$',
+				'wrong value',
+			],
+			'Global': [
+				'^a restricted global pattern$',
+			]
+		};
+
+		return runTest('no-restricted-patterns/StepDocStringDataTableViolations.feature', configuration, [
 			{
 				messageElements: {
 					pattern: '^.*disallowed.*$',
@@ -471,18 +469,48 @@ describe('No Restricted Patterns Rule', function() {
 					nodeType: 'DocString',
 					property: 'content'
 				},
-				line: 13,
+				line: 7,
 				column: 5,
 			},
 			{
 				messageElements: {
-					pattern: '^.*disallowed.*$',
-					string: 'disallowed cell',
+					pattern: '^a restricted global pattern$',
+					string: 'a restricted global pattern',
+					nodeType: 'DocString',
+					property: 'content'
+				},
+				line: 11,
+				column: 4,
+			},
+			{
+				messageElements: {
+					pattern: '^.*invalid.*$',
+					string: 'invalid cell',
+					nodeType: 'DataTable cell',
+					property: 'value'
+				},
+				line: 15,
+				column: 24,
+			},
+			{
+				messageElements: {
+					pattern: '^a restricted global pattern$',
+					string: 'a restricted global pattern',
 					nodeType: 'DataTable cell',
 					property: 'value'
 				},
 				line: 17,
 				column: 24,
+			},
+			{
+				messageElements: {
+					pattern: 'wrong value',
+					string: 'wrong value',
+					nodeType: 'DataTable cell',
+					property: 'value'
+				},
+				line: 18,
+				column: 9,
 			},
 		]);
 	});

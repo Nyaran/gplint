@@ -186,7 +186,7 @@ The following table illustrates how it works:
 | Example         | Description                         | Result  |
 |-----------------|-------------------------------------|---------|
 | `@foo`          | Without a comment                   | Valid   |
-| `@foo #comment` | With a comment separated with space | Invalid   |
+| `@foo #comment` | With a comment separated with space | Invalid |
 | `@foo#comment`  | With a comment non-separated        | Invalid |
 
 ### no-restricted-patterns
@@ -238,6 +238,13 @@ The rule can be configured like this:
     "Then": [
       "bad step then",
       "a debugging step then"
+    ],
+    "DocString": [
+      "^.*disallowed.*$"
+    ],
+    "DataTable": [
+      "^.*invalid.*$",
+      "wrong value"
     ]
   }]
 }
