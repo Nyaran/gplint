@@ -16,10 +16,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Support latest Node 20 (not limited to 20.4 anymore) and 22.
 * Rules improvements:
 	* Support [Rule node](https://cucumber.io/docs/gherkin/reference/#rule) for all rules
-	* Rule `no-dupe-scenario-names` has two new configurations,  `in-rule` and `in-rule-compile`.
+	* Rule `no-dupe-scenario-names` has two new configurations, `in-rule` and `in-rule-compile`.
 	* Improve `no-restricted-patterns`:
 		* Support Example, ExampleHeader and ExampleBody.
-		* Support DocString and DataTable from Steps.
+		* Support DocString and DataTable from Steps with it own configuration key (check README.md).
 
 ### 🐛 Bug Fix
 *  Fix no-partially-commented-tag-lines rule, detecting comments separated from tag (configurable).
