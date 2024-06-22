@@ -1,4 +1,4 @@
-name: Publish Release
+name: Create GitHub Release
 on:
   pull_request:
     types:
@@ -29,7 +29,7 @@ jobs:
         id: get-version
         run: echo ::set-output name=version::$(node -p "require('./package.json').version")
 
-      - name: Publish github
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           draft: true
@@ -37,8 +37,3 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish npmjs
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
