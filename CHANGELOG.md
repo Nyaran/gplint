@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-next-?] - 2024-06-22
+### 💥 Breaking Change
+* This package is now pure ESM. Please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
+* Drop Node 14 and 16 support.
+* Level "on" was deprecated on v1, and now was removed. Replace it with "error" or "warn" on your .gplintrc file.
+* On rule `required-tags` the `tags` was deprecated, now was removed. Replace it with `scenario` the use in the same way.
+
+### 🚀 New Feature
+* Support to load custom rules with mjs and cjs extensions (and TypeScript equivalents).
+* Support latest Node 20 (not limited to 20.4 anymore) and 22.
+* Rules improvements:
+	* Support [Rule node](https://cucumber.io/docs/gherkin/reference/#rule) for all rules
+	* Rule `no-dupe-scenario-names` has two new configurations,  `in-rule` and `in-rule-compile`.
+	* Improve `no-restricted-patterns`:
+		* Support Example, ExampleHeader and ExampleBody.
+		* Support DocString and DataTable from Steps.
+
+### 🐛 Bug Fix
+*  Fix no-partially-commented-tag-lines rule, detecting comments separated from tag (configurable).
+
+### 🏠 Internal
+* Update eslint config to use flat config.
+* Update eslint to v9.
+* Add restrictive Code Style with eslint.
+* Replace [istanbuljs/nyc](https://github.com/istanbuljs/nyc) with [c8](https://github.com/bcoe/c8).
+* Increased code coverage.
+* Replaced "commander" with "yargs".
+* Improve linting and strictNullChecks
+
 ## [1.5.1] - 2023-07-17
 ### Fixed
 * Fix load default config file if argument is not specified. by @Nyaran in https://github.com/Nyaran/gplint/pull/440
