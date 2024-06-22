@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../build/cli/index.js');
+import '../build/cli/index.js';
