@@ -5,6 +5,7 @@ on:
       - closed
     branches:
       - main
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -36,3 +37,8 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish npmjs
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
