@@ -1,13 +1,14 @@
 name: Publish Release
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - main
-
+      - main'
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/release/')
+    if:  startsWith(github.head_ref, 'release/')
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4.1.0
@@ -30,13 +31,9 @@ jobs:
       - name: Publish github
         uses: softprops/action-gh-release@v1
         with:
-          draft: false
+          draft: true
           tag_name: v${{ steps.get-version.outputs.version }}
           generate_release_notes: true
           files: build/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: Publish npmjs
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
