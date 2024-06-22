@@ -4,7 +4,7 @@ on:
     types:
       - closed
     branches:
-      - main'
+      - main
 jobs:
   release:
     runs-on: ubuntu-latest
