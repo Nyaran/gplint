@@ -12,10 +12,10 @@ jobs:
     if:  startsWith(github.head_ref, 'release/')
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 18
 
@@ -30,7 +30,7 @@ jobs:
         run: echo ::set-output name=version::$(node -p "require('./package.json').version")
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2.0.6
         with:
           draft: true
           tag_name: v${{ steps.get-version.outputs.version }}
