@@ -87,11 +87,13 @@ export async function lint(files: string[], configuration?: RulesConfig, additio
 		} catch (parsingErrors) {
 			if (parsingErrors instanceof RuleErrors) {
 				perFileErrors = parsingErrors;
+			} else {
+				throw parsingErrors;
 			}
 		} finally {
 			const fileErrors = {
 				filePath: fs.realpathSync(f),
-				errors: _.sortBy(perFileErrors.getErrors(), 'line')
+				errors: _.sortBy(perFileErrors?.getErrors(), 'line')
 			} as ErrorsByFile;
 
 			results.push(fileErrors);
