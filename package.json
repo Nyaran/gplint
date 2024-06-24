@@ -69,7 +69,7 @@
     "@types/chai": "4.3.16",
     "@types/eslint__js": "8.42.3",
     "@types/lodash": "4.17.5",
-    "@types/mocha": "10.0.6",
+    "@types/mocha": "10.0.7",
     "@types/mock-fs": "4.13.4",
     "@types/node": "20.14.7",
     "@types/sinon": "17.0.3",
