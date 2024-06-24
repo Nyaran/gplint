@@ -55,5 +55,6 @@ jobs:
           branch: "release/${{ env.NEW_VERSION }}"
           body: "This is a new release ${{ env.NEW_VERSION }}"
           title: "Release ${{ env.NEW_VERSION }}"
+          labels: release-pr
           base: "main"
           draft: ${{ github.event.inputs.draft }}
