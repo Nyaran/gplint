@@ -88,7 +88,7 @@
     "rimraf": "5.0.7",
     "sinon": "18.0.0",
     "typescript": "5.5.2",
-    "typescript-eslint": "8.0.0-alpha.26"
+    "typescript-eslint": "8.0.0-alpha.30"
   },
   "engines": {
     "node": ">=18.0.0"
