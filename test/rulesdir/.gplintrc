@@ -1,6 +1,0 @@
-{
-  "indentation": "error",
-  "custom" : "error",
-  "another-custom" : "error",
-  "another-custom-list" : ["error", {"element": ["first_element"]}]
-}

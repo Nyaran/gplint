@@ -1,7 +1,0 @@
-changelog:
-  exclude:
-    labels:
-      - ignore-for-release
-      - release-pr
-    authors:
-      -  dependabot

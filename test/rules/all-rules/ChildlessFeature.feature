@@ -1,1 +1,0 @@
-Feature: This is a childless feature

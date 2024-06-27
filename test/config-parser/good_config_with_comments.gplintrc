@@ -1,7 +1,0 @@
-/*
-block comment
-*/
-{
-  // inline comment
-  "no-files-without-scenarios" : "off"
-}
