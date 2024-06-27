@@ -9,7 +9,9 @@ module.exports = {
 	recursive: true,
 	'watch-files': [
 		'src/**/*.js',
+		'src/**/*.ts',
 		'test/**/*.js',
+		'test/**/*.ts',
 	],
 	timeout: os.type() === 'Windows_NT' ? 10_000 : 5_000,
 };
