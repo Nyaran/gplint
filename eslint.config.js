@@ -2,10 +2,10 @@ import eslint from '@eslint/js';
 import pluginChaiFriendly from 'eslint-plugin-chai-friendly';
 import tseslint from 'typescript-eslint';
 
-import { FlatCompat } from '@eslint/eslintrc'
-import { fixupConfigRules } from '@eslint/compat'
+import { FlatCompat } from '@eslint/eslintrc';
+import { fixupConfigRules } from '@eslint/compat';
 
-const compat = new FlatCompat()
+const compat = new FlatCompat();
 
 export default tseslint.config(
 	eslint.configs.recommended,
