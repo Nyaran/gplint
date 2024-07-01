@@ -2,7 +2,7 @@ import * as rules from '../../../src/rules.js';
 import * as linter from '../../../src/linter.js';
 import { Rules, RulesConfig } from '../../../src/types.js';
 import assert from 'assert';
-import { Suite } from 'mocha';
+import { Suite } from 'mocha'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 // Test cases for incomplete feature files that have broken over time across multiple rules
 describe('Malformed features do not break the linter', function() {
