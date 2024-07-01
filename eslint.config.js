@@ -1,16 +1,13 @@
 import eslint from '@eslint/js';
 import pluginChaiFriendly from 'eslint-plugin-chai-friendly';
+import pluginPromise from 'eslint-plugin-promise'
 import tseslint from 'typescript-eslint';
-
-import { FlatCompat } from '@eslint/eslintrc';
-import { fixupConfigRules } from '@eslint/compat';
-
-const compat = new FlatCompat();
 
 export default tseslint.config(
 	eslint.configs.recommended,
 	...tseslint.configs.strictTypeChecked,
 	...tseslint.configs.stylisticTypeChecked,
+	pluginPromise.configs['flat/recommended'],
 	{
 		files: ['**/*.js'],
 		...tseslint.configs.disableTypeChecked,
@@ -105,11 +102,4 @@ export default tseslint.config(
 			'chai-friendly/no-unused-expressions': 'error',
 		},
 	},
-
-	// Load in compatibility mode until not support eslint v9
-	...fixupConfigRules(
-		compat.config({
-			extends: ['plugin:promise/recommended'],
-		})
-	),
 );
