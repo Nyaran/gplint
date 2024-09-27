@@ -16,5 +16,5 @@ export function getLineContent(file: FileData, line: number) {
 }
 
 function getFileLines(file: FileData) {
-	return fs.readFileSync(file.relativePath, 'utf-8').split('\n');
+	return fs.readFileSync(file.relativePath, 'utf8').split('\n');
 }

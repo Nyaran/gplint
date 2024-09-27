@@ -51,6 +51,12 @@ function mergeConfiguration(configuration: Configuration): Configuration {
 	return mergedConfiguration;
 }
 
+export function fixLine(existingLine: string, expectedIndentation: number): string {
+	const newIndentation = ' '.repeat(expectedIndentation);
+
+	return `${newIndentation}${existingLine.replaceAll(/^\s+/g, '')}`;
+}
+
 export function run({feature, file}: GherkinData, configuration: Configuration, autoFix: boolean): RuleError[] {
 	if (!feature) {
 		return [];
@@ -66,7 +72,8 @@ export function run({feature, file}: GherkinData, configuration: Configuration, 
 		const expectedIndentation = mergedConfiguration[type] as number + modifier;
 		if (parsedLocColumn - 1 !== expectedIndentation) {
 			if (autoFix) {
-				fix(parsedLocation.line, expectedIndentation);
+				const newLine = fixLine(getLineContent(file, parsedLocation.line), expectedIndentation);
+				modifyLine(file, parsedLocation.line, newLine);
 			} else {
 				errors.push({
 					message: `Wrong indentation for "${type}", expected indentation level of ${expectedIndentation}, but got ${parsedLocColumn - 1}`,
@@ -118,11 +125,6 @@ export function run({feature, file}: GherkinData, configuration: Configuration, 
 				}
 			});
 		}
-	}
-
-	function fix(line: number, expectedIndentation: number) {
-		const newIndentation = ' '.repeat(expectedIndentation);
-		modifyLine(file, line, `${newIndentation}${getLineContent(file, line).replaceAll(/^\s+/g, '')}`);
 	}
 
 	validate(feature.location, 'Feature');
