@@ -2,6 +2,7 @@ import _ from 'lodash';
 import * as gherkinUtils from './utils/gherkin.js';
 import { GherkinData, RuleSubConfig, RuleError } from '../types.js';
 import { FeatureChild, Location, RuleChild, Step, Tag } from '@cucumber/messages';
+import { getLineContent, modifyLine } from './utils/line.js';
 
 export const name = 'indentation';
 const defaultConfig = {
@@ -50,7 +51,7 @@ function mergeConfiguration(configuration: Configuration): Configuration {
 	return mergedConfiguration;
 }
 
-export function run({feature}: GherkinData, configuration: Configuration): RuleError[] {
+export function run({feature, file}: GherkinData, configuration: Configuration, autoFix: boolean): RuleError[] {
 	if (!feature) {
 		return [];
 	}
@@ -64,12 +65,16 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 		const parsedLocColumn = parsedLocation.column ?? 0;
 		const expectedIndentation = mergedConfiguration[type] as number + modifier;
 		if (parsedLocColumn - 1 !== expectedIndentation) {
-			errors.push({
-				message: `Wrong indentation for "${type}", expected indentation level of ${expectedIndentation}, but got ${parsedLocColumn - 1}`,
-				rule   : name,
-				line   : parsedLocation.line,
-				column : parsedLocation.column,
-			});
+			if (autoFix) {
+				fix(parsedLocation.line, expectedIndentation);
+			} else {
+				errors.push({
+					message: `Wrong indentation for "${type}", expected indentation level of ${expectedIndentation}, but got ${parsedLocColumn - 1}`,
+					rule   : name,
+					line   : parsedLocation.line,
+					column : parsedLocation.column,
+				});
+			}
 		}
 	}
 
@@ -113,6 +118,11 @@ export function run({feature}: GherkinData, configuration: Configuration): RuleE
 				}
 			});
 		}
+	}
+
+	function fix(line: number, expectedIndentation: number) {
+		const newIndentation = ' '.repeat(expectedIndentation);
+		modifyLine(file, line, `${newIndentation}${getLineContent(file, line).replaceAll(/^\s+/g, '')}`);
 	}
 
 	validate(feature.location, 'Feature');
