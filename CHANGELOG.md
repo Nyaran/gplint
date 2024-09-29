@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2024-09-29
+### 🚀 New Feature
+* feature: auto fix problems by @lucas-it in https://github.com/Nyaran/gplint/pull/672
+  * chore: Mark fixable rules on README.md by @Nyaran in https://github.com/Nyaran/gplint/pull/673
+
 ## [2.0.0] - 2024-07-07
 ### 💥 Breaking Change
 * This package is now pure ESM. It should not affect if using gplint as a cli tool, if you have problems with integration, please, first [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
