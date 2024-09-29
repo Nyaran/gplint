@@ -16,7 +16,7 @@ export type Rules = Record<string, Rule>;
 export interface Rule {
 	name: string
 	availableConfigs?: Record<string, unknown> | string[]
-	run: (gherkinData: GherkinData, config: RuleSubConfig<unknown>) => RuleError[]
+	run: (gherkinData: GherkinData, config: RuleSubConfig<unknown>, autoFix: boolean) => RuleError[]
 }
 
 export type RulesConfig = Record<string, RuleConfig>;

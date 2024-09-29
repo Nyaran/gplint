@@ -23,6 +23,6 @@ export function createRuleTest(rule: Rule, messageTemplate: string): RunTestFunc
 		});
 
 		const { feature, pickles, file } = await linter.readAndParseFile(`test/rules/${featureFile}`);
-		assert.sameDeepMembers(rule.run({feature, pickles, file}, configuration), expectedErrors);
+		assert.sameDeepMembers(rule.run({feature, pickles, file}, configuration, false), expectedErrors);
 	};
 }

@@ -86,7 +86,8 @@ export async function runAllEnabledRules(
 	pickles?: Pickle[],
 	file?: FileData,
 	configuration: RulesConfig = {},
-	additionalRulesDirs?: string[]
+	additionalRulesDirs?: string[],
+	autoFix = false,
 ): Promise<RuleErrors> {
 	let errors = [] as RuleErrorLevel[];
 	const rules = await getAllRules(additionalRulesDirs);
@@ -98,7 +99,7 @@ export async function runAllEnabledRules(
 			const ruleConfig = (Array.isArray(configuration[rule.name])
 				? (configuration[rule.name] as RuleConfigArray)[1]
 				: {} as RuleSubConfig<unknown>) as RuleConfig;
-			const error = rule.run({feature, pickles, file}, ruleConfig) as RuleErrorLevel[];
+			const error = rule.run({feature, pickles, file}, ruleConfig, autoFix) as RuleErrorLevel[];
 
 			if (error.length > 0) {
 				error.forEach(e => (e.level = ruleLevel));

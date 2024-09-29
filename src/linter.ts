@@ -16,6 +16,7 @@ import {
 } from './types.js';
 import * as configParser from './config-parser.js';
 import { RuleErrors } from './errors.js';
+import { CliArgs } from './cli/commands/main.js';
 
 export async function readAndParseFile(filePath: string): Promise<GherkinData> {
 	let feature: Feature;
@@ -70,12 +71,12 @@ export async function readAndParseFile(filePath: string): Promise<GherkinData> {
 	});
 }
 
-export async function lintInit(files: string[], configPath?: string, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
-	const configuration = await configParser.getConfiguration(configPath, additionalRulesDirs);
-	return lint(files, configuration, additionalRulesDirs);
+export async function lintInit(files: string[], args?: CliArgs, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
+	const configuration = await configParser.getConfiguration(args.config, additionalRulesDirs);
+	return lint(files, configuration, additionalRulesDirs, args.fix);
 }
 
-export async function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[]): Promise<ErrorsByFile[]> {
+export async function lint(files: string[], configuration?: RulesConfig, additionalRulesDirs?: string[], autoFix?: boolean): Promise<ErrorsByFile[]> {
 	const results = [] as ErrorsByFile[];
 
 	await Promise.all(files.map(async (f) => {
@@ -83,7 +84,7 @@ export async function lint(files: string[], configuration?: RulesConfig, additio
 
 		try {
 			const {feature, pickles, file} = await readAndParseFile(f);
-			perFileErrors = await rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs);
+			perFileErrors = await rules.runAllEnabledRules(feature, pickles, file, configuration, additionalRulesDirs, autoFix);
 		} catch (parsingErrors) {
 			if (parsingErrors instanceof RuleErrors) {
 				perFileErrors = parsingErrors;
