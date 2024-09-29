@@ -26,6 +26,7 @@ Or check this:
 
 
 ## Available rules
+> Rules with :gear: means that allows auto-fix with `--fix` argument.
 
 | Name                                                                    | Functionality                                                                                                                                   |
 |-------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -37,7 +38,7 @@ Or check this:
 | [`allow-all-caps`](#allow-all-caps--allow-all-lowercase)                | Allows the user to specify if some nodes allows texts completely in uppercase.                                                                  |
 | [`allow-all-lowercase`](#allow-all-caps--allow-all-lowercase)           | Allows the user to specify if some nodes allows texts completely in lowercase.                                                                  |
 | [`file-name`](#file-name)                                               | Restrict feature file names to a common style                                                                                                   |
-| [`indentation`](#indentation)                                           | Allows the user to specify indentation rules                                                                                                    |
+| :gear: [`indentation`](#indentation)                                    | Allows the user to specify indentation rules                                                                                                    |
 | `keywords-in-logical-order`                                             | Requires that Given, When and Then appear in logical sequence                                                                                   |
 | [`max-scenarios-per-file`](#max-scenarios-per-file)                     | Allows the user to specify the max number of scenarios per feature file                                                                         |
 | [`max-tags-lines`](#max-tags-lines)                                     | Allows the user to specify the max number of lines for tags in each level.                                                                      |
@@ -58,7 +59,7 @@ Or check this:
 | [`no-restricted-tags`](#no-restricted-tags)                             | Disallow use of particular @tags                                                                                                                |
 | `no-scenario-outlines-without-examples`                                 | Disallows scenario outlines without examples                                                                                                    |
 | `no-superfluous-tags`                                                   | Disallows tags present on a Node, its parents (E.g. Same tags in a Scenario and/or Example, and also on the Feature or Rule that contains it    |
-| `no-trailing-spaces`                                                    | Disallows trailing spaces                                                                                                                       |
+| :gear: `no-trailing-spaces`                                             | Disallows trailing spaces                                                                                                                       |
 | `no-unnamed-features`                                                   | Disallows empty Feature name                                                                                                                    |
 | `no-unnamed-scenarios`                                                  | Disallows empty Scenario name                                                                                                                   |
 | `no-unused-variables`                                                   | Disallows unused variables in scenario outlines                                                                                                 |
