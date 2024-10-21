@@ -5,3 +5,26 @@ changelog:
       - release-pr
     authors:
       -  dependabot
+  categories:
+    - title: 💥 Breaking Change
+      labels:
+        - breaking-change
+    - title: 🚀 New Feature
+      labels:
+        - enhancement
+        - new-feature
+        - feature
+    - title: 🐛 Bug Fix
+      labels:
+        - bugfix
+        - hotfix
+        - fix
+    - title: 🏠 Internal
+      labels:
+        - internal
+    - title: 📝 Documentation
+      labels:
+        - documentation
+    - title: ❓ Other Changes
+      labels:
+        - "*"
