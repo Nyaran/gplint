@@ -15,7 +15,7 @@ export function run({feature}: GherkinData): RuleError[] {
 	return errors;
 }
 
-function getTagNames(node: Feature | Rule | Scenario | Examples): string[] {
+function getTagNames(node: Feature | Rule | Scenario | Examples): readonly string[] {
 	return _.map(node.tags, tag => tag.name);
 }
 
@@ -27,7 +27,7 @@ function getTagNames(node: Feature | Rule | Scenario | Examples): string[] {
  * @param errorMessage
  */
 function checkHomogenousContainer(container: Feature | Rule, errors: RuleError[], [containerName, childrenName]: [string, string]) {
-	const childrenTags = [] as string[][];
+	const childrenTags: (readonly string[])[] = [];
 
 	if (container.children.length < 2) {
 		// Feature/Rule with only one child, skipping
@@ -40,7 +40,7 @@ function checkHomogenousContainer(container: Feature | Rule, errors: RuleError[]
 
 			childrenTags.push(getTagNames(scenario));
 
-			const exampleTags = [] as string[][];
+			const exampleTags: (readonly string[])[] = [];
 			scenario.examples.forEach(example => {
 				exampleTags.push(getTagNames(example));
 			});
