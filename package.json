@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.13.0",
-    "@types/chai": "5.0.0",
+    "@types/chai": "5.0.1",
     "@types/eslint__js": "8.42.3",
     "@types/lodash": "4.17.13",
     "@types/mocha": "10.0.9",
@@ -75,7 +75,7 @@
     "@types/text-table": "0.2.5",
     "@types/yargs": "17.0.33",
     "c8": "10.1.2",
-    "chai": "5.1.1",
+    "chai": "5.1.2",
     "cross-env": "7.0.3",
     "eslint": "9.13.0",
     "eslint-plugin-chai-friendly": "1.0.1",
