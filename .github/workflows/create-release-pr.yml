@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.2
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -37,7 +37,7 @@ jobs:
         run: echo "NEW_VERSION=$(npm version ${{ github.event.inputs.version_increment }} --preid '${{ github.event.inputs.preid }}' --no-git-tag-version)" >> $GITHUB_ENV
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6.1.0
+        uses: crazy-max/ghaction-import-gpg@v6.2.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
@@ -47,7 +47,7 @@ jobs:
           git_committer_email: ${{ env.GIT_USER_EMAIL }}
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6.1.0
+        uses: peter-evans/create-pull-request@v7.0.5
         with:
           token: ${{ secrets.PAT }}
           committer: ${{ env.GIT_USER_NAME }} <${{ env.GIT_USER_EMAIL }}>

@@ -30,9 +30,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.2.2
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: ${{ matrix.node-version }}
           architecture: ${{ matrix.architecture }}
@@ -47,7 +47,7 @@ jobs:
 
       # Report Coverage
       - name: Report coverage
-        uses: codecov/codecov-action@v4.5.0
+        uses: codecov/codecov-action@v5.0.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/

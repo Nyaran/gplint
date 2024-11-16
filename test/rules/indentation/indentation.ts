@@ -1,5 +1,7 @@
 import * as ruleTestBase from '../rule-test-base.js';
 import * as rule from '../../../src/rules/indentation.js';
+import { expect } from 'chai';
+
 const runTest = ruleTestBase.createRuleTest(rule,
 	'Wrong indentation for "<%= element %>", expected indentation level of <%= expected %>, but got <%= actual %>');
 
@@ -338,5 +340,25 @@ describe('Indentation rule', function() {
 			'and': 8,
 			'but': 9,
 		}, []);
+	});
+});
+
+describe('Indentation rule - fix line', function() {
+	it('shouldn\'t add spaces when indentation is correct', function() {
+		const result = rule.fixLine('  Given I have a Feature file with great indentation', 2);
+
+		expect(result).to.be.equal('  Given I have a Feature file with great indentation');
+	});
+
+	it('should add missing indentation spaces', function() {
+		const result = rule.fixLine('Given I have a Feature file with great indentation', 2);
+
+		expect(result).to.be.equal('  Given I have a Feature file with great indentation');
+	});
+
+	it('should remove extra indentation spaces', function() {
+		const result = rule.fixLine('   Given I have a Feature file with great indentation', 2);
+
+		expect(result).to.be.equal('  Given I have a Feature file with great indentation');
 	});
 });

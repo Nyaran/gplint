@@ -8,8 +8,9 @@ export const command = '*';
 export const describe = 'gplint main command';
 export const builder = {};
 
-interface CliArgs extends CommandModule {
+export interface CliArgs extends CommandModule {
 	config: string
+	fix: boolean
 	format: string
 	ignore?: string[]
 	maxWarnings: number
@@ -23,7 +24,7 @@ export async function handler(argv: ArgumentsCamelCase<CliArgs>): Promise<void> 
 	const files = featureFinder.getFeatureFiles(argv._, argv.ignore);
 
 	try {
-		const results = await linter.lintInit(files, argv.config, additionalRulesDirs);
+		const results = await linter.lintInit(files, argv, additionalRulesDirs);
 		await printResults(results, argv.format);
 		process.exit(getExitCode(results, argv));
 	} catch (e) {
