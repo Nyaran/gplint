@@ -52,6 +52,8 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: Access docs folder
+        run: cd docs
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
