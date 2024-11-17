@@ -5,30 +5,35 @@ import os from 'node:os';
 import {getAllRules} from '../src/rules.js';
 import {Documentation} from '../src/types.js';
 
-const RULES_DOC_FOLDER = './docs/docs/rules';
+const RULES_DOC_FOLDER = './docs/rules';
 
 async function buildErrorCodesDocumentation() {
 	const rules = await getAllRules();
 
 	await fs.mkdir(RULES_DOC_FOLDER, {recursive: true});
 
-	return Promise.all(Object.entries(rules).filter(([, rule]) => rule.documentation).map(([name, rule]) => generateDocumentationFiles(name, rule.documentation)));
+	return Promise.all(Object.entries(rules).filter(([, rule]) => rule.documentation)
+		.map(([name, rule]) => generateDocumentationFiles(name, rule.documentation)));
 }
 
 async function generateDocumentationFiles(name: string, ruleDoc: Documentation) {
 	const lines = [
-		`---`,
+		'---',
 		`slug: ${name}`,
 		`title: ${[name, ruleDoc.configurable ? '⚙️' : undefined, ruleDoc.fixable ? '🪄' : undefined].filter(i => i).join(' ')}`,
-		`---`,
+		'---',
 		`# ${name}`,
-		`${ruleDoc.description}`,
+		ruleDoc.description,
 		'',
 	];
 
 	const examplesBlock = [];
 
-	for (const {title, description, config} of ruleDoc.examples) {
+	for (const {
+		title,
+		description,
+		config
+	} of ruleDoc.examples) {
 		examplesBlock.push([
 			`## ${title}`,
 			`> ${description}`,
@@ -45,4 +50,5 @@ async function generateDocumentationFiles(name: string, ruleDoc: Documentation) 
 	await fs.writeFile(path.join(RULES_DOC_FOLDER, `${name}.md`), lines.join(os.EOL));
 }
 
-await buildErrorCodesDocumentation();
+void buildErrorCodesDocumentation()
+	.then(() => 'Rules documentation generated successfully.');

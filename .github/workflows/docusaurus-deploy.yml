@@ -24,17 +24,17 @@ jobs:
           node-version: 18
           #cache: npm
 
-      - name: Access docs folder
-        run: cd docs
-      - name: Install dependencies
+      - name: Install main dependencies
         run: npm i
+      - name: Install docs dependencies
+        run: npm --prefix docs i
       - name: Build website
-        run: npm run build
+        run: npm --prefix docs run build
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: docs/build
 
   deploy:
     name: Deploy to GitHub Pages
@@ -52,8 +52,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - name: Access docs folder
-        run: cd docs
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
