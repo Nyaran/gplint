@@ -1,4 +1,4 @@
-name: Test deployment to GitHub Pages
+name: Test deployment
 
 on:
   pull_request:
@@ -17,7 +17,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 18
+          #cache: npm
 
       - name: Access docs folder
         run: cd docs
