@@ -1,11 +1,26 @@
 .features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 1em 2%;
+	margin: 1em;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.featureContainer {
+	background-color: #00000020;
+	border-radius: 10px;
+	padding: 1em;
+	max-width: 32%;
+}
+
+.featureIcon {
+	border-radius: 10px;
+	background-color: #00000020;
+	box-shadow: 2px 2px 2px 1px #00000020;
+	padding: .4em .5em;
+	margin-right: 1em;
+}
+
+.featureTitle {
+	text-shadow: 2px 2px 5px #00000020;
 }

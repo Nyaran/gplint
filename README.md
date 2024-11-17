@@ -18,12 +18,12 @@ To see the output for all the errors that the linter can detect run:
 
 ```shell
 git clone https://github.com/Nyaran/gplint.git
+npm install
 npm run demo
 ```
 
 Or check this:
-![console demo](https://raw.githubusercontent.com/Nyaran/gplint/main/demo.png)
-
+![console demo](https://raw.githubusercontent.com/Nyaran/gplint/main/docs/static/img/demo.png)
 
 ## Available rules
 > Rules with :gear: means that allows auto-fix with `--fix` argument.

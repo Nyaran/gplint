@@ -16,3 +16,21 @@ export function run(gherkinData: GherkinData, configuration: RuleSubConfig<typeo
 		}
 	);
 }
+
+export const documentation = {
+	description: 'Allows the user to specify if some nodes allows texts completely in lowercase.',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'Allows "Description", "ExampleHeader" and "ExampleBody" to be completely in lowercase, disallow the rest using "Global".',
+		config: {
+			'allow-all-caps': ['error', {
+				Global: false,
+				Description: true,
+				ExampleHeader: true,
+				ExampleBody: true,
+			}],
+		}
+	}],
+};

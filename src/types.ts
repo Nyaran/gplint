@@ -13,10 +13,25 @@ import {
 
 export type Rules = Record<string, Rule>;
 
+export interface Documentation {
+	description: string
+	fixable: boolean
+	configurable: boolean
+	examples: DocumentationExample[]
+}
+
+export interface DocumentationExample {
+	title: string
+	description: string
+	fixable: boolean
+	config: RuleConfig
+}
+
 export interface Rule {
 	name: string
 	availableConfigs?: Record<string, unknown> | string[]
-	run: (gherkinData: GherkinData, config: RuleSubConfig<unknown>, autoFix: boolean) => RuleError[]
+	run: (gherkinData: GherkinData, config: RuleSubConfig<unknown>, autoFix: boolean) => RuleError[],
+	documentation?: Documentation,
 }
 
 export type RulesConfig = Record<string, RuleConfig>;
