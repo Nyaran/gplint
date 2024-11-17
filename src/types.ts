@@ -23,8 +23,7 @@ export interface Documentation {
 export interface DocumentationExample {
 	title: string
 	description: string
-	fixable: boolean
-	config: RuleConfig
+	config: unknown
 }
 
 export interface Rule {
