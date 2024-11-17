@@ -41,3 +41,16 @@ function createError(step: Step) {
 		column : step.location.column,
 	};
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

@@ -65,3 +65,16 @@ function isForbidden(tag: Tag, forbiddenTags: string[], forbiddenPatterns: RegEx
 	return _.includes(forbiddenTags, tag.name)
 		|| forbiddenPatterns.some((pattern) => pattern.test(tag.name));
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

@@ -100,3 +100,16 @@ function createError(item: GherkinNode, requiredTags: string | string[], lang: s
 		column: item.location.column,
 	};
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

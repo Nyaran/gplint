@@ -15,3 +15,16 @@ export function run({feature}: GherkinData): RuleError[] {
 	}
 	return errors;
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

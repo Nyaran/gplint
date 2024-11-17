@@ -100,3 +100,16 @@ function getFileLinePairsAsStr(objects: Locations) {
 	});
 	return strings.join(', ');
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

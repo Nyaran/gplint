@@ -67,3 +67,19 @@ function createError(node: Feature | Rule | Scenario | Examples, tag: Tag): Rule
 		column : tag.location.column,
 	};
 }
+
+export const documentation = {
+	description: 'Only the listed tags are allowed',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'Only accept tags `@watch`, `@wip` and all that starts with `@ID.` and is followed by 5 numbers.',
+		config: {
+			'allowed-tags': ['error', {
+				'tags': ['@watch', '@wip'],
+				'patterns': ['^@ID.[0-9]{5}$'],
+			}],
+		}
+	}],
+};

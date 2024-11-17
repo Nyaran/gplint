@@ -28,3 +28,16 @@ export function run({file}: GherkinData, _: unknown, autoFix: boolean): RuleErro
 
 	return errors;
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

@@ -71,3 +71,16 @@ function checkHomogenousContainer(container: Feature | Rule, errors: RuleError[]
 		});
 	}
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

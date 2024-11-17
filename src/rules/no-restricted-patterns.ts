@@ -211,3 +211,16 @@ function check(node: GherkinKeyworded | TableCell | DocString, type: string, pro
 		}
 	}
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

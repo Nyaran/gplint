@@ -63,3 +63,16 @@ export function run({file, feature}: GherkinData, configuration: RuleSubConfig<t
 
 	return errors;
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

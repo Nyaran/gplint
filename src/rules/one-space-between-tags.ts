@@ -49,3 +49,16 @@ function testTags(node: GherkinTaggable, errors: RuleError[]) {
 				});
 		});
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

@@ -42,3 +42,16 @@ export function run({file}: GherkinData, configuration: RuleSubConfig<typeof ava
 		column: 0
 	}];
 }
+
+export const documentation = {
+	description: 'Restrict feature file names to a common style',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

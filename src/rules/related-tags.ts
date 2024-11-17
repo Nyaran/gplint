@@ -85,3 +85,16 @@ function createError(tag: Tag, relatedTags: RelatedTagsExpression) {
 		column : tag.location.column,
 	};
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

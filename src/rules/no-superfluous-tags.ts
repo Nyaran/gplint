@@ -52,3 +52,16 @@ function checkTags(child: GherkinTaggable, parents: GherkinTaggable[], language:
 		});
 	}
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};

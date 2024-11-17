@@ -81,3 +81,16 @@ function createError(keyword: string, ...[step, scenario]: ExclusiveParams) {
 		column: node.location.column,
 	};
 }
+
+export const documentation = {
+	description: 'TODO',
+	fixable: false,
+	configurable: true,
+	examples: [{
+		title: 'Example',
+		description: 'TODO',
+		config: {
+			'': 'error',
+		}
+	}],
+};
