@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as gherkinUtils from './utils/gherkin.js';
 
-import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
+import {Documentation, GherkinData, RuleError, RuleSubConfig} from '../types.js';
 import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'scenario-size';
@@ -43,15 +43,20 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 	return errors;
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Allows restricting the maximum number of steps in a scenario, scenario outline and background.',
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: '',
+		type: '',
+		description: '',
+		default: '',
+	}],
 	examples: [{
 		title: 'Example',
 		description: 'TODO',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

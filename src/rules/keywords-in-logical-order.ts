@@ -1,14 +1,15 @@
 import * as gherkinUtils from './utils/gherkin.js';
+import {featureSpread} from './utils/gherkin.js';
 import _ from 'lodash';
-import { GherkinData, RuleSubConfig, RuleError } from '../types.js';
-import { Step, Scenario } from '@cucumber/messages';
-import { featureSpread } from './utils/gherkin.js';
+import {Documentation, GherkinData, RuleError, RuleSubConfig} from '../types.js';
+import {Scenario, Step} from '@cucumber/messages';
+
 export const name = 'keywords-in-logical-order';
 export const availableConfigs = {
-	'detectMissingKeywords': false
+	'detectMissingKeywords': false,
 };
 
-export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
+export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
 	if (!feature) {
 		return [];
 	}
@@ -26,12 +27,12 @@ export function run({ feature }: GherkinData, configuration: RuleSubConfig<typeo
 		const existsKeyword: Record<string, boolean> = {
 			given: false,
 			when: false,
-			then: false
+			then: false,
 		};
 		node.steps.forEach((step) => {
 			const keyword = gherkinUtils.getLanguageInsensitiveKeyword(
 				step,
-				feature.language
+				feature.language,
 			);
 			const keywordPosition = keywordList.indexOf(keyword);
 
@@ -82,15 +83,22 @@ function createError(keyword: string, ...[step, scenario]: ExclusiveParams) {
 	};
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Allows the user to maintain the wording order by using the scenario keywords, following the `Given`, `When`, `Then` sequence.',
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: 'detectMissingKeywords',
+		type: 'boolean',
+		description: 'Whether to ignore the lack of some keyword that violates the structure.',
+		default: availableConfigs.detectMissingKeywords.toString(),
+	}],
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
-		}
+			[name]: ['error', {
+				'detectMissingKeywords': false,
+			}],
+		},
 	}],
 };

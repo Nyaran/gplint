@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types.js';
+import {Documentation, GherkinData, RuleError} from '../types.js';
 import {Background} from '@cucumber/messages';
 import { featureSpread } from './utils/gherkin.js';
 
@@ -33,15 +33,14 @@ function createError(background: Background) {
 	};
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallows features with backgrounds without steps.',
 	fixable: false,
-	configurable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

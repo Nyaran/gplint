@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types.js';
+import {Documentation, GherkinData, RuleError} from '../types.js';
 import { getLineContent, modifyLine } from './utils/line.js';
 
 export const name = 'no-trailing-spaces';
@@ -29,15 +29,14 @@ export function run({file}: GherkinData, _: unknown, autoFix: boolean): RuleErro
 	return errors;
 }
 
-export const documentation = {
-	description: 'TODO',
-	fixable: false,
-	configurable: true,
+export const documentation: Documentation = {
+	description: 'Disallows trailing spaces.',
+	fixable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

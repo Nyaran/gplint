@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types.js';
+import {Documentation, GherkinData, RuleError} from '../types.js';
 import { Background, Feature, Rule } from '@cucumber/messages';
 
 export const name = 'no-background-only-scenario';
@@ -36,15 +36,14 @@ function createError(background: Background) {
 	};
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallows background when there is just one scenario.',
 	fixable: false,
-	configurable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

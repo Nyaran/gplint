@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, RuleSubConfig, RuleError} from '../types.js';
+import {GherkinData, RuleSubConfig, RuleError, Documentation} from '../types.js';
 import {TableCell, TableRow} from '@cucumber/messages';
 import { featureSpread } from './utils/gherkin.js';
 
@@ -81,15 +81,20 @@ function createError(cell: TableCell): RuleError {
 	};
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Allows to force table alignment on steps and/or examples.',
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: '',
+		type: '',
+		description: '',
+		default: '',
+	}],
 	examples: [{
 		title: 'Example',
 		description: 'TODO',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

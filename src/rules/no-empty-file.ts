@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, RuleError} from '../types.js';
+import {Documentation, GherkinData, RuleError} from '../types.js';
 
 export const name = 'no-empty-file';
 
@@ -16,15 +16,14 @@ export function run({feature}: GherkinData): RuleError[] {
 	return errors;
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallows empty feature files.',
 	fixable: false,
-	configurable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types.js';
+import {Documentation, GherkinData, RuleError} from '../types.js';
 
 export const name = 'no-multiple-empty-lines';
 
@@ -16,15 +16,14 @@ export function run({file}: GherkinData): RuleError[] {
 	return errors;
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallows multiple empty lines.',
 	fixable: false,
-	configurable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

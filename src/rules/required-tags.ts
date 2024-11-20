@@ -1,7 +1,15 @@
 import _ from 'lodash';
 import {Feature, Pickle, Rule as CucumberRule} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
-import { GherkinData, GherkinKeyworded, GherkinNode, GherkinTaggable, RuleError, RuleSubConfig } from '../types.js';
+import {
+	Documentation,
+	GherkinData,
+	GherkinKeyworded,
+	GherkinNode,
+	GherkinTaggable,
+	RuleError,
+	RuleSubConfig,
+} from '../types.js';
 
 export const name = 'required-tags';
 export const availableConfigs = {
@@ -101,15 +109,20 @@ function createError(item: GherkinNode, requiredTags: string | string[], lang: s
 	};
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Require tags/patterns of tags.',
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: '',
+		type: '',
+		description: '',
+		default: '',
+	}],
 	examples: [{
 		title: 'Example',
 		description: 'TODO',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

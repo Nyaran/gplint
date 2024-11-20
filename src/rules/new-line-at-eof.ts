@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as logger from './../logger.js';
-import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
+import {Documentation, GherkinData, RuleError, RuleSubConfig} from '../types.js';
 
 export const name = 'new-line-at-eof';
 export const availableConfigs = [
@@ -35,15 +35,26 @@ export function run({file}: GherkinData, configuration: RuleSubConfig<string>): 
 	return errors;
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallows/enforces new line at EOF.',
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: '',
+		type: '',
+		description: '',
+		default: '',
+	}],
 	examples: [{
-		title: 'Example',
-		description: 'TODO',
+		title: 'Enforces new line at EOF',
+		description: 'Set config to "yes"',
 		config: {
-			'': 'error',
+			[name]: ['error', 'yes'],
+		}
+	}, {
+		title: 'Disallows new line at EOF',
+		description: 'Set config to "no"',
+		config: {
+			[name]: ['error', 'no'],
 		}
 	}],
 };

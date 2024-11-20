@@ -1,4 +1,4 @@
-import {GherkinData, RuleError} from '../types.js';
+import {Documentation, GherkinData, RuleError} from '../types.js';
 import {Location} from '@cucumber/messages';
 import { featureSpread } from './utils/gherkin.js';
 
@@ -119,15 +119,14 @@ export function run({feature}: GherkinData): RuleError[] {
 	return errors;
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallows unused variables in scenario outlines.',
 	fixable: false,
-	configurable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

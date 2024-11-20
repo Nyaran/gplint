@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {GherkinData, GherkinTaggable, RuleError, RuleSubConfig} from '../types.js';
+import {Documentation, GherkinData, GherkinTaggable, RuleError, RuleSubConfig} from '../types.js';
 import {Tag} from '@cucumber/messages';
 import { featureSpread } from './utils/gherkin.js';
 
@@ -86,15 +86,20 @@ function createError(tag: Tag, relatedTags: RelatedTagsExpression) {
 	};
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Tags that requires other tags.',
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: '',
+		type: '',
+		description: '',
+		default: '',
+	}],
 	examples: [{
 		title: 'Example',
 		description: 'TODO',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

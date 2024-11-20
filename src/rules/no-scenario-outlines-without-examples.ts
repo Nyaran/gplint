@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as gherkinUtils from './utils/gherkin.js';
-import {GherkinData, RuleError} from '../types.js';
+import {Documentation, GherkinData, RuleError} from '../types.js';
 import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-scenario-outlines-without-examples';
@@ -28,15 +28,14 @@ export function run({feature}: GherkinData): RuleError[] {
 	return errors;
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallows scenario outlines without examples.',
 	fixable: false,
-	configurable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

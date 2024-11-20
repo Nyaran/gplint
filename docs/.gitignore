@@ -1,6 +1,6 @@
 # Dependencies
 /node_modules
-docs/rules/*.md
+docs/rules/autogen-*.md
 
 # Production
 /build

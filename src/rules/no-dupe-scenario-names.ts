@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Pickle, Scenario} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
-import {GherkinData, RuleError, RuleSubConfig} from '../types.js';
+import {Documentation, GherkinData, RuleError, RuleSubConfig} from '../types.js';
 import { featureSpread, getPicklesForNode } from './utils/gherkin.js';
 
 export const name = 'no-dupe-scenario-names';
@@ -101,15 +101,61 @@ function getFileLinePairsAsStr(objects: Locations) {
 	return strings.join(', ');
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: `Disallows duplicate Scenario names. Can be configured to search for duplicates in each individual feature or amongst all feature files.
+
+The default case is testing against all the features (same scenario name in different features will raise an error). If needed the scope can be configured, see the examples to know how it works
+
+Additionally, you can also look for duplicated on Outline Scenarios with variables on the title, just adding \`-compile\` suffix to the rule configuration (If you use this option, you need to have a variable on the title of all your Outlines)
+`,
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: '',
+		type: '',
+		description: '',
+		default: '',
+	}],
 	examples: [{
-		title: 'Example',
-		description: 'TODO',
+		title: 'Default behaviour',
+		description: 'Same scenario name in different features will raise an error',
 		config: {
-			'': 'error',
+			[name]: 'error',
+		}
+	}, {
+		title: 'anywhere',
+		description: 'Same as the default behaviour, find duplicates along all files.',
+		config: {
+			[name]: ['error', 'anywhere'],
+		}
+	}, {
+		title: 'anywhere-compile',
+		description: 'Same as the default behaviour, find duplicates along all files, including compiling Outlines.',
+		config: {
+			[name]: ['error', 'anywhere'],
+		}
+	}, {
+		title: 'in-feature',
+		description: 'To enable searching for duplicates in each individual feature (same scenario name in different features won\'t raise an error) you need to configure the rule like this.',
+		config: {
+			[name]: ['error', 'in-feature'],
+		}
+	}, {
+		title: 'in-feature-compile',
+		description: 'Same as "in-feature", but including compiling Outlines.',
+		config: {
+			[name]: ['error', 'in-feature-compile'],
+		}
+	}, {
+		title: 'in-rule',
+		description: 'To enable searching for duplicates in each individual rule (same scenario name in different rules won\'t raise an error) you need to configure the rule like this',
+		config: {
+			[name]: ['error', 'in-rule'],
+		}
+	}, {
+		title: 'in-rule-compile',
+		description: 'Same as "in-rule", but including compiling Outlines.',
+		config: {
+			[name]: ['error', 'in-rule-compile'],
 		}
 	}],
 };

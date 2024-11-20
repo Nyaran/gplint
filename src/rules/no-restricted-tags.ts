@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {Tag} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
-import {GherkinData, RuleSubConfig, RuleError, GherkinTaggable} from '../types.js';
+import {GherkinData, RuleSubConfig, RuleError, GherkinTaggable, Documentation} from '../types.js';
 import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-restricted-tags';
@@ -66,15 +66,32 @@ function isForbidden(tag: Tag, forbiddenTags: string[], forbiddenPatterns: RegEx
 		|| forbiddenPatterns.some((pattern) => pattern.test(tag.name));
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'Disallow use of particular tags. It\'s possible to set exact text match or patterns using a regular expression. See the examples to know how it works.',
 	fixable: false,
-	configurable: true,
+	configuration: [{
+		name: '',
+		type: '',
+		description: '',
+		default: '',
+	}],
 	examples: [{
-		title: 'Example',
-		description: 'TODO',
+		title: 'Forbid tags by exact text.',
+		description: 'Forbid the tags `@watch`, `@wip`.',
 		config: {
-			'': 'error',
+			[name]: ['error', {'tags': ['@watch', '@wip']}],
+		}
+	}, {
+		title: 'Forbid tags by a pattern (RegEx).',
+		description: 'Forbid tags starting with `@todo`, using a regular expression.',
+		config: {
+			[name]: ['error', {'patterns': ['^@todo.*']}],
+		}
+	}, {
+		title: 'Combine exact text and patterns.',
+		description: 'Forbid the tags `@watch`, `@wip` and tags starting with `@todo`.',
+		config: {
+			[name]: ['error', {'tags': ['@watch', '@wip'], 'patterns': ['^@todo.*']}],
 		}
 	}],
 };

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {GherkinData, GherkinTaggable, RuleError} from '../types.js';
+import {Documentation, GherkinData, GherkinTaggable, RuleError} from '../types.js';
 import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'no-duplicate-tags';
@@ -50,15 +50,14 @@ function verifyTags(node: GherkinTaggable, errors: RuleError[]) {
 	});
 }
 
-export const documentation = {
-	description: 'TODO',
+export const documentation: Documentation = {
+	description: 'isallows duplicate tags on the same Feature or Scenario.',
 	fixable: false,
-	configurable: true,
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Enable rule',
 		config: {
-			'': 'error',
+			[name]: 'error',
 		}
 	}],
 };

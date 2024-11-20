@@ -16,8 +16,15 @@ export type Rules = Record<string, Rule>;
 export interface Documentation {
 	description: string
 	fixable: boolean
-	configurable: boolean
+	configuration?: DocumentationConfiguration[]
 	examples: DocumentationExample[]
+}
+
+export interface DocumentationConfiguration {
+	name: string
+	type: string
+	description: string
+	default: string
 }
 
 export interface DocumentationExample {
