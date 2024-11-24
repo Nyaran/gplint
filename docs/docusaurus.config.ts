@@ -10,16 +10,16 @@ const config: Config = {
 	favicon: 'img/favicon.ico',
 
 	// Set the production url of your site here
-	url: 'https://nyaran.github.io',
+	url: 'https://gplint.github.io',
 	// Set the /<baseUrl>/ pathname under which your site is served
 	// For GitHub pages deployment, it is often '/<projectName>/'
-	baseUrl: '/gplint/',
+	baseUrl: '/',
 
 	// GitHub pages deployment config.
 	// If you aren't using GitHub pages, you don't need these.
-	organizationName: 'nyaran', // Usually your GitHub org/user name.
-	projectName: 'gplint', // Usually your repo name.
-	deploymentBranch: 'gh-pages',
+	organizationName: 'gplint', // Usually your GitHub org/user name.
+	projectName: 'gplint.github.io', // Usually your repo name.
+	//deploymentBranch: 'gh-pages',
 
 	trailingSlash: false,
 
@@ -79,7 +79,7 @@ const config: Config = {
 					position: 'left',
 				},
 				{
-					href: 'https://github.com/Nyaran/gplint',
+					href: 'https://github.com/gplint/gplint',
 					label: 'GitHub',
 					position: 'right',
 				},
@@ -110,7 +110,7 @@ const config: Config = {
 						},
 						{
 							label: 'Issue Tracker',
-							href: 'https://github.com/Nyaran/gplint/issues',
+							href: 'https://github.com/gplint/gplint/issues',
 						},
 					],
 				},
@@ -123,7 +123,7 @@ const config: Config = {
 						},
 						{
 							label: 'GitHub',
-							href: 'https://github.com/Nyaran/gplint',
+							href: 'https://github.com/gplint/gplint',
 						},
 					],
 				},

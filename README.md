@@ -1,6 +1,6 @@
 # gplint (Gherkin/Pickle Linter)
-[![Test](https://github.com/Nyaran/gplint/actions/workflows/test.yml/badge.svg)](https://github.com/Nyaran/gplint/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/Nyaran/gplint/branch/main/graph/badge.svg?token=JAAQ2DCW9D)](https://codecov.io/gh/Nyaran/gplint)
+[![Test](https://github.com/gplint/gplint/actions/workflows/test.yml/badge.svg)](https://github.com/gplint/gplint/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/gplint/gplint/branch/main/graph/badge.svg?token=JAAQ2DCW9D)](https://codecov.io/gh/gplint/gplint)
 [![npm](https://img.shields.io/npm/dw/gplint)](https://www.npmjs.com/package/gplint)
 
 Uses [Gherkin](https://github.com/cucumber/gherkin-javascript) to parse feature files and runs linting against the default rules, and the optional rules you specified in your `.gplintrc` file.
@@ -17,13 +17,13 @@ npm install gplint
 To see the output for all the errors that the linter can detect run:
 
 ```shell
-git clone https://github.com/Nyaran/gplint.git
+git clone https://github.com/gplint/gplint.git
 npm install
 npm run demo
 ```
 
 Or check this:
-![console demo](https://raw.githubusercontent.com/Nyaran/gplint/main/docs/static/img/demo.png)
+![console demo](https://raw.githubusercontent.com/gplint/gplint/main/docs/static/img/demo.png)
 
 ## Available rules
 > Rules with :gear: means that allows auto-fix with `--fix` argument.
