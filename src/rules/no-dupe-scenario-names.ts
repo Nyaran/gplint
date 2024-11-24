@@ -27,10 +27,10 @@ let scenariosStore = {} as Record<string, {
 }>;
 
 export function run({
-						feature,
-						pickles,
-						file,
-					}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
+	feature,
+	pickles,
+	file,
+}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
 	if (!feature) {
 		return [];
 	}

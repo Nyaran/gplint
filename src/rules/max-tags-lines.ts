@@ -17,10 +17,10 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 	}
 
 	function checkTagsLines({
-								keyword,
-								tags,
-								location,
-							}: Feature | CucumberRule | Scenario | Examples, maxLines: number) {
+		keyword,
+		tags,
+		location,
+	}: Feature | CucumberRule | Scenario | Examples, maxLines: number) {
 		const tagsLines = tags.map(t => t.location.line);
 
 		const tagsLinesCount = tagsLines.length > 0 ? Math.max(...tagsLines) - Math.min(...tagsLines) + 1 : 0;

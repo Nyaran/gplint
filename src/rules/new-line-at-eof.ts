@@ -41,11 +41,11 @@ export const documentation: Documentation = {
 	configuration: [{
 		name: 'yes',
 		description: 'Force new line at EOF.',
-		link: 'enforces-new-line-at-eof'
+		link: 'enforces-new-line-at-eof',
 	}, {
 		name: 'no',
 		description: 'Force no new line at EOF.',
-		link: 'disallows-new-line-at-eof'
+		link: 'disallows-new-line-at-eof',
 	}],
 	examples: [{
 		title: 'Enforces new line at EOF',
