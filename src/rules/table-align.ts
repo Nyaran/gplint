@@ -82,19 +82,27 @@ function createError(cell: TableCell): RuleError {
 }
 
 export const documentation: Documentation = {
-	description: 'Allows to force table alignment on steps and/or examples.',
+	description: 'Allows to force table alignment on steps and/or examples. Is possible to specify if you want to apply this rule for tables on steps and/or examples',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'examples',
+		type: 'boolean',
+		description: 'If sets to true, tables on examples should be aligned.',
+		default: availableConfigs.steps,
+	}, {
+		name: 'steps',
+		type: 'boolean',
+		description: 'If sets to true, tables on steps should be aligned.',
+		default: availableConfigs.steps,
 	}],
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Force tables on steps and examples to be properly aligned.',
 		config: {
-			[name]: 'error',
+			[name]: ['error', {
+				steps: true,
+				examples: true,
+			}],
 		}
 	}],
 };

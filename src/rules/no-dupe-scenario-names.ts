@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import {Pickle, Scenario} from '@cucumber/messages';
 import * as gherkinUtils from './utils/gherkin.js';
+import {featureSpread, getPicklesForNode} from './utils/gherkin.js';
 import {Documentation, GherkinData, RuleError, RuleSubConfig} from '../types.js';
-import { featureSpread, getPicklesForNode } from './utils/gherkin.js';
 
 export const name = 'no-dupe-scenario-names';
 export const availableConfigs = [
@@ -26,7 +26,11 @@ let scenariosStore = {} as Record<string, {
 	locations: Locations
 }>;
 
-export function run({feature, pickles, file}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
+export function run({
+						feature,
+						pickles,
+						file,
+					}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
 	if (!feature) {
 		return [];
 	}
@@ -62,8 +66,8 @@ export function run({feature, pickles, file}: GherkinData, configuration: RuleSu
 							file: file.relativePath,
 							line: scenarioLocation.line,
 							column: scenarioLocation.column,
-						}
-					]
+						},
+					],
 				};
 			}
 		});
@@ -110,52 +114,71 @@ Additionally, you can also look for duplicated on Outline Scenarios with variabl
 `,
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'anywhere',
+		description: 'Same as the default behaviour, find duplicates along all files.',
+		link: true,
+	}, {
+		name: 'in-feature',
+		description: 'Search for duplicates in each individual Feature (same Scenario name in different Features won\'t raise an error).',
+		link: true,
+	}, {
+		name: 'in-rule',
+		description: 'Search for duplicates in each individual Rule (same Scenario name in different Rules won\'t raise an error).',
+		link: true,
+	}, {
+		name: 'anywhere-compile',
+		description: 'Find duplicates along all files, including compiling Outlines.',
+		link: true,
+	}, {
+		name: 'in-feature-compile',
+		description: 'Same as `in-feature`, but including compiling Outlines.',
+		link: true,
+	}, {
+		name: 'in-rule-compile',
+		description: 'Same as `in-rule`, but including compiling Outlines.',
+		link: true,
 	}],
 	examples: [{
 		title: 'Default behaviour',
 		description: 'Same scenario name in different features will raise an error',
 		config: {
 			[name]: 'error',
-		}
+		},
 	}, {
 		title: 'anywhere',
 		description: 'Same as the default behaviour, find duplicates along all files.',
 		config: {
 			[name]: ['error', 'anywhere'],
-		}
+		},
 	}, {
 		title: 'anywhere-compile',
 		description: 'Same as the default behaviour, find duplicates along all files, including compiling Outlines.',
 		config: {
 			[name]: ['error', 'anywhere'],
-		}
+		},
 	}, {
 		title: 'in-feature',
 		description: 'To enable searching for duplicates in each individual feature (same scenario name in different features won\'t raise an error) you need to configure the rule like this.',
 		config: {
 			[name]: ['error', 'in-feature'],
-		}
+		},
 	}, {
 		title: 'in-feature-compile',
 		description: 'Same as "in-feature", but including compiling Outlines.',
 		config: {
 			[name]: ['error', 'in-feature-compile'],
-		}
+		},
 	}, {
 		title: 'in-rule',
 		description: 'To enable searching for duplicates in each individual rule (same scenario name in different rules won\'t raise an error) you need to configure the rule like this',
 		config: {
 			[name]: ['error', 'in-rule'],
-		}
+		},
 	}, {
 		title: 'in-rule-compile',
 		description: 'Same as "in-rule", but including compiling Outlines.',
 		config: {
 			[name]: ['error', 'in-rule-compile'],
-		}
+		},
 	}],
 };

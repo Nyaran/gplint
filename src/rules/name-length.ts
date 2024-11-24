@@ -64,10 +64,25 @@ export const documentation: Documentation = {
 	description: 'Allows restricting length of Feature/Scenario/Step names. The default is 70 characters for each of these',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'feature',
+		type: 'number',
+		description: 'Defines de maximum line length for Feature level.',
+		default: availableConfigs.Feature,
+	}, {
+		name: 'rule',
+		type: 'number',
+		description: 'Defines de maximum line length for Rule level.',
+		default: availableConfigs.Rule,
+	}, {
+		name: 'Step',
+		type: 'number',
+		description: 'Defines de maximum line length for Step level.',
+		default: availableConfigs.Step,
+	}, {
+		name: 'scenario',
+		type: 'number',
+		description: 'Defines de maximum line length for Scenario level.',
+		default: availableConfigs.Scenario,
 	}],
 	examples: [{
 		title: 'Example',

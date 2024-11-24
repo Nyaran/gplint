@@ -22,9 +22,10 @@ export interface Documentation {
 
 export interface DocumentationConfiguration {
 	name: string
-	type: string
+	type?: string
 	description: string
-	default: string
+	default?: string | number | boolean | object
+	link?: string | true
 }
 
 export interface DocumentationExample {

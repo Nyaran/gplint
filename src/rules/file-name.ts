@@ -58,15 +58,17 @@ The list of supported styles is:
 		name: 'style',
 		type: 'string',
 		description: 'The name of the desired style (see the list above).',
-		default: availableConfigs.style
+		default: availableConfigs.style,
+		link: 'use-style-pascalcase'
 	}, {
 		name: 'allowAcronyms',
 		type: 'boolean',
 		description: 'Allow to use acronyms in capitalized form when using `camelCase` style.',
 		default: availableConfigs.allowAcronyms.toString(),
+		link: 'acronyms-on-camelcase'
 	}],
 	examples: [{
-		title: 'Example',
+		title: 'Use Style PascalCase',
 		description: 'File names must follow PascalCase pattern.',
 		config: {
 			[name]: ['error', {'style': 'PascalCase'}]

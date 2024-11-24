@@ -470,7 +470,7 @@ Example configuration with default values:
 
 ### related-tags
 
-`related-tags` allow to define a list of tags with a list of related tags that should be present too. The related tags can be an string or a regular expression (represented as a string between slashes `/`)
+`related-tags` allow to define a list of tags with a list of related tags that should be present too. The related tags can be a string or a regular expression (represented as a string between slashes `/`)
 
 ```json
 {

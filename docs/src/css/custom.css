@@ -39,3 +39,13 @@
 	content: '🪄' content();
 	padding-left: .5em;
 }
+
+/* Configuration table */
+#configuration ~ table td a {
+	color: unset;
+	text-decoration: unset;
+}
+
+#configuration ~ table td a:after {
+	content: ' 🔗';
+}

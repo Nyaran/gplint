@@ -51,7 +51,7 @@ function verifyTags(node: GherkinTaggable, errors: RuleError[]) {
 }
 
 export const documentation: Documentation = {
-	description: 'isallows duplicate tags on the same Feature or Scenario.',
+	description: 'Disallows duplicate tags on the same Feature or Scenario.',
 	fixable: false,
 	examples: [{
 		title: 'Example',

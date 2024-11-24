@@ -35,36 +35,98 @@ async function generateDocumentationFiles(name: string, ruleDoc: Documentation) 
 
 	if (ruleDoc.configuration) {
 		lines.push('## Configuration');
-		lines.push('| Name | Type | Description | Default |');
-		lines.push('|------|------|-------------|---------|');
+
+		const hasName = ruleDoc.configuration.find(c => Object.keys(c).includes('name'));
+		const hasType = ruleDoc.configuration.find(c => Object.keys(c).includes('type'));
+		const hasDescription = ruleDoc.configuration.find(c => Object.keys(c).includes('description'));
+		const hasDefault = ruleDoc.configuration.find(c => Object.keys(c).includes('default'));
+
+		const headerCells: string[] = [];
+		if (hasName) {
+			headerCells.push('Name');
+		}
+		if (hasType) {
+			headerCells.push('Type');
+		}
+		if (hasDescription) {
+			headerCells.push('Description');
+		}
+		if (hasDefault) {
+			headerCells.push('Default');
+		}
+
+		lines.push(`| ${headerCells.join(' | ')} |`);
+		lines.push(`|${headerCells.map(h => '-'.repeat(h.length + 2)).join('|')}|`);
 
 		for (const config of ruleDoc.configuration) {
-			lines.push(`| \`${config.name}\` | \`${config.type}\` | ${config.description} | ${config.default} |`);
+			const rowCells: string[] = [];
+			if (hasName) {
+				rowCells.push(`\`${sanitizeTableCell(config.name)}\``);
+			}
+			if (hasType) {
+				rowCells.push(`\`${sanitizeTableCell(config.type)}\``);
+			}
+			if (hasDescription) {
+				rowCells.push(sanitizeTableCell(config.description));
+			}
+			if (hasDefault) {
+				rowCells.push(sanitizeTableCell(parseDefaultValue(config.default)));
+			}
+
+			if (config.link) {
+				const anchorId = typeof config.link === 'string' ? config.link : config.name;
+
+				//rowCells[0] += ` [🔗](#${anchorId})`;
+				rowCells[0] = `[${rowCells[0]}](#${anchorId})`;
+			}
+
+			lines.push(`| ${rowCells.join(' | ')} |`);
 		}
 	}
 
 	const examplesBlock = [];
 
-	for (const {
-		title,
-		description,
-		config
-	} of ruleDoc.examples) {
-		examplesBlock.push([
-			`## ${title}`,
-			`> ${description.split(os.EOL).join(`${os.EOL}> `)}`,
-			'```json',
-			JSON.stringify(config, null, 2),
-			'```',
-		].join(os.EOL));
-	}
+	if (ruleDoc.examples.length > 0) {
+		lines.push('## Examples');
+		lines.push('');
 
-	lines.push(examplesBlock.join(os.EOL));
+		for (const {
+			title,
+			description,
+			config
+		} of ruleDoc.examples) {
+			examplesBlock.push([
+				`### ${title}`,
+				`> ${description.split(os.EOL).join(`${os.EOL}> `)}`,
+				'```json',
+				JSON.stringify(config, null, 2),
+				'```',
+			].join(os.EOL));
+		}
+
+		lines.push(examplesBlock.join(os.EOL));
+	}
 
 	lines.push(os.EOL);
 
 	await fs.writeFile(path.join(RULES_DOC_FOLDER, `${FILE_PREFIX}${name}.md`), lines.join(os.EOL));
 }
 
+function sanitizeTableCell(text: string): string {
+	return text?.replaceAll('|', '\\|');
+}
+
+function parseDefaultValue(text: string | number | boolean | object): string {
+	if (typeof text === 'object') {
+		return [
+			'`',
+			JSON.stringify(text),
+			'`',
+		].join('');
+	}
+	return text?.toString();
+}
+
 void buildErrorCodesDocumentation()
 	.then(() => 'Rules documentation generated successfully.');
+

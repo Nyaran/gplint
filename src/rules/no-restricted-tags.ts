@@ -70,10 +70,15 @@ export const documentation: Documentation = {
 	description: 'Disallow use of particular tags. It\'s possible to set exact text match or patterns using a regular expression. See the examples to know how it works.',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'tags',
+		type: 'string[]',
+		description: 'Forbid tags by literal match.',
+		link: 'forbid-tags-by-exact-text'
+	}, {
+		name: 'patterns',
+		type: 'RegExp[]',
+		description: 'Forbid tags by regular expression match.',
+		link: 'combine-exact-text-and-patterns',
 	}],
 	examples: [{
 		title: 'Forbid tags by exact text.',

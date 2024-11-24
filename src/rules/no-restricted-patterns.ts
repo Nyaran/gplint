@@ -229,10 +229,60 @@ export const documentation: Documentation = {
 	description: 'A list of patterns to disallow globally, or specifically in features, rules, backgrounds, scenarios, or scenario outlines, Steps. All patterns are treated as case-insensitive',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'Global',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at any level',
+		default: availableConfigs.Global,
+	}, {
+		name: 'Feature',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at Feature level',
+		default: availableConfigs.Feature,
+	}, {
+		name: 'Rule',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at Rule level',
+		default: availableConfigs.Rule,
+	}, {
+		name: 'Background',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at Background level',
+		default: availableConfigs.Background,
+	}, {
+		name: 'Scenario',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at Scenario level',
+		default: availableConfigs.Scenario,
+	}, {
+		name: 'ScenarioOutline',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at ScenarioOutline level',
+		default: availableConfigs.ScenarioOutline,
+	}, {
+		name: 'Examples',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at Examples level',
+		default: availableConfigs.Examples,
+	}, {
+		name: 'ExampleHeader',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at ExampleHeader level',
+		default: availableConfigs.ExampleHeader,
+	}, {
+		name: 'ExampleBody',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at ExampleBody level',
+		default: availableConfigs.ExampleBody,
+	}, {
+		name: 'Step',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at Step level',
+		default: availableConfigs.Step,
+	}, {
+		name: 'Given',
+		type: '(string|RegExp)[]',
+		description: 'Text patterns not allowed at Given level',
+		default: availableConfigs.Given,
 	}],
 	examples: [{
 		title: 'Example',

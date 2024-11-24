@@ -17,10 +17,10 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 	}
 
 	function checkTagsLines({
-		keyword,
-		tags,
-		location,
-	}: Feature | CucumberRule | Scenario | Examples, maxLines: number) {
+								keyword,
+								tags,
+								location,
+							}: Feature | CucumberRule | Scenario | Examples, maxLines: number) {
 		const tagsLines = tags.map(t => t.location.line);
 
 		const tagsLinesCount = tagsLines.length > 0 ? Math.max(...tagsLines) - Math.min(...tagsLines) + 1 : 0;
@@ -73,10 +73,25 @@ export const documentation: Documentation = {
 	description: 'Allows the user to specify the max number of lines for tags in each level. Each level type can be configured separately.',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'feature',
+		type: 'number',
+		description: 'Defines de maximum line length for tags at Feature level.',
+		default: availableConfigs.feature,
+	}, {
+		name: 'rule',
+		type: 'number',
+		description: 'Defines de maximum line length for tags at Rule level.',
+		default: availableConfigs.rule,
+	}, {
+		name: 'scenario',
+		type: 'number',
+		description: 'Defines de maximum line length for tags at Scenario level.',
+		default: availableConfigs.scenario,
+	}, {
+		name: 'example',
+		type: 'number',
+		description: 'Defines de maximum line length for tags at Example level.',
+		default: availableConfigs.example,
 	}],
 	examples: [{
 		title: 'Example',

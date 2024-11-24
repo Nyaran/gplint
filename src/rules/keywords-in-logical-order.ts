@@ -93,11 +93,19 @@ export const documentation: Documentation = {
 		default: availableConfigs.detectMissingKeywords.toString(),
 	}],
 	examples: [{
-		title: 'Example',
-		description: 'Enable rule',
+		title: 'Don\'t detect missing keywords',
+		description: 'Enable rule, without reporting missing keywords (Default behaviour).',
 		config: {
 			[name]: ['error', {
 				'detectMissingKeywords': false,
+			}],
+		},
+	}, {
+		title: 'Detect missing keywords',
+		description: 'Enable rule, reporting missing keywords.',
+		config: {
+			[name]: ['error', {
+				'detectMissingKeywords': true,
 			}],
 		},
 	}],

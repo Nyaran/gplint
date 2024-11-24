@@ -75,12 +75,12 @@ export const documentation: Documentation = {
 		name: 'tags',
 		type: 'string[]',
 		description: 'List of tags that should match by exact text.',
-		default: JSON.stringify(availableConfigs.tags),
+		default: availableConfigs.tags,
 	}, {
 		name: 'patterns',
 		type: 'string[]',
 		description: 'List of patterns that should match by a Regular Expression.',
-		default: JSON.stringify(availableConfigs.patterns),
+		default: availableConfigs.patterns,
 	}],
 	examples: [{
 		title: 'Example',

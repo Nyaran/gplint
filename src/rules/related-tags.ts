@@ -87,19 +87,38 @@ function createError(tag: Tag, relatedTags: RelatedTagsExpression) {
 }
 
 export const documentation: Documentation = {
-	description: 'Tags that requires other tags.',
+	description: 'Define a list of tags with a list of related tags that should be present too. The related tags can be a string or a regular expression (represented as a string between slashes `/`.',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'tags',
+		type: 'Record<string, (string|RegExp)[]>',
+		description: 'An object with a tag as a key, and an array of string/regular expression as a value.',
+		default: availableConfigs.tags,
 	}],
 	examples: [{
-		title: 'Example',
-		description: 'TODO',
+		title: 'Define a tag that requires another tag.',
+		description: `When the tag \`@disabled\` is present, is also required to define the tag \`@TICKET.PROJ-\`, followed by a number
+(This example is useful to keep tracking issues using a ticketing system).`,
 		config: {
-			[name]: 'error',
+			[name]: ['error', {
+				tags: {
+					'@disabled': ['/^@TICKET\\.PROJ-[0-9]+$/'],
+				}
+			}],
+		}
+	}, {
+		title: 'Define a tag that requires another tag from a list.',
+		description: `When the tag \`@foo\` is present, is also required to define at least one of the following tags:
+\`@bar\`, \`@baz\` o \`@qux\`.
+A regular expression is used to define \`@bar\` and \`@baz\`, and a plain text to define \`@qux\`.
+		`,
+		config: {
+			[name]: ['error', {
+				tags: {
+					'@foo': [['/^@ba[rz]$/', '@qux']],
+				}
+			}],
 		}
 	}],
 };
+

@@ -68,10 +68,10 @@ export const documentation: Documentation = {
 	description: 'Disallows partially commented tag lines. You can configure if a comment is allowed if is separated with a space or not allowed at all.',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'allowSeparated',
+		type: 'boolean',
+		description: 'Configure if a comment is allowed if is separated with a space',
+		default: availableConfigs.allowSeparated,
 	}],
 	examples: [{
 		title: 'Allow separated (Default)',

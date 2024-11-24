@@ -1,15 +1,15 @@
 import _ from 'lodash';
 import * as gherkinUtils from './utils/gherkin.js';
+import {featureSpread} from './utils/gherkin.js';
 
 import {Documentation, GherkinData, RuleError, RuleSubConfig} from '../types.js';
-import { featureSpread } from './utils/gherkin.js';
 
 export const name = 'scenario-size';
 export const availableConfigs = {
 	'steps-length': {
 		'Background': 15,
-		'Scenario': 15
-	}
+		'Scenario': 15,
+	},
 };
 
 export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof availableConfigs>): RuleError[] {
@@ -33,9 +33,9 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 		if (maxSize && steps.length > maxSize) {
 			errors.push({
 				message: `Element ${nodeType} too long: actual ${steps.length}, expected ${maxSize}`,
-				rule   : 'scenario-size',
-				line   : node.location.line,
-				column   : node.location.column,
+				rule: 'scenario-size',
+				line: node.location.line,
+				column: node.location.column,
 			});
 		}
 	});
@@ -44,19 +44,34 @@ export function run({feature}: GherkinData, configuration: RuleSubConfig<typeof 
 }
 
 export const documentation: Documentation = {
-	description: 'Allows restricting the maximum number of steps in a scenario, scenario outline and background.',
+	description: 'Lets you specify a maximum step length for scenarios and backgrounds. The `Scenario` configuration applies to both scenarios and scenario outlines.',
 	fixable: false,
 	configuration: [{
-		name: '',
-		type: '',
-		description: '',
-		default: '',
+		name: 'steps-length',
+		type: 'object',
+		description: 'Object that can contains the properties `Scenario` and `Background`.',
+		default: availableConfigs['steps-length'],
+	}, {
+		name: 'steps-length.Background',
+		type: 'number',
+		description: 'Specify de maximum step length for Background\'s step.',
+		default: availableConfigs['steps-length'].Background,
+	}, {
+		name: 'steps-length.Scenario',
+		type: 'number',
+		description: 'Specify de maximum step length for Scenario\'s step.',
+		default: availableConfigs['steps-length'].Scenario,
 	}],
 	examples: [{
 		title: 'Example',
-		description: 'TODO',
+		description: 'Set maximum step length for Background\'s step to 15, and 20 for Scenario\'s steps',
 		config: {
-			[name]: 'error',
-		}
+			[name]: ['error', {
+				'steps-length': {
+					'Background': 15,
+					'Scenario': 20,
+				},
+			}],
+		},
 	}],
 };
