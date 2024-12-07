@@ -1,4 +1,4 @@
-# gplint (Gherkin/Pickle Linter)
+# GPLint (Gherkin/Pickle Linter)
 
 [![Test](https://github.com/gplint/gplint/actions/workflows/test.yml/badge.svg)](https://github.com/gplint/gplint/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/gplint/gplint/branch/main/graph/badge.svg?token=JAAQ2DCW9D)](https://codecov.io/gh/gplint/gplint)
